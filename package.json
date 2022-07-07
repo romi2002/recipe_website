@@ -1,9 +1,0 @@
-{
-  "dependencies": {
-<<<<<<< HEAD
-    "express-session": "^1.17.3",
-=======
->>>>>>> 6edda1a (Added express-validator)
-    "express-validator": "^6.14.2"
-  }
-}

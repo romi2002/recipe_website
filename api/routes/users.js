@@ -6,6 +6,8 @@ const {MongoClient, ServerApiVersion, ObjectId} = require("mongodb")
 const uri = "mongodb://admin:admin@localhost:27017"
 const client = new MongoClient(uri, {serverApi: ServerApiVersion.v1})
 
+const crypto = require('crypto')
+
 client.connect()
 const database = client.db("recipe_app")
 const users = database.collection("users")
@@ -21,10 +23,15 @@ router.post('/createUser',
             return res.status(400).send({errors: errors.array()})
         }
 
+        //Generate salt and hash password
+        const salt = crypto.randomBytes(16).toString('hex')
+        const hash = crypto.pbkdf2Sync(req.body.password, salt, 1000, 64, 'sha512').toString('hex')
+
         //TODO check if a user does not already exist with the same email
         await users.insertOne({
             'username': req.body.email,
-            'password': req.body.password
+            'hash': hash,
+            'salt': salt
         })
 
         res.status(200).send({data: "user-created"})
@@ -39,10 +46,14 @@ router.post('/login',
             return res.status(400).send({errors: errors.array()})
         }
 
-        const user = await users.findOne({'username' : req.body.email,
-                                 'password' : req.body.password})
+        const user = await users.findOne({'username' : req.body.email})
 
         if(user == null) {
+            return res.status(400).send({errors: "Invalid username/password"})
+        }
+
+        const hash = crypto.pbkdf2Sync(req.body.password, user.salt, 1000, 64, 'sha512').toString('hex')
+        if(hash !== user.hash){
             return res.status(400).send({errors: "Invalid username/password"})
         }
 
