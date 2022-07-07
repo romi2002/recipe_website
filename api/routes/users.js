@@ -1,5 +1,5 @@
-var express = require('express')
-var router = express.Router()
+const express = require('express')
+const router = express.Router()
 const {body, validationResult} = require('express-validator')
 const {MongoClient, ServerApiVersion, ObjectId} = require("mongodb")
 
@@ -36,7 +36,7 @@ router.post('/login',
     async (req, res) => {
         const errors = validationResult(req)
         if(!errors.isEmpty()){
-            return res.status(400).send({erros: errors.array()})
+            return res.status(400).send({errors: errors.array()})
         }
 
         const user = await users.findOne({'username' : req.body.email,
