@@ -17,7 +17,7 @@ router.post('/createUser',
     body("password").isLength({min: 5}),
     async (req, res) => {
         const errors = validationResult(req)
-        if(!errors.isEmpty()){
+        if (!errors.isEmpty()) {
             return res.status(400).send({errors: errors.array()})
         }
 
@@ -27,7 +27,27 @@ router.post('/createUser',
             'password': req.body.password
         })
 
-        res.status(200).send({data:"user-created"})
+        res.status(200).send({data: "user-created"})
+    })
+
+router.post('/login',
+    body("email").isEmail(),
+    body("password").isLength({min: 5}),
+    async (req, res) => {
+        const errors = validationResult(req)
+        if(!errors.isEmpty()){
+            return res.status(400).send({erros: errors.array()})
+        }
+
+        const user = await users.findOne({'username' : req.body.email,
+                                 'password' : req.body.password})
+
+        if(!user) {
+            return res.status(400).send({errors: "Invalid username/password"})
+        }
+
+        //TODO return token?
+        res.status(200).send({data: "user-login"})
     })
 
 module.exports = router
