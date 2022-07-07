@@ -1,5 +1,5 @@
-var express = require('express')
-var router = express.Router()
+const express = require('express')
+const router = express.Router()
 const {MongoClient, ServerApiVersion, ObjectId} = require("mongodb")
 
 const uri = "mongodb://admin:admin@localhost:27017"
@@ -20,14 +20,13 @@ router.get('/', async (req, res) => {
         'title':titleQuery
     }
 
-    await recipes.find({}).skip(offset).limit(limit).toArray((err, data) => {
+    recipes.find({}).skip(offset).limit(limit).toArray((err, data) => {
         if (err) throw err
         res.send({'data': data})
     })
 })
 
 router.get('/:recipeId', async (req, res) => {
-    console.log(req.params.recipeId)
     const objectId = new ObjectId(req.params.recipeId)
     const doc = await recipes.findOne({'_id':objectId})
     res.send({'data':doc})
