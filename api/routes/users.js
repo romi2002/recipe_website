@@ -46,8 +46,17 @@ router.post('/login',
             return res.status(400).send({errors: "Invalid username/password"})
         }
 
-        //TODO return token?
+        req.session.loggedIn = true
+        req.session.username = req.body.username
+
         res.status(200).send({data: "user-login"})
     })
+
+/*
+Simple route in which checks if the user is logged in
+ */
+router.get('/isLoggedIn', (req, res) => {
+    res.status(200).send({loggedIn: req.session.loggedIn ?? false})
+})
 
 module.exports = router
