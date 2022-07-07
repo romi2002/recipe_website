@@ -59,4 +59,14 @@ router.get('/isLoggedIn', (req, res) => {
     res.status(200).send({loggedIn: req.session.loggedIn ?? false})
 })
 
+/*
+When called, route logs out the user if it is currently logged in
+ */
+router.post('/logout', (req, res) => {
+    //TODO Is it necessary to throw an error when logout is called and the user is not logged in?
+    req.session.loggedIn = false
+
+    res.status(200).send() //TODO Send something back?
+})
+
 module.exports = router
