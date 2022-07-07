@@ -42,7 +42,7 @@ router.post('/login',
         const user = await users.findOne({'username' : req.body.email,
                                  'password' : req.body.password})
 
-        if(!user) {
+        if(user == null) {
             return res.status(400).send({errors: "Invalid username/password"})
         }
 
