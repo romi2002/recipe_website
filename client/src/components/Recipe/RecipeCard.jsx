@@ -14,7 +14,7 @@ import Recipe from "../../api/recipe"
 
 export default function RecipeCard({recipe}) {
     return (
-        <Card sx={{minWidth: 200, maxWidth: 300}}>
+        <Card sx={{minWidth: 200}}>
             <CardMedia
                 component="img"
                 height="194"

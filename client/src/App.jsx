@@ -5,14 +5,6 @@ import Navbar from './components/Navigation/Navbar'
 import RecipeGrid from "./components/Recipe/RecipeGrid";
 import Recipe from "./api/recipe"
 import {useState, useEffect} from "react";
-import {
-    RecoilRoot,
-    atom,
-    selector,
-    useRecoilState,
-    useRecoilValue,
-} from 'recoil';
-import LoginModal from "./components/User/LoginModal"
 
 
 function App() {
@@ -28,12 +20,10 @@ function App() {
     }, [])
 
     return (
-        <RecoilRoot>
             <div className="App">
                 <Navbar/>
                 <RecipeGrid recipes={recipes}/>
             </div>
-        </RecoilRoot>
     );
 }
 
