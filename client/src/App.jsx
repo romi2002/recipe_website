@@ -2,10 +2,16 @@ import * as React from "react"
 import './App.css';
 import Button from '@mui/material/Button';
 import Navbar from './components/Navigation/Navbar'
-import RecipeGrid from "./components/RecipeGrid";
+import RecipeGrid from "./components/Recipe/RecipeGrid";
 import Recipe from "./api/recipe"
 import {useState, useEffect} from "react";
-
+import {
+    RecoilRoot,
+    atom,
+    selector,
+    useRecoilState,
+    useRecoilValue,
+} from 'recoil';
 
 
 function App() {
@@ -21,11 +27,13 @@ function App() {
     }, [])
 
     return (
-        <div className="App">
-            <Navbar/>
-            <RecipeGrid recipes={recipes}/>
-            <Button variant="contained">Hello World</Button>
-        </div>
+        <RecoilRoot>
+            <div className="App">
+                <Navbar/>
+                <RecipeGrid recipes={recipes}/>
+                <Button variant="contained">Hello World</Button>
+            </div>
+        </RecoilRoot>
     );
 }
 
