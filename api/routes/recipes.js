@@ -27,6 +27,7 @@ router.get('/', async (req, res) => {
 })
 
 router.get('/:recipeId', async (req, res) => {
+    //TODO throw error when recipe is not found?
     const objectId = new ObjectId(req.params.recipeId)
     const doc = await recipes.findOne({'_id':objectId})
     res.send({'data':doc})
