@@ -32,7 +32,6 @@ function App() {
             <div className="App">
                 <Navbar/>
                 <RecipeGrid recipes={recipes}/>
-                <LoginModal/>
             </div>
         </RecoilRoot>
     );
