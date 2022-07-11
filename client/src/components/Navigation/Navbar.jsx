@@ -15,16 +15,13 @@ import AdbIcon from '@mui/icons-material/Adb';
 import UserAvatar from '../User/UserAvatar'
 import LoginButtons from "../User/LoginButtons"
 import {atom, useRecoilState} from "recoil"
+import userDataAtom from "../../recoil/auth/UserDataAtom"
 
 const pages = ['Products', 'Pricing', 'Blog'];
 
 const Navbar = () => {
-    const userLoggedInState = atom({
-        key: 'isUserLoggedIn',
-        default: false
-    })
-
-    const [isUserLoggedIn, _] = useRecoilState(userLoggedInState)
+    const [userData, _] = useRecoilState(userDataAtom)
+    const isUserLoggedIn = userData.isLoggedIn
 
     const [anchorElNav, setAnchorElNav] = React.useState(null);
 

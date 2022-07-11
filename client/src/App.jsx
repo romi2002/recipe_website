@@ -12,6 +12,7 @@ import {
     useRecoilState,
     useRecoilValue,
 } from 'recoil';
+import AccountCreationModal from "./components/User/AccountCreationModal"
 
 
 function App() {
@@ -32,6 +33,7 @@ function App() {
                 <Navbar/>
                 <RecipeGrid recipes={recipes}/>
                 <Button variant="contained">Hello World</Button>
+                <AccountCreationModal/>
             </div>
         </RecoilRoot>
     );
