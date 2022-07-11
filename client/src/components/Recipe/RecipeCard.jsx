@@ -10,11 +10,9 @@ import Button from '@mui/material/Button';
 import Avatar from '@mui/material/Avatar'
 import Typography from '@mui/material/Typography'
 import Rating from '@mui/material/Rating'
-import Recipe from "../api/recipe"
+import Recipe from "../../api/recipe"
 
 export default function RecipeCard({recipe}) {
-    console.log(recipe)
-
     return (
         <Card sx={{minWidth: 200, maxWidth: 300}}>
             <CardMedia
