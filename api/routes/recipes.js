@@ -13,13 +13,6 @@ router.get('/', async (req, res) => {
     const offset = parseInt(req.query.offset ?? "0")
     const limit = parseInt(req.query.limit ?? "10")
 
-    const titleQuery = req.query.title ?? "**"
-
-    //TODO fix query support
-    const query = {
-        'title':titleQuery
-    }
-
     recipes.find({}).skip(offset).limit(limit).toArray((err, data) => {
         if (err) throw err
         res.send({'data': data})
