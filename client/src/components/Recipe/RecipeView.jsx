@@ -2,7 +2,7 @@ import React from 'react'
 import Navbar from "../Navigation/Navbar"
 import {Box, Typography} from '@mui/material'
 import RecipeCard from "./RecipeCard"
-import IngredientsCard from "./IngredientsCard"
+import IngredientsCard from "./Ingredients/IngredientsCard"
 import { loremIpsum } from "lorem-ipsum"
 
 const RecipeView = () => {
