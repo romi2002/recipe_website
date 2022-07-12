@@ -14,7 +14,7 @@ const recipes = database.collection("recipes")
  * Basic text search functionality
  * Searches query inside recipe titles, returns error if no results are found
  */
-router.get('/text_search',
+router.get('/',
     body('query').exists(),
     body('offset').isNumeric().optional(),
     body('limit').isNumeric().optional(),
@@ -33,7 +33,7 @@ router.get('/text_search',
         }).skip(parseInt(offset)).limit(parseInt(limit)).toArray()
 
         if (data == null) {
-            return res.status(400).send("No results found!")
+            return res.status(404).send("No results found!")
         }
 
         res.status(200).send({data: data})
@@ -42,7 +42,7 @@ router.get('/text_search',
 /**
  * Searches for titles beginning with query
  */
-router.get('/',
+router.get('/typeahead',
     body('query').exists(),
     body('offset').isNumeric().optional(),
     body('limit').isNumeric().optional(),
@@ -62,7 +62,7 @@ router.get('/',
         }).skip(parseInt(offset)).limit(parseInt(limit)).toArray()
 
         if (data == null) {
-            return res.status(400).send("No results found!")
+            return res.status(404).send("No results found!")
         }
 
         res.status(200).send({data: data})
