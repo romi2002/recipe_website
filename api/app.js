@@ -5,6 +5,9 @@ const cookieParser = require('cookie-parser')
 const logger = require('morgan')
 const cors = require('cors')
 
+const mongoUtil = require('./utils/mongoUtil')
+mongoUtil.connectToServer()
+
 const indexRouter = require('./routes/index')
 const usersRouter = require('./routes/users')
 const recipeRouter = require('./routes/recipes')
