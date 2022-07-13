@@ -1,12 +1,11 @@
 import * as React from 'react'
 import EditableTable from "../../Utils/EditableTable"
 import {Card, TableRow, TableCell, Typography, TextField} from "@mui/material"
-import {useEffect} from "react"
 
-const InstructionEditorCell = ({onChange}) => {
+const InstructionEditorCell = ({onChange, width}) => {
     return (
-        <TableCell>
-            <TextField variant="outlined" multiline rows={5} onChange={onChange}/>
+        <TableCell width={width}>
+            <TextField sx={{width: '100%'}} variant="outlined" multiline onChange={onChange}/>
         </TableCell>
     )
 }
@@ -31,20 +30,22 @@ const InstructionEditor = ({instructions, setInstructions}) => {
         setInstructions(newInstructions)
     }
 
+    const columnWidths = ['10%', '90%']
+
     return (
         <Card>
             <EditableTable columns={['Step Number', 'Text']}
                            onAddHandler={onInstructionAdd}
                            onRemoveHandler={onInstructionRemove}
-                           title={"Instruction Editor"}>
+                           title={"Instruction Editor"} columnWidths={columnWidths}>
                 {instructions.map((instruction, index) => {
                     return (<TableRow key={'instruction-step-' + index}>
-                        <TableCell>
+                        <TableCell width={columnWidths[0]}>
                             <Typography>
                                 {index + 1}
                             </Typography>
                         </TableCell>
-                        <InstructionEditorCell onChange={(event) => {
+                        <InstructionEditorCell width={columnWidths[1]} onChange={(event) => {
                             let newInstructions = [...instructions]
                             newInstructions[index] = event.target.value
                             setInstructions(newInstructions)

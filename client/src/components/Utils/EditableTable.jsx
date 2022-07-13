@@ -20,28 +20,27 @@ const EditableTable = ({
                            columns,
                            onAddHandler,
                            onRemoveHandler,
-                           title = "Editable Table"
+                           title = "Editable Table",
+                           columnWidths
                        }) => {
     return (
         <Card sx={{minWidth: 200}}>
             <CardHeader title={title}/>
             <CardContent>
                 <TableContainer sx={{zIndex: 0}}>
-                    <Table>
+                    <Table sx={{width: 'auto', tableLayout: 'auto'}}>
                         <TableHead>
                             <TableRow>
                                 {columns.map((col, index) => {
-                                    return (<TableCell key={'editable-table-' + col + index}>{col}</TableCell>)
+                                    return (<TableCell width={columnWidths[index]} key={'editable-table-' + col + index}>{col}</TableCell>)
                                 })}
                             </TableRow>
                         </TableHead>
                         <TableBody>
                             {children}
-
                         </TableBody>
-
                     </Table>
-                    <Grid container spacing={2}>
+                    <Grid container spacing={2} justifyContent={'start'} pt={2}>
                         <Grid item sm={6} xs={12}>
                             <Box sx={{display: 'flex', justifyContent: 'center', alignContent: 'center'}}>
                                 <Button onClick={onRemoveHandler} variant={"contained"}>Remove</Button>

@@ -2,28 +2,43 @@ import * as React from 'react'
 import InstructionEditor from "./Instructions/InstructionEditor"
 import {useState} from "react"
 import IngredientEditor from "./Ingredients/IngredientEditor"
-import {Box} from "@mui/material"
+import {Grid, Box} from "@mui/material"
+import Navbar from "../Navigation/Navbar"
+
+const gridStyle = {
+    border: 'none',
+    backgroundColor: 'red'
+}
 
 const RecipeEditor = () => {
     const [instructions, setInstructions] = useState([''])
     const [ingredients, setIngredients] = useState([{name: '', quantity: ''}])
 
+    //TODO Change navbar into editor navbar
     return (
-        <div>
-            <Box sx={{display: 'flex', minWidth: "100%"}}>
-                <Box sx={{overflowY: 'scroll', maxHeight: '100vh'}}>
-                    <img src="https://via.placeholder.com/300"/>
-                    <IngredientEditor
-                        ingredients={ingredients}
-                        setIngredients={setIngredients}/>
-                </Box>
-                <Box sx={{flexGrow: 1, overflowY: 'scroll', maxHeight: '100vh'}}>
-                    <InstructionEditor instructions={instructions}
-                                       setInstructions={setInstructions}/>
-                </Box>
-            </Box>
+        <>
+            <Navbar/>
+            <Box sx={{display: 'flex', flexDirection: 'column', p: 4}}>
+                <Grid container spacing={2} direction={'column'}>
+                    <Grid item>
+                        <Box sx={{display: 'flex', justifyContent: 'center'}}>
+                            <img src="https://via.placeholder.com/300"/>
+                        </Box>
+                    </Grid>
 
-        </div>
+                    <Grid item>
+                        <IngredientEditor
+                            ingredients={ingredients}
+                            setIngredients={setIngredients}/>
+                    </Grid>
+
+                    <Grid item>
+                        <InstructionEditor instructions={instructions}
+                                           setInstructions={setInstructions}/>
+                    </Grid>
+                </Grid>
+            </Box>
+        </>
     )
 }
 
