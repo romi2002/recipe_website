@@ -6,15 +6,21 @@ import {Box} from "@mui/material"
 
 const RecipeEditor = () => {
     const [instructions, setInstructions] = useState([''])
-    const [ingredients, setIngredients] = useState([{name:'', quantity:''}])
+    const [ingredients, setIngredients] = useState([{name: '', quantity: ''}])
 
     return (
         <div>
-            <h1>Editor</h1>
-            <Box sx={{display: 'flex'}}>
-                <InstructionEditor instructions={instructions}
-                                   setInstructions={setInstructions}/>
-                <IngredientEditor ingredients={ingredients} setIngredients={setIngredients}/>
+            <Box sx={{display: 'flex', minWidth: "100%"}}>
+                <Box sx={{overflowY: 'scroll', maxHeight: '100vh'}}>
+                    <img src="https://via.placeholder.com/300"/>
+                    <IngredientEditor
+                        ingredients={ingredients}
+                        setIngredients={setIngredients}/>
+                </Box>
+                <Box sx={{flexGrow: 1, overflowY: 'scroll', maxHeight: '100vh'}}>
+                    <InstructionEditor instructions={instructions}
+                                       setInstructions={setInstructions}/>
+                </Box>
             </Box>
 
         </div>

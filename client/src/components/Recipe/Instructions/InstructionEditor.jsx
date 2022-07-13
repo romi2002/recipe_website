@@ -24,7 +24,7 @@ const InstructionEditor = ({instructions, setInstructions}) => {
     }
 
     const onInstructionRemove = () => {
-        if(instructions.length === 1) return
+        if (instructions.length === 1) return
 
         let newInstructions = [...instructions]
         newInstructions.pop()
@@ -35,7 +35,8 @@ const InstructionEditor = ({instructions, setInstructions}) => {
         <Card>
             <EditableTable columns={['Step Number', 'Text']}
                            onAddHandler={onInstructionAdd}
-                           onRemoveHandler={onInstructionRemove}>
+                           onRemoveHandler={onInstructionRemove}
+                           title={"Instruction Editor"}>
                 {instructions.map((instruction, index) => {
                     return (<TableRow key={'instruction-step-' + index}>
                         <TableCell>

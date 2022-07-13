@@ -40,7 +40,8 @@ const IngredientEditor = ({ingredients, setIngredients}) => {
         <Card>
             <EditableTable columns={['Quantity', 'Name']}
                            onAddHandler={onIngredientAdd}
-                           onRemoveHandler={onIngredientRemove}>
+                           onRemoveHandler={onIngredientRemove}
+                           title={"Ingredient Editor"}>
                 {ingredients && ingredients.map((instruction, index) => {
                     return (<TableRow key={'ingredient-' + index}>
                         <IngredientEditorCell
