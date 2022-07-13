@@ -1,16 +1,15 @@
 import * as React from 'react'
 import {
-    Box,
     Card,
     CardContent,
-    Paper,
+    Grid,
     Table,
     TableContainer,
     TableHead,
     TableRow,
     TableCell,
     TableBody,
-    CardHeader
+    CardHeader, Button, Box
 } from "@mui/material"
 import {Fab} from "@mui/material"
 import AddIcon from '@mui/icons-material/Add'
@@ -42,22 +41,18 @@ const EditableTable = ({
                         </TableBody>
 
                     </Table>
-                    <Box sx={{
-                        display: 'flex',
-                        flexDirection: 'row',
-                        zIndex: 1,
-                        bottom: 0,
-                        right: 1,
-                        justifyContent: 'end',
-                        position: 'relative'
-                    }}>
-                        <Fab onClick={onAddHandler} color="primary" aria-label="add">
-                            <AddIcon/>
-                        </Fab>
-                        <Fab onClick={onRemoveHandler} color="primary" aria-label="remove">
-                            <RemoveIcon/>
-                        </Fab>
-                    </Box>
+                    <Grid container spacing={2}>
+                        <Grid item sm={6} xs={12}>
+                            <Box sx={{display: 'flex', justifyContent: 'center', alignContent: 'center'}}>
+                                <Button onClick={onRemoveHandler} variant={"contained"}>Remove</Button>
+                            </Box>
+                        </Grid>
+                        <Grid item sm={6} xs={12}>
+                            <Box sx={{display: 'flex', justifyContent: 'center', alignContent: 'center'}}>
+                                <Button onClick={onAddHandler} variant={"contained"}>Add</Button>
+                            </Box>
+                        </Grid>
+                    </Grid>
                 </TableContainer>
             </CardContent>
         </Card>
