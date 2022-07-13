@@ -9,7 +9,7 @@ import '@fontsource/roboto/400.css'
 import '@fontsource/roboto/500.css'
 import '@fontsource/roboto/700.css'
 import RecipeView from "./components/Recipe/RecipeView"
-import RecipeEditor from "./components/Recipe/RecipeEditor"
+import RecipeEditor from "./components/Recipe/Editor/RecipeEditor"
 import {Routes, Route, BrowserRouter} from "react-router-dom"
 import {
     RecoilRoot,

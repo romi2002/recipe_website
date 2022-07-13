@@ -1,9 +1,9 @@
 import * as React from 'react'
-import InstructionEditor from "./Instructions/InstructionEditor"
+import InstructionEditor from "./InstructionEditor"
 import {useState} from "react"
-import IngredientEditor from "./Ingredients/IngredientEditor"
+import IngredientEditor from "./IngredientEditor"
 import {Grid, Box} from "@mui/material"
-import Navbar from "../Navigation/Navbar"
+import Navbar from "../../Navigation/Navbar"
 
 const gridStyle = {
     border: 'none',
