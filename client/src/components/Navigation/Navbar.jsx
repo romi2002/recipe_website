@@ -19,10 +19,17 @@ import userDataAtom from "../../recoil/auth/UserDataAtom"
 
 const pages = ['Products', 'Pricing', 'Blog'];
 
-const Navbar = () => {
+const defaultButtonGroup = () => {
     const [userData, _] = useRecoilState(userDataAtom)
     const isUserLoggedIn = userData.isLoggedIn
 
+    return (
+        <>
+            {isUserLoggedIn ? <UserAvatar/> : <LoginButtons/>}
+        </>)
+}
+
+const Navbar = ({rightSideButtonGroup = defaultButtonGroup()}) => {
     const [anchorElNav, setAnchorElNav] = React.useState(null);
 
     const handleOpenNavMenu = (event) => {
@@ -121,7 +128,7 @@ const Navbar = () => {
                             </Button>
                         ))}
                     </Box>
-                    {isUserLoggedIn ? <UserAvatar/> : <LoginButtons/>}
+                    {rightSideButtonGroup}
                 </Toolbar>
             </Container>
         </AppBar>

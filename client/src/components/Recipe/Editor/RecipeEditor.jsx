@@ -2,9 +2,16 @@ import * as React from 'react'
 import InstructionEditor from "./InstructionEditor"
 import {useState} from "react"
 import IngredientEditor from "./IngredientEditor"
-import {Grid, Box} from "@mui/material"
+import {Grid, Box, Button, ButtonGroup} from "@mui/material"
 import Navbar from "../../Navigation/Navbar"
 import RecipeInformationEditor from "./RecipeInformationEditor"
+
+const RecipeEditorNavGroup = () => {
+    return (<ButtonGroup variant="contained">
+        <Button>Save</Button>
+        <Button>Close</Button>
+    </ButtonGroup>)
+}
 
 const RecipeEditor = () => {
     const [files, setFiles] = useState([])
@@ -15,7 +22,7 @@ const RecipeEditor = () => {
     //TODO Change navbar into editor navbar
     return (
         <>
-            <Navbar/>
+            <Navbar rightSideButtonGroup={<RecipeEditorNavGroup/>}/>
             <Box sx={{display: 'flex', flexDirection: 'column', p: 4}}>
                 <Grid container spacing={2} direction={'column'}>
                     <Grid item>
