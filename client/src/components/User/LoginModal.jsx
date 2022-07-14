@@ -1,6 +1,7 @@
 import * as React from 'react'
 import CloseableModal from "../Utils/CloseableModal"
-import {TextField, Grid, Button, CircularProgress} from "@mui/material"
+import {TextField, Grid, Button, Snackbar, Alert} from "@mui/material"
+import {useState} from "react"
 
 const LoginModal = ({
                         handleClose,
@@ -8,7 +9,9 @@ const LoginModal = ({
                         username,
                         setUsername,
                         password,
-                        setPassword
+                        setPassword,
+                        showLoginError,
+                        setShowLoginError
                     }) => {
 
     const formFilled = username !== '' && password !== ''
@@ -26,6 +29,14 @@ const LoginModal = ({
                     <Button variant="contained" onClick={handleLogin} disabled={!formFilled}>Log In</Button>
                 </Grid>
             </Grid>
+            <Snackbar
+                open={showLoginError}
+                autoHideDuration={6000}
+                onClose={() => setShowLoginError(false)}>
+                <Alert severity='error'>
+                    Invalid login
+                </Alert>
+            </Snackbar>
         </CloseableModal>
     )
 }

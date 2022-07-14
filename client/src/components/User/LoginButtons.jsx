@@ -14,6 +14,7 @@ const LoginButtons = () => {
     const [password, setPassword] = useState('')
     const [showLoginModal, setShowLoginModal] = useState(false)
     const [showAccountCreationModal, setShowAccountCreationModal] = useState(false)
+    const [showLoginError, setShowLoginError] = useState(false)
 
     const onLoginButton = () => {
         setShowLoginModal(true)
@@ -26,8 +27,15 @@ const LoginButtons = () => {
     const handleLogin = () => {
         console.log(username)
         console.log(password)
-        Auth.login(username, password).then(token => {
-            const newUserData = {username:username, token:token, isLoggedIn: true}
+        Auth.login(username, password).catch((error) => {
+            setShowLoginError(true)
+            console.log(error)
+        }).then((token) => {
+            if (token === undefined) {
+                setShowLoginError(true)
+                return
+            }
+            const newUserData = {username: username, token: token, isLoggedIn: true}
             setUserData(newUserData)
         })
     }
@@ -38,7 +46,7 @@ const LoginButtons = () => {
             console.log(error.message)
         }).then(() => {
             Auth.login(username, password).then(token => {
-                const newUserData = {username:username, token:token, isLoggedIn: true}
+                const newUserData = {username: username, token: token, isLoggedIn: true}
                 setUserData(newUserData)
             })
         })
@@ -60,6 +68,7 @@ const LoginButtons = () => {
                 handleClose={() => setShowLoginModal(false)}
                 username={username} setUsername={setUsername}
                 password={password} setPassword={setPassword}
+                showLoginError={showLoginError} setShowLoginError={setShowLoginError}
                 handleLogin={handleLogin}/>}
             {showAccountCreationModal && <AccountCreationModal
                 handleClose={() => setShowAccountCreationModal(false)}
