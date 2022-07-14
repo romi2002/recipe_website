@@ -4,8 +4,12 @@ import Typography from "@mui/material/Typography"
 import LoginModal from "./LoginModal"
 import {useState} from "react"
 import AccountCreationModal from "./AccountCreationModal"
+import Auth from "../../api/auth"
+import {useRecoilState} from "recoil"
+import userDataAtom from "../../recoil/auth/UserDataAtom"
 
 const LoginButtons = () => {
+    const [userData, setUserData] = useRecoilState(userDataAtom)
     const [username, setUsername] = useState('')
     const [password, setPassword] = useState('')
     const [showLoginModal, setShowLoginModal] = useState(false)
@@ -20,11 +24,24 @@ const LoginButtons = () => {
     }
 
     const handleLogin = () => {
-        console.log("Logging in")
+        console.log(username)
+        console.log(password)
+        Auth.login(username, password).then(token => {
+            const newUserData = {username:username, token:token, isLoggedIn: true}
+            setUserData(newUserData)
+        })
     }
 
     const handleSignup = () => {
-
+        Auth.createUser(username, password).catch((error) => {
+            //TODO handle errors correctly
+            console.log(error.message)
+        }).then(() => {
+            Auth.login(username, password).then(token => {
+                const newUserData = {username:username, token:token, isLoggedIn: true}
+                setUserData(newUserData)
+            })
+        })
     }
 
     return (

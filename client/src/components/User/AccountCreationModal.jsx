@@ -44,7 +44,7 @@ const AccountCreationModal = ({
                     </Box>
                 </Grid>
                 <Grid item>
-                    <Button variant="contained" disabled={!formValid}>Submit</Button>
+                    <Button variant="contained" disabled={!formValid} onClick={handleSignup}>Submit</Button>
                 </Grid>
             </Grid>
         </CloseableModal>

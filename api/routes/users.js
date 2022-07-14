@@ -4,7 +4,7 @@ const {body, validationResult} = require('express-validator')
 const authentication = require('../models/Authentication')
 
 /* GET users listing. */
-router.post('/createUser',
+router.post('/create_user',
     body("email").isEmail(),
     body("password").isLength({min: 5}),
     async (req, res) => {
