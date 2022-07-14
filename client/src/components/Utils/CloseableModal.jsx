@@ -1,5 +1,5 @@
 import * as React from 'react'
-import {Modal, Box, Typography} from "@mui/material"
+import {Modal, Box, Typography, Button} from "@mui/material"
 import CloseIcon from '@mui/icons-material/Close';
 
 const style = {
@@ -14,7 +14,7 @@ const style = {
     p: 4,
 };
 
-const CloseableModal = ({title,children}) => {
+const CloseableModal = ({title,children,handleClose}) => {
     return (
         <Modal open={true}>
             <Box sx={style}>
@@ -22,7 +22,9 @@ const CloseableModal = ({title,children}) => {
                     <Typography id="modal-title" variant="h6" component="h2">
                         {title}
                     </Typography>
-                    <CloseIcon/>
+                    <Button onClick={handleClose}>
+                        <CloseIcon/>
+                    </Button>
                 </Box>
                 {children}
             </Box>
