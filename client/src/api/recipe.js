@@ -18,10 +18,14 @@ export default class Recipe {
         return axios.get(serverUrl+"recipes/"+id)
     }
 
-    static async saveRecipe(recipe){
-        //Preprocess recipe img to base64
-        recipe.files = await Promise.all(recipe.files.map(async file => await toBase64(file)))
+    static uploadImage(file, token) {
+        const data = new FormData()
+        data.append('file', file)
+        data.append('token', token)
+        return axios.post(serverUrl + "recipes/image_upload", data)
+    }
 
+    static saveRecipe(recipe){
         return axios.post(serverUrl+"recipes/", recipe)
     }
 }

@@ -16,6 +16,7 @@ import UserAvatar from '../User/UserAvatar'
 import LoginButtons from "../User/LoginButtons"
 import {atom, useRecoilState} from "recoil"
 import userDataAtom from "../../recoil/auth/UserDataAtom"
+import {Link} from "react-router-dom"
 
 const pages = ['Products', 'Pricing', 'Blog'];
 
@@ -128,6 +129,9 @@ const Navbar = ({rightSideButtonGroup = defaultButtonGroup()}) => {
                             </Button>
                         ))}
                     </Box>
+                    <Button variant={'filled'} component={Link} to={"/recipes/editor"}>
+                        Editor
+                    </Button>
                     {rightSideButtonGroup}
                 </Toolbar>
             </Container>

@@ -8,6 +8,8 @@ import RecipeInformationEditor from "./RecipeInformationEditor"
 import SaveIcon from '@mui/icons-material/Save'
 import CloseIcon from '@mui/icons-material/Close'
 import Recipe from "../../../api/recipe"
+import {useRecoilState} from "recoil"
+import userDataAtom from "../../../recoil/auth/UserDataAtom"
 
 const RecipeEditorNavGroup = ({onSave, onClose, canSave}) => {
     return (<ButtonGroup variant="contained">
@@ -17,6 +19,7 @@ const RecipeEditorNavGroup = ({onSave, onClose, canSave}) => {
 }
 
 const RecipeEditor = () => {
+    const [userData, _] = useRecoilState(userDataAtom)
     const [files, setFiles] = useState([])
     const [recipeTitle, setRecipeTitle] = useState('')
     const [instructions, setInstructions] = useState([''])
@@ -29,7 +32,7 @@ const RecipeEditor = () => {
             return quantity !== '' && ingredient !== ''
         })
 
-    const onRecipeSave = () => {
+    const onRecipeSave = async () => {
         //Map to values needed from backend
         const recipe = {
             title: recipeTitle,
@@ -38,12 +41,15 @@ const RecipeEditor = () => {
             }),
             original_url: "original_content",
             ingredients: ingredients.map((ing) => {
-                return {text: ing}
+                return {text: `${ing.quantity} ${ing.name}`}
             }),
-            files: files
+            files: files,
+            token: userData.token
         }
 
-        Recipe.saveRecipe(recipe).then(r => console.log("Recipe saved!"))
+        //TODO check if upload image is successful before getting filename
+        await Recipe.uploadImage(files[0], userData.token).then((req) => recipe.files = req.data.filename)
+        await Recipe.saveRecipe(recipe)
     }
 
     const onRecipeClose = () => {
