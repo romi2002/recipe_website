@@ -1,12 +1,9 @@
 const express = require('express')
 const router = express.Router()
 const {body, validationResult} = require('express-validator')
-const {MongoClient, ServerApiVersion, ObjectId} = require("mongodb")
+const mongoUtil = require('../utils/mongoUtil')
 
-const uri = "mongodb://admin:admin@localhost:27017"
-const client = new MongoClient(uri, {serverApi: ServerApiVersion.v1})
-
-client.connect()
+const client = mongoUtil.getDb()
 const database = client.db("recipe_app")
 const recipes = database.collection("recipes")
 
