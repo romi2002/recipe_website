@@ -5,11 +5,13 @@ import IngredientEditor from "./IngredientEditor"
 import {Grid, Box, Button, ButtonGroup} from "@mui/material"
 import Navbar from "../../Navigation/Navbar"
 import RecipeInformationEditor from "./RecipeInformationEditor"
+import SaveIcon from '@mui/icons-material/Save';
+import CloseIcon from '@mui/icons-material/Close';
 
 const RecipeEditorNavGroup = () => {
     return (<ButtonGroup variant="contained">
-        <Button>Save</Button>
-        <Button>Close</Button>
+        <Button><SaveIcon/></Button>
+        <Button><CloseIcon/></Button>
     </ButtonGroup>)
 }
 
