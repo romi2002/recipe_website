@@ -5,13 +5,14 @@ import IngredientEditor from "./IngredientEditor"
 import {Grid, Box, Button, ButtonGroup} from "@mui/material"
 import Navbar from "../../Navigation/Navbar"
 import RecipeInformationEditor from "./RecipeInformationEditor"
-import SaveIcon from '@mui/icons-material/Save';
-import CloseIcon from '@mui/icons-material/Close';
+import SaveIcon from '@mui/icons-material/Save'
+import CloseIcon from '@mui/icons-material/Close'
+import Recipe from "../../../api/recipe"
 
-const RecipeEditorNavGroup = () => {
+const RecipeEditorNavGroup = ({onSave, onClose, canSave}) => {
     return (<ButtonGroup variant="contained">
-        <Button><SaveIcon/></Button>
-        <Button><CloseIcon/></Button>
+        <Button onClick={onSave} disabled={!canSave}><SaveIcon/></Button>
+        <Button onClick={onClose}><CloseIcon/></Button>
     </ButtonGroup>)
 }
 
@@ -21,10 +22,41 @@ const RecipeEditor = () => {
     const [instructions, setInstructions] = useState([''])
     const [ingredients, setIngredients] = useState([{name: '', quantity: ''}])
 
+    const hasValidRecipe = files.length !== 0 &&
+        recipeTitle !== '' &&
+        instructions.every(instruction => instruction !== '') &&
+        ingredients.every(({quantity, ingredient}) => {
+            return quantity !== '' && ingredient !== ''
+        })
+
+    const onRecipeSave = () => {
+        //Map to values needed from backend
+        const recipe = {
+            title: recipeTitle,
+            instructions: instructions.map((inst) => {
+                return {text: inst}
+            }),
+            original_url: "original_content",
+            ingredients: ingredients.map((ing) => {
+                return {text: ing}
+            }),
+            files: files
+        }
+
+        Recipe.saveRecipe(recipe).then(r => console.log("Recipe saved!"))
+    }
+
+    const onRecipeClose = () => {
+
+    }
+
     //TODO Change navbar into editor navbar
     return (
         <>
-            <Navbar rightSideButtonGroup={<RecipeEditorNavGroup/>}/>
+            <Navbar rightSideButtonGroup={<RecipeEditorNavGroup
+                onSave={onRecipeSave}
+                onClose={onRecipeClose}
+                canSave={hasValidRecipe}/>}/>
             <Box sx={{display: 'flex', flexDirection: 'column', p: 4}}>
                 <Grid container spacing={2} direction={'column'}>
                     <Grid item>
