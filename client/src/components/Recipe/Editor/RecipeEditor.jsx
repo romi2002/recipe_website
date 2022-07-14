@@ -4,13 +4,11 @@ import {useState} from "react"
 import IngredientEditor from "./IngredientEditor"
 import {Grid, Box} from "@mui/material"
 import Navbar from "../../Navigation/Navbar"
-
-const gridStyle = {
-    border: 'none',
-    backgroundColor: 'red'
-}
+import RecipeInformationEditor from "./RecipeInformationEditor"
 
 const RecipeEditor = () => {
+    const [files, setFiles] = useState([])
+    const [recipeTitle, setRecipeTitle] = useState('')
     const [instructions, setInstructions] = useState([''])
     const [ingredients, setIngredients] = useState([{name: '', quantity: ''}])
 
@@ -21,9 +19,9 @@ const RecipeEditor = () => {
             <Box sx={{display: 'flex', flexDirection: 'column', p: 4}}>
                 <Grid container spacing={2} direction={'column'}>
                     <Grid item>
-                        <Box sx={{display: 'flex', justifyContent: 'center'}}>
-                            <img src="https://via.placeholder.com/300"/>
-                        </Box>
+                        <RecipeInformationEditor
+                            files={files} setFiles={setFiles}
+                            setRecipeTitle={setRecipeTitle}/>
                     </Grid>
 
                     <Grid item>
