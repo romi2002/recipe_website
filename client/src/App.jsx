@@ -5,7 +5,7 @@ import Navbar from './components/Navigation/Navbar'
 import RecipeGrid from "./components/Recipe/RecipeGrid";
 import Recipe from "./api/recipe"
 import {useState, useEffect} from "react";
-
+import {Box} from "@mui/material"
 
 function App() {
     const [recipes, setRecipes] = useState([])
@@ -22,7 +22,9 @@ function App() {
     return (
             <div className="App">
                 <Navbar/>
-                <RecipeGrid recipes={recipes}/>
+                <Box sx={{mt: 2}}>
+                    <RecipeGrid recipes={recipes}/>
+                </Box>
             </div>
     );
 }
