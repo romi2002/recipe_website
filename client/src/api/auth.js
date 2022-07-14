@@ -2,17 +2,17 @@ import axios from "axios"
 import UserDataAtom from "../recoil/auth/UserDataAtom"
 import {useRecoilState} from "recoil"
 
-const serverUrl = "http://localhost:3000/"
+const serverUrl = "http://localhost:3000"
 
 export default class Auth {
     static createUser(email, password){
-        return axios.post(serverUrl + "/users/createUser", {
+        return axios.post(serverUrl + "/users/create_user", {
             email:email,
             password:password
         })
     }
 
-    static async login(email, password){
+    static login(email, password){
         return axios.post(serverUrl + '/users/login', {
             email:email,
             password:password
