@@ -63,7 +63,7 @@ class Authentication {
 
         return {
             token:
-                jwt.sign({username: username},
+                jwt.sign({username: username, id: user._id},
                     token_secret,
                     {expiresIn: '1h'})
         }
@@ -78,6 +78,14 @@ class Authentication {
             return jwt.verify(token, token_secret)
         } catch (err) {
             return false
+        }
+    }
+
+    static decodeToken(token){
+        try {
+            return jwt.decode(token, token_secret)
+        } catch (err) {
+            return err
         }
     }
 }
