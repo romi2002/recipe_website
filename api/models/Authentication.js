@@ -77,7 +77,7 @@ class Authentication {
         try {
             return jwt.verify(token, token_secret)
         } catch (err) {
-            throw new Error('Invalid token!')
+            return false
         }
     }
 }

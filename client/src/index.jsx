@@ -9,6 +9,7 @@ import '@fontsource/roboto/400.css'
 import '@fontsource/roboto/500.css'
 import '@fontsource/roboto/700.css'
 import RecipeView from "./components/Recipe/RecipeView"
+import RecipeEditor from "./components/Recipe/Editor/RecipeEditor"
 import {Routes, Route, BrowserRouter} from "react-router-dom"
 import {
     RecoilRoot,
@@ -29,6 +30,7 @@ root.render(
                         <Route path="/" element={<App/>}/>
                         <Route path={"recipes"}>
                             <Route path={":recipeId"} element={<RecipeView/>}/>
+                            <Route path={"editor"} element={<RecipeEditor/>}/>
                         </Route>
                         <Route path="*"
                                element={<h1>404</h1>}

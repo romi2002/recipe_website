@@ -1,30 +1,36 @@
-import React from 'react'
+import * as React from 'react'
+import {useEffect, useState, Fragment} from 'react'
 import Navbar from "../Navigation/Navbar"
-import {Box, Typography} from '@mui/material'
+import {Box, Grid, CircularProgress, Typography} from '@mui/material'
 import RecipeCard from "./RecipeCard"
-import IngredientsCard from "./IngredientsCard"
-import { loremIpsum } from "lorem-ipsum"
+import IngredientsCard from "./Ingredients/IngredientsCard"
+import {useParams} from "react-router-dom"
+import Recipe from "../../api/recipe"
+import InstructionCard from "./Instructions/InstructionCard"
 
 const RecipeView = () => {
+    const [recipe, setRecipe] = useState(null)
+    const {recipeId} = useParams()
 
-    const recipe = {'title': 'Test Recipe'}
+    useEffect(() => {
+        Recipe.loadRecipe(recipeId).then((ret) => setRecipe(ret.data.data))
+    }, [])
 
     return (
         <Box>
             <Navbar/>
-            <Box sx={{display: 'flex', pt: 2, pr: 2, pl: 2, flexGrow: 2, flexWrap: 'wrap'}}>
-                <Box sx={{display: 'flex', flexDirection:'column', pr:2, flexGrow: 2}}>
-                    <RecipeCard recipe={recipe}/>
-                    <Box sx={{pt: 2}}>
-                        <IngredientsCard/>
-                    </Box>
-                </Box>
-                <Box sx={{display: 'flex', flexBasis: 600}}>
-                    <Typography>
-                        {loremIpsum({count:10})}
-                    </Typography>
-                </Box>
-            </Box>
+            {recipe != null && <Grid direction='column' spacing={2} p={2} pl={8} pr={8} container>
+                <Grid item>
+                    <RecipeCard recipe={recipe} imageHeight={'500px'}/>
+                </Grid>
+                <Grid item>
+                    <IngredientsCard ingredients={recipe.ingredients}/>
+                </Grid>
+                <Grid item>
+                    <InstructionCard instructions={recipe.instructions}/>
+                </Grid>
+            </Grid>}
+            {recipe == null && <CircularProgress/>}
         </Box>
     )
 }

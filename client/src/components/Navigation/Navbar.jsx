@@ -16,13 +16,21 @@ import UserAvatar from '../User/UserAvatar'
 import LoginButtons from "../User/LoginButtons"
 import {atom, useRecoilState} from "recoil"
 import userDataAtom from "../../recoil/auth/UserDataAtom"
+import {Link} from "react-router-dom"
 
 const pages = ['Products', 'Pricing', 'Blog'];
 
-const Navbar = () => {
+const defaultButtonGroup = () => {
     const [userData, _] = useRecoilState(userDataAtom)
     const isUserLoggedIn = userData.isLoggedIn
 
+    return (
+        <>
+            {isUserLoggedIn ? <UserAvatar/> : <LoginButtons/>}
+        </>)
+}
+
+const Navbar = ({rightSideButtonGroup = defaultButtonGroup()}) => {
     const [anchorElNav, setAnchorElNav] = React.useState(null);
 
     const handleOpenNavMenu = (event) => {
@@ -121,7 +129,10 @@ const Navbar = () => {
                             </Button>
                         ))}
                     </Box>
-                    {isUserLoggedIn ? <UserAvatar/> : <LoginButtons/>}
+                    <Button variant={'filled'} component={Link} to={"/recipes/editor"}>
+                        Editor
+                    </Button>
+                    {rightSideButtonGroup}
                 </Toolbar>
             </Container>
         </AppBar>
