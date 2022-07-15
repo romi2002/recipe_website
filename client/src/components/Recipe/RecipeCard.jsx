@@ -14,13 +14,13 @@ import Rating from '@mui/material/Rating'
 import Recipe from "../../api/recipe"
 import {Link} from "react-router-dom"
 
-export default function RecipeCard({recipe}) {
+export default function RecipeCard({recipe, imageHeight='200px'}) {
     return (
         <Card sx={{minWidth: 200}}>
             <CardActionArea component={Link} to={"/recipes/" + recipe._id}>
                 {recipe.associated_media != null && <CardMedia
                     component="img"
-                    height="194"
+                    sx={{height: imageHeight}}
                     image={"http://localhost:3000/" + recipe.associated_media[0].id}
                 />}
                 <CardHeader

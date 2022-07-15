@@ -1,7 +1,7 @@
 import * as React from 'react'
 import {useEffect, useState, Fragment} from 'react'
 import Navbar from "../Navigation/Navbar"
-import {Box, CircularProgress, Typography} from '@mui/material'
+import {Box, Grid, CircularProgress, Typography} from '@mui/material'
 import RecipeCard from "./RecipeCard"
 import IngredientsCard from "./Ingredients/IngredientsCard"
 import {useParams} from "react-router-dom"
@@ -19,17 +19,17 @@ const RecipeView = () => {
     return (
         <Box>
             <Navbar/>
-            {recipe != null && <Box sx={{display: 'flex', m: 2, flexGrow: 2, flexWrap: 'wrap'}}>
-                <Box sx={{display: 'flex', flexDirection: 'column', mr: 2, flexGrow: 2}}>
-                    <RecipeCard recipe={recipe}/>
-                    <Box sx={{pt: 2}}>
-                        <IngredientsCard ingredients={recipe.ingredients}/>
-                    </Box>
-                </Box>
-                <Box sx={{display: 'flex', flexBasis: 600}}>
+            {recipe != null && <Grid direction='column' spacing={2} p={2} pl={8} pr={8} container>
+                <Grid item>
+                    <RecipeCard recipe={recipe} imageHeight={'500px'}/>
+                </Grid>
+                <Grid item>
+                    <IngredientsCard ingredients={recipe.ingredients}/>
+                </Grid>
+                <Grid item>
                     <InstructionCard instructions={recipe.instructions}/>
-                </Box>
-            </Box>}
+                </Grid>
+            </Grid>}
             {recipe == null && <CircularProgress/>}
         </Box>
     )
