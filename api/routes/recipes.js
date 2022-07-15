@@ -28,6 +28,10 @@ router.get('/', (req, res) => {
     })
 })
 
+router.get('/count', (req,res) => {
+    recipes.estimatedDocumentCount().then((ret) => res.status(200).send({length: ret}))
+})
+
 router.post('/image_upload', (req, res) => {
     upload(req, res, (err) => {
         if (!auth.verifyToken(req.body.token ?? '')) {

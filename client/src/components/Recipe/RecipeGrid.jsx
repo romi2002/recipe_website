@@ -1,6 +1,6 @@
 import * as React from 'react'
 import RecipeCard from "./RecipeCard"
-import Grid from "@mui/material/Grid"
+import {Box, Grid} from "@mui/material"
 
 export default function RecipeGrid({recipes}){
     return (
@@ -8,7 +8,9 @@ export default function RecipeGrid({recipes}){
             {recipes.data && recipes.data.map((recipe,index) => {
                 return (
                     <Grid item key={"recipe-card-" + index} xs>
-                        <RecipeCard recipe={recipe}/>
+                        <Box sx={{height: '100%'}}>
+                            <RecipeCard recipe={recipe}/>
+                        </Box>
                     </Grid>
                     )
             })}
