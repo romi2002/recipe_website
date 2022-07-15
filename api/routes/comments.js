@@ -29,7 +29,7 @@ router.post("/",
     body("recipe_id").exists(),
     body("token").exists(),
     body("parent_id").exists(),
-    body("comment_text").exists(), async (req, res) => {
+    body("comment_text").exists(), (req, res) => {
         const errors = validationResult(req)
         if(!errors.isEmpty()){
             return res.status(400).send({errors: errors.array()})
@@ -49,10 +49,11 @@ router.post("/",
             poster_id: userData.id,
             parent_id: req.body.parent_id,
             recipe_id: req.body.recipe_id,
-            text: req.body.comment_text
+            text: req.body.comment_text,
+            timestamp:  Date.now()
         }
 
-        await comments.insertOne(comment)
+        comments.insertOne(comment).then(() => res.status(200).send({data: 'successful'}))
     })
 
 module.exports = router

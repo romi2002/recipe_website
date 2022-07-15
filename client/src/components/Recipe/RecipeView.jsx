@@ -7,6 +7,7 @@ import IngredientsCard from "./Ingredients/IngredientsCard"
 import {useParams} from "react-router-dom"
 import Recipe from "../../api/recipe"
 import InstructionCard from "./Instructions/InstructionCard"
+import CommentEditor from "../Comments/CommentEditor"
 
 const RecipeView = () => {
     const [recipe, setRecipe] = useState(null)
@@ -31,6 +32,7 @@ const RecipeView = () => {
                 </Grid>
             </Grid>}
             {recipe == null && <CircularProgress/>}
+            <CommentEditor recipe_id={recipeId}/>
         </Box>
     )
 }
