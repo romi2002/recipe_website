@@ -38,7 +38,10 @@ const RecipeInformationEditor = ({
             <Box sx={{display: 'flex', flexDirection: 'column', p: 1, alignItems: 'start', justifyContent: 'center'}}>
                 <TextField sx={{width: 300}} label="Recipe Title" onChange={handleTitleChange}></TextField>
                 {!hasFile && <FileUploader values={files}
-                                           onAccepted={handleAccepted}/>}
+                                           onAccepted={handleAccepted}
+                                           maxFiles={1}
+                                           maxSizeInBytes={10000000}
+                                           acceptedMimeTypes={['image/jpeg', 'image/png']}/>}
                 {hasFile && <RecipeInformationImage
                     url={URL.createObjectURL(files[0])}
                     onRemove={handleRemoveFiles}/>}
