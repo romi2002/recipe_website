@@ -22,8 +22,8 @@ export default class Auth {
     }
 
     static validateToken(token){
-        return axios.post(serverUrl + '/users/is_valid_token', {
-            token:token
+        return axios.get(serverUrl + '/users/is_valid_token', {params:
+                {token:token}
         })
     }
 }
