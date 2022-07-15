@@ -71,6 +71,7 @@ router.post('/',
         delete recipe.token
 
         await recipes.insertOne(recipe)
+        res.status(200).send({data:'success'})
     })
 
 router.get('/:recipeId', async (req, res) => {

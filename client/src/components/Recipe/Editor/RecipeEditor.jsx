@@ -10,6 +10,7 @@ import CloseIcon from '@mui/icons-material/Close'
 import Recipe from "../../../api/recipe"
 import {useRecoilState} from "recoil"
 import userDataAtom from "../../../recoil/auth/UserDataAtom"
+import {useNavigate} from 'react-router-dom';
 
 const RecipeEditorNavGroup = ({onSave, onClose, canSave}) => {
     return (<ButtonGroup variant="contained">
@@ -24,6 +25,7 @@ const RecipeEditor = () => {
     const [recipeTitle, setRecipeTitle] = useState('')
     const [instructions, setInstructions] = useState([''])
     const [ingredients, setIngredients] = useState([{name: '', quantity: ''}])
+    const navigate = useNavigate()
 
     const hasValidRecipe = files.length !== 0 &&
         recipeTitle !== '' &&
@@ -32,7 +34,7 @@ const RecipeEditor = () => {
             return quantity !== '' && ingredient !== ''
         })
 
-    const onRecipeSave = async () => {
+    const onRecipeSave = () => {
         //Map to values needed from backend
         const recipe = {
             title: recipeTitle,
@@ -47,14 +49,15 @@ const RecipeEditor = () => {
         }
 
         //TODO check if upload image is successful before getting filename
-        await Recipe.uploadImage(files[0], userData.token).then((req) => {
+        Recipe.uploadImage(files[0], userData.token).then((req) => {
             recipe.associated_media = [{id:"user_images/" + req.data.filename}]
-        })
-        await Recipe.saveRecipe(recipe)
+        }).then(() => Recipe.saveRecipe(recipe).then(() => {
+            navigate('/', {replace: true})
+        }))
     }
 
     const onRecipeClose = () => {
-
+        navigate('/', {replace: true})
     }
 
     //TODO Change navbar into editor navbar
