@@ -17,12 +17,12 @@ import {Link} from "react-router-dom"
 export default function RecipeCard({recipe}) {
     return (
         <Card sx={{minWidth: 200}}>
-            <CardActionArea component={Link} to={"/recipes/a"}>
-                <CardMedia
+            <CardActionArea component={Link} to={"/recipes/" + recipe._id}>
+                {recipe.associated_media != null && <CardMedia
                     component="img"
                     height="194"
-                    image="https://via.placeholder.com/500"
-                />
+                    image={"http://localhost:3000/" + recipe.associated_media[0].id}
+                />}
                 <CardHeader
                     title={recipe.title}
                     subheader={<Rating defaultValue={2} readOnly/>}

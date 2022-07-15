@@ -43,12 +43,13 @@ const RecipeEditor = () => {
             ingredients: ingredients.map((ing) => {
                 return {text: `${ing.quantity} ${ing.name}`}
             }),
-            files: files,
             token: userData.token
         }
 
         //TODO check if upload image is successful before getting filename
-        await Recipe.uploadImage(files[0], userData.token).then((req) => recipe.files = req.data.filename)
+        await Recipe.uploadImage(files[0], userData.token).then((req) => {
+            recipe.associated_media = [{id:"user_images/" + req.data.filename}]
+        })
         await Recipe.saveRecipe(recipe)
     }
 

@@ -1,30 +1,36 @@
-import React from 'react'
+import * as React from 'react'
+import {useEffect, useState, Fragment} from 'react'
 import Navbar from "../Navigation/Navbar"
-import {Box, Typography} from '@mui/material'
+import {Box, CircularProgress, Typography} from '@mui/material'
 import RecipeCard from "./RecipeCard"
 import IngredientsCard from "./Ingredients/IngredientsCard"
-import { loremIpsum } from "lorem-ipsum"
+import {useParams} from "react-router-dom"
+import Recipe from "../../api/recipe"
+import InstructionCard from "./Instructions/InstructionCard"
 
 const RecipeView = () => {
+    const [recipe, setRecipe] = useState(null)
+    const {recipeId} = useParams()
 
-    const recipe = {'title': 'Test Recipe'}
+    useEffect(() => {
+        Recipe.loadRecipe(recipeId).then((ret) => setRecipe(ret.data.data))
+    }, [])
 
     return (
         <Box>
             <Navbar/>
-            <Box sx={{display: 'flex', pt: 2, pr: 2, pl: 2, flexGrow: 2, flexWrap: 'wrap'}}>
-                <Box sx={{display: 'flex', flexDirection:'column', pr:2, flexGrow: 2}}>
+            {recipe != null && <Box sx={{display: 'flex', m: 2, flexGrow: 2, flexWrap: 'wrap'}}>
+                <Box sx={{display: 'flex', flexDirection: 'column', mr: 2, flexGrow: 2}}>
                     <RecipeCard recipe={recipe}/>
                     <Box sx={{pt: 2}}>
-                        <IngredientsCard/>
+                        <IngredientsCard ingredients={recipe.ingredients}/>
                     </Box>
                 </Box>
                 <Box sx={{display: 'flex', flexBasis: 600}}>
-                    <Typography>
-                        {loremIpsum({count:10})}
-                    </Typography>
+                    <InstructionCard instructions={recipe.instructions}/>
                 </Box>
-            </Box>
+            </Box>}
+            {recipe == null && <CircularProgress/>}
         </Box>
     )
 }

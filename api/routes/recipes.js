@@ -6,6 +6,7 @@ const auth = require('../models/Authentication')
 const multer = require('multer')
 const path = require('path')
 const {v4: uuidv4} = require('uuid')
+const {ObjectId} = require("mongodb")
 
 const client = mongoUtil.getDb()
 const database = client.db("recipe_app")
@@ -21,27 +22,27 @@ router.get('/', (req, res) => {
     const offset = parseInt(req.query.offset ?? "0")
     const limit = parseInt(req.query.limit ?? "10")
 
-    recipes.find({}).skip(offset).limit(limit).toArray((err, data) => {
+    recipes.find({}).sort({'timestamp': -1}).skip(offset).limit(limit).toArray((err, data) => {
         if (err) throw err
         res.send({'data': data})
     })
 })
 
 router.post('/image_upload', (req, res) => {
-        upload(req, res, (err) => {
-            if(!auth.verifyToken(req.body.token ?? '')){
-                res.status(401).send({errors:"Unauthenticated"})
-                return
-            }
+    upload(req, res, (err) => {
+        if (!auth.verifyToken(req.body.token ?? '')) {
+            res.status(401).send({errors: "Unauthenticated"})
+            return
+        }
 
-            if (err) {
-                res.status(500).send({errors:"Upload error"})
-                return
-            }
+        if (err) {
+            res.status(500).send({errors: "Upload error"})
+            return
+        }
 
-            res.status(200).send(req.file)
-        })
+        res.status(200).send(req.file)
     })
+})
 
 
 router.post('/',
