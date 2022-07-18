@@ -1,4 +1,5 @@
 import * as React from 'react'
+import PropTypes from 'prop-types'
 import {Box, TextField, Button} from "@mui/material"
 import {useRecoilState} from "recoil"
 import userDataAtom from "../../recoil/auth/UserDataAtom"
@@ -28,6 +29,10 @@ const CommentEditor = ({recipe_id}) => {
             <Button variant='contained' onClick={postComment}>Post Comment</Button>
         </Box>
     )
+}
+
+CommentEditor.propTypes = {
+    recipe_id: PropTypes.string
 }
 
 export default CommentEditor

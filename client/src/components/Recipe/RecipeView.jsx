@@ -9,6 +9,7 @@ import Recipe from '../../api/recipe'
 import InstructionCard from './Instructions/InstructionCard'
 import { useRecoilState } from 'recoil'
 import userDataAtom from '../../recoil/auth/UserDataAtom'
+import CommentEditor from '../Comments/CommentEditor'
 
 const RecipeView = () => {
   const [userData] = useRecoilState(userDataAtom)
