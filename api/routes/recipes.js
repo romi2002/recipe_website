@@ -21,6 +21,24 @@ const storage = multer.diskStorage({
 })
 const upload = multer({storage: storage}).single('file')
 
+/**
+ * Express middleware, gets recipe from :recipeId param and places it in res.locals
+ * @param req
+ * @param res
+ * @param next
+ */
+const getRecipe = async (req, res, next) => {
+    const objectId = new ObjectId(req.params.recipeId)
+    const doc = await recipes.findOne({'_id': objectId})
+    if(doc == null){
+        res.status(400).send({errors: 'Invalid recipe id!'})
+        return
+    }
+
+    res.locals.recipe = doc
+    next()
+}
+
 router.get('/', (req, res) => {
     const offset = parseInt(req.query.offset ?? "0")
     const limit = parseInt(req.query.limit ?? "10")
@@ -69,28 +87,19 @@ router.post('/',
         res.status(200).send({data:'success'})
     })
 
-router.post("/send_instructions/:recipeId", auth.verifyToken, async (req, res) => {
+router.post("/send_instructions/:recipeId", auth.verifyToken, getRecipe, async (req, res) => {
     const errors = validationResult(req)
     if (!errors.isEmpty()) {
         return res.status(400).send({errors: errors.array()})
     }
 
-    const objectId = new ObjectId(req.params.recipeId)
-    const doc = await recipes.findOne({'_id': objectId})
-    if (doc == null){
-        return res.status(400).send({errors: 'Recipe not found!'})
-    }
-
-    const ingredients = doc.ingredients.map((i) => i.text).join('\n')
+    const ingredients = res.locals.recipe.ingredients.map((i) => i.text).join('\n')
     await sendTextMessage("", "You need the following ingrdients\n" + ingredients)
     res.status(200).send({status: 'Text message sent'})
 })
 
-router.get('/:recipeId', async (req, res) => {
-    //TODO throw error when recipe is not found?
-    const objectId = new ObjectId(req.params.recipeId)
-    const doc = await recipes.findOne({'_id': objectId})
-    res.send({'data': doc})
+router.get('/:recipeId', getRecipe, async (req, res) => {
+    res.status(200).send({'data': res.locals.recipe})
 })
 
 module.exports = router
