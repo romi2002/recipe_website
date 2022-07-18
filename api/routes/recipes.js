@@ -35,13 +35,8 @@ router.get('/count', (req,res) => {
     recipes.estimatedDocumentCount().then((ret) => res.status(200).send({length: ret}))
 })
 
-router.post('/image_upload', (req, res) => {
+router.post('/image_upload', auth.verifyToken, (req, res) => {
     upload(req, res, (err) => {
-        if (!auth.verifyToken(req.body.token ?? '')) {
-            res.status(401).send({errors: "Unauthenticated"})
-            return
-        }
-
         if (err) {
             res.status(500).send({errors: "Upload error"})
             return
@@ -57,14 +52,11 @@ router.post('/',
     body("instructions").exists(),
     body("ingredients").exists(),
     body("token").exists(),
+    auth.verifyToken,
     async (req, res) => {
         const errors = validationResult(req)
         if (!errors.isEmpty()) {
             return res.status(400).send({errors: errors.array()})
-        }
-
-        if (!auth.verifyToken(req.body.token)) {
-            return res.status(401).send({errors: 'Unauthorized'})
         }
 
         const recipe = {...req.body}
@@ -77,14 +69,10 @@ router.post('/',
         res.status(200).send({data:'success'})
     })
 
-router.post("/send_instructions/:recipeId", body("token").exists(), async (req, res) => {
+router.post("/send_instructions/:recipeId", auth.verifyToken, async (req, res) => {
     const errors = validationResult(req)
     if (!errors.isEmpty()) {
         return res.status(400).send({errors: errors.array()})
-    }
-
-    if (!auth.verifyToken(req.body.token)) {
-        return res.status(401).send({errors: 'Unauthorized'})
     }
 
     const objectId = new ObjectId(req.params.recipeId)
@@ -95,6 +83,7 @@ router.post("/send_instructions/:recipeId", body("token").exists(), async (req, 
 
     const ingredients = doc.ingredients.map((i) => i.text).join('\n')
     await sendTextMessage("", "You need the following ingrdients\n" + ingredients)
+    res.status(200).send({status: 'Text message sent'})
 })
 
 router.get('/:recipeId', async (req, res) => {

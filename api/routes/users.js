@@ -34,7 +34,7 @@ router.post('/login',
 Simple route in which checks if the token is valid
  */
 router.get('/is_valid_token', (req, res) => {
-    res.status(200).send({validToken: authentication.verifyToken(req.query.token ?? '')})
+    res.status(200).send({validToken: authentication.isValidToken(req.query.token ?? '')})
 })
 
 module.exports = router
