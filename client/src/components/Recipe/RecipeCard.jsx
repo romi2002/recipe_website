@@ -1,27 +1,21 @@
 import * as React from 'react'
-import {styled} from "@mui/material"
-import Box from '@mui/material/Box'
+import PropTypes from 'prop-types'
+import { CardActionArea } from '@mui/material'
 import Card from '@mui/material/Card'
-import CardActions from '@mui/material/CardActions'
-import CardContent from '@mui/material/CardContent'
-import {CardActionArea} from "@mui/material"
 import CardHeader from '@mui/material/CardHeader'
 import CardMedia from '@mui/material/CardMedia'
-import Button from '@mui/material/Button'
 import Avatar from '@mui/material/Avatar'
-import Typography from '@mui/material/Typography'
 import Rating from '@mui/material/Rating'
-import Recipe from "../../api/recipe"
-import {Link} from "react-router-dom"
+import { Link } from 'react-router-dom'
 
-export default function RecipeCard({recipe, imageHeight='200px'}) {
-    return (
-        <Card sx={{minWidth: 200}}>
-            <CardActionArea component={Link} to={"/recipes/" + recipe._id}>
+export default function RecipeCard ({ recipe, imageHeight = '200px' }) {
+  return (
+        <Card sx={{ minWidth: 200 }}>
+            <CardActionArea component={Link} to={'/recipes/' + recipe._id}>
                 {recipe.associated_media != null && <CardMedia
                     component="img"
-                    sx={{height: imageHeight}}
-                    image={"http://localhost:3000/" + recipe.associated_media[0].id}
+                    sx={{ height: imageHeight }}
+                    image={'http://localhost:3000/' + recipe.associated_media[0].id}
                 />}
                 <CardHeader
                     title={recipe.title}
@@ -30,14 +24,19 @@ export default function RecipeCard({recipe, imageHeight='200px'}) {
                         <Avatar>
                             R
                         </Avatar>
-                    }/> {/*TODO Add user id to DB so Avatar can show user profile*/}
-                {/*<CardContent style={{paddingBottom:0, paddingTop:1}}>*/}
-                {/*    <Typography sx={{ fontSize: 14 }} color="text.secondary" gutterBottom>*/}
-                {/*        By: Abidasda*/}
-                {/*    </Typography>*/}
-                {/*</CardContent>*/}
+                    }/> {/* TODO Add user id to DB so Avatar can show user profile */}
+                {/* <CardContent style={{paddingBottom:0, paddingTop:1}}> */}
+                {/*    <Typography sx={{ fontSize: 14 }} color="text.secondary" gutterBottom> */}
+                {/*        By: Abidasda */}
+                {/*    </Typography> */}
+                {/* </CardContent> */}
             </CardActionArea>
 
         </Card>
-    )
+  )
+}
+
+RecipeCard.propTypes = {
+  recipe: PropTypes.object,
+  imageHeight: PropTypes.string
 }

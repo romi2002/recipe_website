@@ -5,12 +5,12 @@ const testPhoneNumber = process.env.TWILIO_TEST_PHONE_NUMBER
 const client = require('twilio')(accountSid, authToken)
 
 module.exports = {
-    //TODO remove hardcoded phone number
-    sendTextMessage: (phoneNumber, textBody) => {
-        return client.messages.create({
-            body: textBody,
-            from: serverPhoneNumber,
-            to: testPhoneNumber
-        })
-    }
+  // TODO remove hardcoded phone number
+  sendTextMessage: (phoneNumber, textBody) => {
+    return client.messages.create({
+      body: textBody,
+      from: serverPhoneNumber,
+      to: testPhoneNumber
+    })
+  }
 }

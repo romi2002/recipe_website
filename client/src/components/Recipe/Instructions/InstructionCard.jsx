@@ -1,23 +1,28 @@
 import * as React from 'react'
-import {Box, Card, CardContent, Typography, CardHeader} from "@mui/material"
-import {Fragment} from "react"
+import PropTypes from 'prop-types'
+import { Card, CardContent, Typography, CardHeader } from '@mui/material'
+import { Fragment } from 'react'
 
-const InstructionStep = ({instruction}) => {
-    return (
+const InstructionStep = ({ instruction }) => {
+  return (
         <Typography>
             {instruction}
         </Typography>
-    )
+  )
 }
 
-const InstructionCard = ({instructions}) => {
-    return (
+InstructionStep.propTypes = {
+  instruction: PropTypes.string
+}
+
+const InstructionCard = ({ instructions }) => {
+  return (
         <Card>
-            <CardHeader title={"Instructions"}/>
+            <CardHeader title={'Instructions'}/>
             <CardContent>
                 <ol>
                     {instructions.map((instruction, index) => {
-                        return (<Fragment key={'instruction-' + index}>
+                      return (<Fragment key={'instruction-' + index}>
                             <li>
                                 <InstructionStep instruction={instruction.text}/>
                             </li>
@@ -26,7 +31,11 @@ const InstructionCard = ({instructions}) => {
                 </ol>
             </CardContent>
         </Card>
-    )
+  )
+}
+
+InstructionCard.propTypes = {
+  instructions: PropTypes.array
 }
 
 export default InstructionCard

@@ -1,73 +1,80 @@
 import * as React from 'react'
-import InstructionEditor from "./InstructionEditor"
-import {useState} from "react"
-import IngredientEditor from "./IngredientEditor"
-import {Grid, Box, Button, ButtonGroup} from "@mui/material"
-import Navbar from "../../Navigation/Navbar"
-import RecipeInformationEditor from "./RecipeInformationEditor"
+import PropTypes from 'prop-types'
+import InstructionEditor from './InstructionEditor'
+import { useState } from 'react'
+import IngredientEditor from './IngredientEditor'
+import { Grid, Box, Button, ButtonGroup } from '@mui/material'
+import Navbar from '../../Navigation/Navbar'
+import RecipeInformationEditor from './RecipeInformationEditor'
 import SaveIcon from '@mui/icons-material/Save'
 import CloseIcon from '@mui/icons-material/Close'
-import Recipe from "../../../api/recipe"
-import {useRecoilState} from "recoil"
-import userDataAtom from "../../../recoil/auth/UserDataAtom"
-import {useNavigate} from 'react-router-dom';
+import Recipe from '../../../api/recipe'
+import { useRecoilState } from 'recoil'
+import userDataAtom from '../../../recoil/auth/UserDataAtom'
+import { useNavigate } from 'react-router-dom'
 
-const RecipeEditorNavGroup = ({onSave, onClose, canSave}) => {
-    return (<ButtonGroup variant="contained">
+const RecipeEditorNavGroup = ({ onSave, onClose, canSave }) => {
+  return (<ButtonGroup variant="contained">
         <Button onClick={onSave} disabled={!canSave}><SaveIcon/></Button>
         <Button onClick={onClose}><CloseIcon/></Button>
     </ButtonGroup>)
 }
 
-const RecipeEditor = () => {
-    const [userData, _] = useRecoilState(userDataAtom)
-    const [files, setFiles] = useState([])
-    const [recipeTitle, setRecipeTitle] = useState('')
-    const [instructions, setInstructions] = useState([''])
-    const [ingredients, setIngredients] = useState([{name: '', quantity: ''}])
-    const navigate = useNavigate()
+RecipeEditorNavGroup.propTypes = {
+  onSave: PropTypes.func,
+  onClose: PropTypes.func,
+  canSave: PropTypes.bool
+}
 
-    const hasValidRecipe = files.length !== 0 &&
+const RecipeEditor = () => {
+  const [userData] = useRecoilState(userDataAtom)
+  const [files, setFiles] = useState([])
+  const [recipeTitle, setRecipeTitle] = useState('')
+  const [instructions, setInstructions] = useState([''])
+  const [ingredients, setIngredients] = useState([{ name: '', quantity: '' }])
+  const navigate = useNavigate()
+
+  const hasValidRecipe = files.length !== 0 &&
         recipeTitle !== '' &&
         instructions.every(instruction => instruction !== '') &&
-        ingredients.every(({quantity, ingredient}) => {
-            return quantity !== '' && ingredient !== ''
+        ingredients.every(({ quantity, ingredient }) => {
+          return quantity !== '' && ingredient !== ''
         })
 
-    const onRecipeSave = () => {
-        //Map to values needed from backend
-        const recipe = {
-            title: recipeTitle,
-            instructions: instructions.map((inst) => {
-                return {text: inst}
-            }),
-            original_url: "original_content",
-            ingredients: ingredients.map((ing) => {
-                return {text: `${ing.quantity} ${ing.name}`}
-            }),
-            token: userData.token
-        }
-
-        //TODO check if upload image is successful before getting filename
-        Recipe.uploadImage(files[0], userData.token).then((req) => {
-            recipe.associated_media = [{id:"user_images/" + req.data.filename}]
-        }).then(() => Recipe.saveRecipe(recipe).then(() => {
-            navigate('/', {replace: true})
-        }))
+  const onRecipeSave = () => {
+    // Map to values needed from backend
+    const recipe = {
+      title: recipeTitle,
+      instructions: instructions.map((inst) => {
+        return { text: inst }
+      }),
+      original_url: 'original_content',
+      ingredients: ingredients.map((ing) => {
+        return { text: `${ing.quantity} ${ing.name}` }
+      }),
+      token: userData.token
     }
 
-    const onRecipeClose = () => {
-        navigate('/', {replace: true})
-    }
+    // TODO check if upload image is successful before getting filename
+    Recipe.uploadImage(files[0], userData.token).then((req) => {
+      recipe.associated_media = [{ id: 'user_images/' + req.data.filename }]
+    }).then(() => Recipe.saveRecipe(recipe).then(() => {
+      navigate('/', { replace: true })
+    }))
+  }
 
-    //TODO Change navbar into editor navbar
-    return (
+  const onRecipeClose = () => {
+    navigate('/', { replace: true })
+  }
+
+  // TODO Change navbar into editor navbar
+  return (
         <>
             <Navbar rightSideButtonGroup={<RecipeEditorNavGroup
                 onSave={onRecipeSave}
                 onClose={onRecipeClose}
                 canSave={hasValidRecipe}/>}/>
-            <Box sx={{display: 'flex', flexDirection: 'column', p: 4}}>
+            <Box sx={{ display: 'flex', flexDirection: 'column', p: 4 }}>
                 <Grid container spacing={2} direction={'column'}>
                     <Grid item>
                         <RecipeInformationEditor
@@ -88,7 +95,7 @@ const RecipeEditor = () => {
                 </Grid>
             </Box>
         </>
-    )
+  )
 }
 
 export default RecipeEditor
