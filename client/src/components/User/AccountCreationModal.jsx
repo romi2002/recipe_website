@@ -1,21 +1,20 @@
 import * as React from 'react'
-import {TextField, Box, Button, Checkbox, Grid, Typography} from "@mui/material"
-import CloseableModal from "../Utils/CloseableModal"
-import {useState} from "react"
+import { TextField, Box, Button, Checkbox, Grid, Typography } from '@mui/material'
+import CloseableModal from '../Utils/CloseableModal'
+import { useState } from 'react'
 
 const AccountCreationModal = ({
-                                  username, setUsername,
-                                  password, setPassword,
-                                  handleClose, handleSignup
-                              }) => {
+  username, setUsername,
+  password, setPassword,
+  handleClose, handleSignup
+}) => {
+  const [verificationPassword, setVerificationPassword] = useState('')
+  const [acceptedTerms, setAcceptedTerms] = useState(false)
 
-    const [verificationPassword, setVerificationPassword] = useState('')
-    const [acceptedTerms, setAcceptedTerms] = useState(false)
+  const showInvalidPasswordError = verificationPassword === '' || password === '' || password !== verificationPassword
+  const formValid = !showInvalidPasswordError && acceptedTerms && username !== ''
 
-    const showInvalidPasswordError = verificationPassword === '' || password === '' || password !== verificationPassword
-    const formValid = !showInvalidPasswordError && acceptedTerms && username !== ''
-
-    return (
+  return (
         <CloseableModal title="Sign Up" handleClose={handleClose}>
             <Grid container spacing={1} direction={'column'} justifyContent={'center'} alignItems={'stretch'}
                   columns={1}>
@@ -26,17 +25,17 @@ const AccountCreationModal = ({
                 <Grid item>
                     <TextField id="standard-basic" label="Password" type="password"
                                error={showInvalidPasswordError}
-                               helperText={showInvalidPasswordError && "Invalid password"}
+                               helperText={showInvalidPasswordError && 'Invalid password'}
                                onChange={(event) => setPassword(event.target.value)}/>
                 </Grid>
                 <Grid item>
                     <TextField id="standard-basic" label="Confirm Password" type="password"
                                error={showInvalidPasswordError}
-                               helperText={showInvalidPasswordError && "Invalid password"}
+                               helperText={showInvalidPasswordError && 'Invalid password'}
                                onChange={(event) => setVerificationPassword(event.target.value)}/>
                 </Grid>
                 <Grid item>
-                    <Box sx={{display: "flex", flexDirection: 'row', alignItems: 'center'}}>
+                    <Box sx={{ display: 'flex', flexDirection: 'row', alignItems: 'center' }}>
                         <Typography>
                             I agree to the terms and conditions
                         </Typography>
@@ -48,7 +47,7 @@ const AccountCreationModal = ({
                 </Grid>
             </Grid>
         </CloseableModal>
-    )
+  )
 }
 
 export default AccountCreationModal

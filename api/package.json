@@ -24,5 +24,12 @@
     "supervisor": "^0.12.0",
     "twilio": "^3.79.0",
     "uuid": "^8.3.2"
+  },
+  "devDependencies": {
+    "eslint": "^8.20.0",
+    "eslint-config-standard": "^17.0.0",
+    "eslint-plugin-import": "^2.26.0",
+    "eslint-plugin-n": "^15.2.4",
+    "eslint-plugin-promise": "^6.0.0"
   }
 }
