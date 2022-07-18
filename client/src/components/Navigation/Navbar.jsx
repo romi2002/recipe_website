@@ -1,47 +1,46 @@
-import * as React from 'react';
-import AppBar from '@mui/material/AppBar';
-import Box from '@mui/material/Box';
-import Toolbar from '@mui/material/Toolbar';
-import IconButton from '@mui/material/IconButton';
-import Typography from '@mui/material/Typography';
-import Menu from '@mui/material/Menu';
-import MenuIcon from '@mui/icons-material/Menu';
-import Container from '@mui/material/Container';
-import Avatar from '@mui/material/Avatar';
-import Button from '@mui/material/Button';
-import Tooltip from '@mui/material/Tooltip';
-import MenuItem from '@mui/material/MenuItem';
-import AdbIcon from '@mui/icons-material/Adb';
+import * as React from 'react'
+import PropTypes from 'prop-types'
+import AppBar from '@mui/material/AppBar'
+import Box from '@mui/material/Box'
+import Toolbar from '@mui/material/Toolbar'
+import IconButton from '@mui/material/IconButton'
+import Typography from '@mui/material/Typography'
+import Menu from '@mui/material/Menu'
+import MenuIcon from '@mui/icons-material/Menu'
+import Container from '@mui/material/Container'
+import Button from '@mui/material/Button'
+import MenuItem from '@mui/material/MenuItem'
+import AdbIcon from '@mui/icons-material/Adb'
 import UserAvatar from '../User/UserAvatar'
-import LoginButtons from "../User/LoginButtons"
-import {atom, useRecoilState} from "recoil"
-import userDataAtom from "../../recoil/auth/UserDataAtom"
-import {Link} from "react-router-dom"
+import LoginButtons from '../User/LoginButtons'
+import { useRecoilState } from 'recoil'
+import userDataAtom from '../../recoil/auth/UserDataAtom'
+import { Link } from 'react-router-dom'
 
-const pages = ['Products', 'Pricing', 'Blog'];
+const pages = ['Products', 'Pricing', 'Blog']
 
 const defaultButtonGroup = () => {
-    const [userData, _] = useRecoilState(userDataAtom)
-    const isUserLoggedIn = userData.isLoggedIn
+  const [userData] = useRecoilState(userDataAtom)
+  const isUserLoggedIn = userData.isLoggedIn
 
-    return (
+  return (
         <>
             {isUserLoggedIn ? <UserAvatar/> : <LoginButtons/>}
         </>)
 }
 
-const Navbar = ({rightSideButtonGroup = defaultButtonGroup()}) => {
-    const [anchorElNav, setAnchorElNav] = React.useState(null);
+const Navbar = ({ rightSideButtonGroup = defaultButtonGroup() }) => {
+  const [anchorElNav, setAnchorElNav] = React.useState(null)
 
-    const handleOpenNavMenu = (event) => {
-        setAnchorElNav(event.currentTarget);
-    };
+  const handleOpenNavMenu = (event) => {
+    setAnchorElNav(event.currentTarget)
+  }
 
-    const handleCloseNavMenu = () => {
-        setAnchorElNav(null);
-    };
+  const handleCloseNavMenu = () => {
+    setAnchorElNav(null)
+  }
 
-    return (
+  return (
         <AppBar position="static">
             <Container maxWidth="xl">
                 <Toolbar disableGutters>
@@ -51,13 +50,13 @@ const Navbar = ({rightSideButtonGroup = defaultButtonGroup()}) => {
                         component="a"
                         href="/"
                         sx={{
-                            mr: 2,
-                            display: { xs: 'none', md: 'flex' },
-                            fontFamily: 'sans-serif',
-                            fontWeight: 700,
-                            letterSpacing: '.1rem',
-                            color: 'inherit',
-                            textDecoration: 'none',
+                          mr: 2,
+                          display: { xs: 'none', md: 'flex' },
+                          fontFamily: 'sans-serif',
+                          fontWeight: 700,
+                          letterSpacing: '.1rem',
+                          color: 'inherit',
+                          textDecoration: 'none'
                         }}
                     >
                         RECIPE WEBSITE
@@ -78,18 +77,18 @@ const Navbar = ({rightSideButtonGroup = defaultButtonGroup()}) => {
                             id="menu-appbar"
                             anchorEl={anchorElNav}
                             anchorOrigin={{
-                                vertical: 'bottom',
-                                horizontal: 'left',
+                              vertical: 'bottom',
+                              horizontal: 'left'
                             }}
                             keepMounted
                             transformOrigin={{
-                                vertical: 'top',
-                                horizontal: 'left',
+                              vertical: 'top',
+                              horizontal: 'left'
                             }}
                             open={Boolean(anchorElNav)}
                             onClose={handleCloseNavMenu}
                             sx={{
-                                display: { xs: 'block', md: 'none' },
+                              display: { xs: 'block', md: 'none' }
                             }}
                         >
                             {pages.map((page) => (
@@ -106,14 +105,14 @@ const Navbar = ({rightSideButtonGroup = defaultButtonGroup()}) => {
                         component="a"
                         href=""
                         sx={{
-                            mr: 2,
-                            display: { xs: 'flex', md: 'none' },
-                            flexGrow: 1,
-                            fontFamily: 'monospace',
-                            fontWeight: 700,
-                            letterSpacing: '.3rem',
-                            color: 'inherit',
-                            textDecoration: 'none',
+                          mr: 2,
+                          display: { xs: 'flex', md: 'none' },
+                          flexGrow: 1,
+                          fontFamily: 'monospace',
+                          fontWeight: 700,
+                          letterSpacing: '.3rem',
+                          color: 'inherit',
+                          textDecoration: 'none'
                         }}
                     >
                         LOGO
@@ -129,13 +128,18 @@ const Navbar = ({rightSideButtonGroup = defaultButtonGroup()}) => {
                             </Button>
                         ))}
                     </Box>
-                    <Button variant={'filled'} component={Link} to={"/recipes/editor"}>
+                    <Button variant={'filled'} component={Link} to={'/recipes/editor'}>
                         Editor
                     </Button>
                     {rightSideButtonGroup}
                 </Toolbar>
             </Container>
         </AppBar>
-    );
-};
-export default Navbar;
+  )
+}
+
+Navbar.propTypes = {
+  rightSideButtonGroup: PropTypes.element
+}
+
+export default Navbar
