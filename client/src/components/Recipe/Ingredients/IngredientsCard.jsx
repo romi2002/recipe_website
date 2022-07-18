@@ -1,6 +1,6 @@
 import * as React from 'react'
 import {Fragment} from 'react'
-import {Box, Card, CardContent, CardHeader, CardMedia, Typography} from "@mui/material"
+import {Box, Button, Card, CardContent, CardHeader, CardMedia, Typography} from "@mui/material"
 
 const IngredientDisplay = ({ingredient}) => {
     return (
@@ -10,7 +10,7 @@ const IngredientDisplay = ({ingredient}) => {
     )
 }
 
-const IngredientsCard = ({ingredients}) => {
+const IngredientsCard = ({ingredients, onSendMessage}) => {
     return (
         <Card sx={{minWidth: 200}}>
             <CardHeader title="Ingredient list"/>
@@ -23,6 +23,7 @@ const IngredientsCard = ({ingredients}) => {
                             </Fragment>)
                     })}
                 </ul>
+                <Button onClick={onSendMessage} variant="contained">Send Message</Button>
             </CardContent>
         </Card>
     )

@@ -59,8 +59,6 @@ class Authentication {
             return {errors: "Invalid username/password"}
         }
 
-        console.log("valid")
-
         return {
             token:
                 jwt.sign({username: username, id: user._id},
@@ -69,11 +67,7 @@ class Authentication {
         }
     }
 
-    /**
-     * Verifies the JWT, returns username if valid
-     * @param token
-     */
-    static verifyToken(token) {
+    static isValidToken(token){
         try {
             return jwt.verify(token, token_secret)
         } catch (err) {
@@ -81,12 +75,17 @@ class Authentication {
         }
     }
 
-    static decodeToken(token){
-        try {
-            return jwt.decode(token, token_secret)
-        } catch (err) {
-            return err
+    /**
+     * ExpressJS middleware, verifies the JWT, returns username if valid
+     */
+    static verifyToken(req, res, next) {
+        const token = req.body.token
+        if(token == null || !Authentication.isValidToken(token)){
+            res.status(401).send({errors: 'Unauthorized'})
+            return
         }
+
+        next()
     }
 }
 
