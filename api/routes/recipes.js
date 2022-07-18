@@ -8,7 +8,6 @@ const path = require('path')
 const { v4: uuidv4 } = require('uuid')
 const { ObjectId } = require('mongodb')
 
-const twilioUtil = require('../utils/twilioUtil')
 const { sendTextMessage } = require('../utils/twilioUtil')
 
 const client = mongoUtil.getDb()

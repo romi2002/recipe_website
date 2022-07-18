@@ -1,4 +1,4 @@
-const { MongoClient, ServerApiVersion, ObjectId } = require('mongodb')
+const { MongoClient, ServerApiVersion } = require('mongodb')
 
 const uri = 'mongodb://admin:admin@localhost:27017'
 const _db = new MongoClient(uri, { serverApi: ServerApiVersion.v1 })

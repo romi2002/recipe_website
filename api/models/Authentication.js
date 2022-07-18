@@ -1,7 +1,7 @@
 const crypto = require('crypto')
 const jwt = require('jsonwebtoken')
 
-const { MongoClient, ServerApiVersion, ObjectId } = require('mongodb')
+const { MongoClient, ServerApiVersion } = require('mongodb')
 
 const uri = 'mongodb://admin:admin@localhost:27017'
 const client = new MongoClient(uri, { serverApi: ServerApiVersion.v1 })
@@ -11,7 +11,7 @@ const database = client.db('recipe_app')
 const users = database.collection('users')
 
 // TODO generate a good secret for prod :)
-const token_secret = '09f26e402586e2faa8da4c98a35f1b20d6b033c6097befa8be3486a829587fe2f90a832bd3ff9d42710a4da095a2ce285b009f0c3730cd9b8e1af3eb84df6611'
+const tokenSecret = '09f26e402586e2faa8da4c98a35f1b20d6b033c6097befa8be3486a829587fe2f90a832bd3ff9d42710a4da095a2ce285b009f0c3730cd9b8e1af3eb84df6611'
 
 class Authentication {
   static generateSalt () {
@@ -62,14 +62,14 @@ class Authentication {
     return {
       token:
                 jwt.sign({ username },
-                  token_secret,
+                  tokenSecret,
                   { expiresIn: '1h' })
     }
   }
 
   static isValidToken (token) {
     try {
-      return jwt.verify(token, token_secret)
+      return jwt.verify(token, tokenSecret)
     } catch (err) {
       return false
     }
