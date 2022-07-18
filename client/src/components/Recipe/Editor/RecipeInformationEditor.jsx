@@ -1,7 +1,7 @@
 import * as React from 'react'
-import { Card, Box, Button, TextField, Typography, CardHeader } from '@mui/material'
+import PropTypes from 'prop-types'
+import { Card, Box, Button, TextField, CardHeader } from '@mui/material'
 import { FileUploader } from 'evergreen-ui'
-import { useState } from 'react'
 
 const RecipeInformationImage = ({ url, onRemove }) => {
   return (
@@ -12,6 +12,11 @@ const RecipeInformationImage = ({ url, onRemove }) => {
             <Button variant="contained" onClick={onRemove}>Remove image</Button>
         </Box>
   )
+}
+
+RecipeInformationImage.propTypes = {
+  url: PropTypes.string,
+  onRemove: PropTypes.func
 }
 
 const RecipeInformationEditor = ({
@@ -48,6 +53,12 @@ const RecipeInformationEditor = ({
             </Box>
         </Card>
   )
+}
+
+RecipeInformationEditor.propTypes = {
+  files: PropTypes.array,
+  setFiles: PropTypes.func,
+  setRecipeTitle: PropTypes.func
 }
 
 export default RecipeInformationEditor

@@ -1,6 +1,7 @@
 import * as React from 'react'
+import PropTypes from 'prop-types'
 import { Fragment } from 'react'
-import { Box, Button, Card, CardContent, CardHeader, CardMedia, Typography } from '@mui/material'
+import { Button, Card, CardContent, CardHeader, Typography } from '@mui/material'
 
 const IngredientDisplay = ({ ingredient }) => {
   return (
@@ -8,6 +9,10 @@ const IngredientDisplay = ({ ingredient }) => {
             {ingredient}
         </Typography>
   )
+}
+
+IngredientDisplay.propTypes = {
+  ingredient: PropTypes.string
 }
 
 const IngredientsCard = ({ ingredients, onSendMessage }) => {
@@ -27,6 +32,11 @@ const IngredientsCard = ({ ingredients, onSendMessage }) => {
             </CardContent>
         </Card>
   )
+}
+
+IngredientsCard.propTypes = {
+  ingredients: PropTypes.array,
+  onSendMessage: PropTypes.func
 }
 
 export default IngredientsCard

@@ -1,7 +1,7 @@
 import * as React from 'react'
+import PropTypes from 'prop-types'
 import CloseableModal from '../Utils/CloseableModal'
 import { TextField, Grid, Button, Snackbar, Alert } from '@mui/material'
-import { useState } from 'react'
 
 const LoginModal = ({
   handleClose,
@@ -38,6 +38,17 @@ const LoginModal = ({
             </Snackbar>
         </CloseableModal>
   )
+}
+
+LoginModal.propTypes = {
+  handleClose: PropTypes.func,
+  handleLogin: PropTypes.func,
+  username: PropTypes.string,
+  setUsername: PropTypes.func,
+  password: PropTypes.string,
+  setPassword: PropTypes.func,
+  showLoginError: PropTypes.bool,
+  setShowLoginError: PropTypes.func
 }
 
 export default LoginModal

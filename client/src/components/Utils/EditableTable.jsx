@@ -1,4 +1,5 @@
 import * as React from 'react'
+import PropTypes from 'prop-types'
 import {
   Card,
   CardContent,
@@ -10,10 +11,7 @@ import {
   TableCell,
   TableBody,
   CardHeader, Button, Box
-  , Fab
 } from '@mui/material'
-import AddIcon from '@mui/icons-material/Add'
-import RemoveIcon from '@mui/icons-material/Remove'
 
 const EditableTable = ({
   children,
@@ -56,6 +54,15 @@ const EditableTable = ({
             </CardContent>
         </Card>
   )
+}
+
+EditableTable.propTypes = {
+  children: PropTypes.node,
+  columns: PropTypes.array,
+  onAddHandler: PropTypes.func,
+  onRemoveHandler: PropTypes.func,
+  title: PropTypes.string,
+  columnWidths: PropTypes.string
 }
 
 export default EditableTable

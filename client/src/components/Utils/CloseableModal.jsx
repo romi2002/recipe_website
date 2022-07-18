@@ -1,4 +1,5 @@
 import * as React from 'react'
+import PropTypes from 'prop-types'
 import { Modal, Box, Typography, Button } from '@mui/material'
 import CloseIcon from '@mui/icons-material/Close'
 
@@ -30,6 +31,12 @@ const CloseableModal = ({ title, children, handleClose }) => {
             </Box>
         </Modal>
   )
+}
+
+CloseableModal.propTypes = {
+  title: PropTypes.string,
+  children: PropTypes.any,
+  handleClose: PropTypes.func
 }
 
 export default CloseableModal

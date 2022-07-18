@@ -1,16 +1,11 @@
 import * as React from 'react'
-import { styled, CardActionArea } from '@mui/material'
-import Box from '@mui/material/Box'
+import PropTypes from 'prop-types'
+import { CardActionArea } from '@mui/material'
 import Card from '@mui/material/Card'
-import CardActions from '@mui/material/CardActions'
-import CardContent from '@mui/material/CardContent'
 import CardHeader from '@mui/material/CardHeader'
 import CardMedia from '@mui/material/CardMedia'
-import Button from '@mui/material/Button'
 import Avatar from '@mui/material/Avatar'
-import Typography from '@mui/material/Typography'
 import Rating from '@mui/material/Rating'
-import Recipe from '../../api/recipe'
 import { Link } from 'react-router-dom'
 
 export default function RecipeCard ({ recipe, imageHeight = '200px' }) {
@@ -39,4 +34,9 @@ export default function RecipeCard ({ recipe, imageHeight = '200px' }) {
 
         </Card>
   )
+}
+
+RecipeCard.propTypes = {
+  recipe: PropTypes.object,
+  imageHeight: PropTypes.string
 }

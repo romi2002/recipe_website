@@ -1,4 +1,5 @@
 import * as React from 'react'
+import PropTypes from 'prop-types'
 import EditableTable from '../../Utils/EditableTable'
 import { Card, TableRow, TableCell, Typography, TextField } from '@mui/material'
 
@@ -8,6 +9,11 @@ const InstructionEditorCell = ({ onChange, width }) => {
             <TextField sx={{ width: '100%' }} variant="outlined" multiline onChange={onChange}/>
         </TableCell>
   )
+}
+
+InstructionEditorCell.propTypes = {
+  onChange: PropTypes.func,
+  width: PropTypes.string
 }
 
 /**
@@ -55,6 +61,11 @@ const InstructionEditor = ({ instructions, setInstructions }) => {
             </EditableTable>
         </Card>
   )
+}
+
+InstructionEditor.propTypes = {
+  instructions: PropTypes.array,
+  setInstructions: PropTypes.func
 }
 
 export default InstructionEditor

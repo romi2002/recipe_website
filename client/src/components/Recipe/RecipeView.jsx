@@ -1,7 +1,7 @@
 import * as React from 'react'
-import { useEffect, useState, Fragment } from 'react'
+import { useEffect, useState } from 'react'
 import Navbar from '../Navigation/Navbar'
-import { Box, Grid, CircularProgress, Typography } from '@mui/material'
+import { Box, Grid, CircularProgress } from '@mui/material'
 import RecipeCard from './RecipeCard'
 import IngredientsCard from './Ingredients/IngredientsCard'
 import { useParams } from 'react-router-dom'
@@ -11,7 +11,7 @@ import { useRecoilState } from 'recoil'
 import userDataAtom from '../../recoil/auth/UserDataAtom'
 
 const RecipeView = () => {
-  const [userData, _] = useRecoilState(userDataAtom)
+  const [userData] = useRecoilState(userDataAtom)
   const [recipe, setRecipe] = useState(null)
   const { recipeId } = useParams()
 

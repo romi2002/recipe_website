@@ -1,4 +1,5 @@
 import * as React from 'react'
+import PropTypes from 'prop-types'
 import { TextField, Box, Button, Checkbox, Grid, Typography } from '@mui/material'
 import CloseableModal from '../Utils/CloseableModal'
 import { useState } from 'react'
@@ -48,6 +49,15 @@ const AccountCreationModal = ({
             </Grid>
         </CloseableModal>
   )
+}
+
+AccountCreationModal.propTypes = {
+  username: PropTypes.string,
+  setUsername: PropTypes.func,
+  password: PropTypes.string,
+  setPassword: PropTypes.func,
+  handleClose: PropTypes.func,
+  handleSignup: PropTypes.func
 }
 
 export default AccountCreationModal

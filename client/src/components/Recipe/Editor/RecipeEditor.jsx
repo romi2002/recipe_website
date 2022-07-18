@@ -1,4 +1,5 @@
 import * as React from 'react'
+import PropTypes from 'prop-types'
 import InstructionEditor from './InstructionEditor'
 import { useState } from 'react'
 import IngredientEditor from './IngredientEditor'
@@ -19,8 +20,14 @@ const RecipeEditorNavGroup = ({ onSave, onClose, canSave }) => {
     </ButtonGroup>)
 }
 
+RecipeEditorNavGroup.propTypes = {
+  onSave: PropTypes.func,
+  onClose: PropTypes.func,
+  canSave: PropTypes.bool
+}
+
 const RecipeEditor = () => {
-  const [userData, _] = useRecoilState(userDataAtom)
+  const [userData] = useRecoilState(userDataAtom)
   const [files, setFiles] = useState([])
   const [recipeTitle, setRecipeTitle] = useState('')
   const [instructions, setInstructions] = useState([''])

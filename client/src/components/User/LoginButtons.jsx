@@ -9,7 +9,7 @@ import { useRecoilState } from 'recoil'
 import userDataAtom from '../../recoil/auth/UserDataAtom'
 
 const LoginButtons = () => {
-  const [userData, setUserData] = useRecoilState(userDataAtom)
+  const [, setUserData] = useRecoilState(userDataAtom)
   const [username, setUsername] = useState('')
   const [password, setPassword] = useState('')
   const [showLoginModal, setShowLoginModal] = useState(false)

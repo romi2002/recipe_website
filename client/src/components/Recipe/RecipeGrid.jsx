@@ -1,4 +1,5 @@
 import * as React from 'react'
+import PropTypes from 'prop-types'
 import RecipeCard from './RecipeCard'
 import { Box, Grid } from '@mui/material'
 
@@ -16,4 +17,8 @@ export default function RecipeGrid ({ recipes }) {
             })}
         </Grid>
   )
+}
+
+RecipeGrid.propTypes = {
+  recipes: PropTypes.object
 }
