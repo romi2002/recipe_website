@@ -8,6 +8,9 @@ const path = require('path')
 const {v4: uuidv4} = require('uuid')
 const {ObjectId} = require("mongodb")
 
+const twilioUtil = require('../utils/twilioUtil')
+const {sendTextMessage} = require("../utils/twilioUtil")
+
 const client = mongoUtil.getDb()
 const database = client.db("recipe_app")
 const recipes = database.collection("recipes")
@@ -73,6 +76,26 @@ router.post('/',
         await recipes.insertOne(recipe)
         res.status(200).send({data:'success'})
     })
+
+router.post("/send_instructions/:recipeId", body("token").exists(), async (req, res) => {
+    const errors = validationResult(req)
+    if (!errors.isEmpty()) {
+        return res.status(400).send({errors: errors.array()})
+    }
+
+    if (!auth.verifyToken(req.body.token)) {
+        return res.status(401).send({errors: 'Unauthorized'})
+    }
+
+    const objectId = new ObjectId(req.params.recipeId)
+    const doc = await recipes.findOne({'_id': objectId})
+    if (doc == null){
+        return res.status(400).send({errors: 'Recipe not found!'})
+    }
+
+    const ingredients = doc.ingredients.map((i) => i.text).join('\n')
+    await sendTextMessage("", "You need the following ingrdients\n" + ingredients)
+})
 
 router.get('/:recipeId', async (req, res) => {
     //TODO throw error when recipe is not found?
