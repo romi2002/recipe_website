@@ -1,7 +1,7 @@
 import * as React from 'react'
-import { useEffect, useState, useCallback } from 'react'
+import { useEffect, useState } from 'react'
 import Navbar from '../Navigation/Navbar'
-import { Box, Grid, CircularProgress } from '@mui/material'
+import { Box, CircularProgress, Grid } from '@mui/material'
 import RecipeCard from './RecipeCard'
 import IngredientsCard from './Ingredients/IngredientsCard'
 import { useParams } from 'react-router-dom'
@@ -9,7 +9,6 @@ import Recipe from '../../api/recipe'
 import InstructionCard from './Instructions/InstructionCard'
 import { useRecoilState } from 'recoil'
 import userDataAtom from '../../recoil/auth/UserDataAtom'
-import CommentEditor from '../Comments/CommentEditor'
 import Comments from '../../api/comments'
 import CommentViewer from '../Comments/CommentViewer'
 
@@ -28,7 +27,7 @@ const RecipeView = () => {
   }
 
   const loadComments = () => {
-    Comments.getComments(recipeId).then((resp) => setComments(resp.data.comments))
+    Comments.getComments(recipeId).then((resp) => setComments(resp.data.tree))
   }
 
   const postComment = (commentText) => {
@@ -64,10 +63,11 @@ const RecipeView = () => {
         <Grid item>
           <InstructionCard instructions={recipe.instructions}/>
         </Grid>
+        <Grid item>
+          <CommentViewer comments={comments}/>
+        </Grid>
       </Grid>}
       {recipe == null && <CircularProgress/>}
-      <CommentEditor recipe_id={recipeId} onPostComment={postComment}/>
-      <CommentViewer comments={comments}/>
     </Box>
   )
 }
