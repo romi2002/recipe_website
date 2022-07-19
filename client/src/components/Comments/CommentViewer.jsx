@@ -51,7 +51,7 @@ const CommentViewer = ({ recipeId, comments, onReplyClick }) => {
   return (<Card>
     <CardHeader title={'Comments'}/>
     <CardContent>
-      <Button variant="outlined" onClick={() => onReplyClick(recipeId)}>New Comment</Button>
+      <Button sx={{ m: 1 }} variant="outlined" onClick={() => onReplyClick(recipeId)}>New Comment</Button>
       {comments.map((comment, index) => <Comment onReplyClick={onReplyClick} key={'comment-' + index}
                                                  comment={comment}/>)}
     </CardContent>
