@@ -6,7 +6,7 @@ import Avatar from '@mui/material/Avatar'
 
 const CommentView = ({ comment, onReplyClick }) => {
   return (<Card sx={{ display: 'flex', m: 1, p: 1, pl: 2, alignItems: 'start', maxWidth: '600px' }}>
-    <Avatar sx={{ mt: 3 }}>A</Avatar>
+    <Avatar sx={{ mt: 3 }}>{(comment.poster_username ?? 'A')[0].toUpperCase()}</Avatar>
     <CardContent>
       <Box sx={{ display: 'column' }}>
         <Typography>

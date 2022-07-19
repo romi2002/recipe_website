@@ -73,6 +73,7 @@ router.post('/', body('recipe_id').exists(), body('token').exists(), body('paren
     poster_id: res.locals.userData.id,
     parent_id: req.body.parent_id,
     recipe_id: req.body.recipe_id,
+    poster_username: res.locals.userData.username,
     text: req.body.comment_text,
     timestamp: Date.now()
   }
