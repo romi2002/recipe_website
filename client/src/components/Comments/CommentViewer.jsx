@@ -2,7 +2,7 @@ import * as React from 'react'
 import PropTypes from 'prop-types'
 import { Typography } from '@mui/material'
 
-const Comment = ({comment}) => {
+const Comment = ({ comment }) => {
   return (
     <Typography>
       {comment.text}
@@ -14,17 +14,17 @@ Comment.propTypes = {
   comment: PropTypes.object
 }
 
-const CommentViewer = ({comments}) => {
+const CommentViewer = ({ comments }) => {
   console.log(comments)
 
-  if(comments == null){
+  if (comments == null) {
     return (<></>)
   }
 
   return (
     <>
       {comments.map((comment, index) =>
-        <Comment key={"comment-" + index} comment={comment}/> )}
+        <Comment key={'comment-' + index} comment={comment}/>)}
     </>
   )
 }
