@@ -2,10 +2,11 @@ import * as React from 'react'
 import PropTypes from 'prop-types'
 import { Box, Button, Card, CardContent, CardHeader, Divider, Typography } from '@mui/material'
 import { Reply } from '@mui/icons-material'
+import Avatar from '@mui/material/Avatar'
 
 const CommentView = ({ comment, onReplyClick }) => {
-  return (<Card sx={{ display: 'flex', m: 2 }}>
-    <img src="https://via.placeholder.com/150"/>
+  return (<Card sx={{ display: 'flex', m: 1, p: 1, pl: 2, alignItems: 'start', maxWidth: '600px' }}>
+    <Avatar sx={{ mt: 3 }}>A</Avatar>
     <CardContent>
       <Box sx={{ display: 'column' }}>
         <Typography>
@@ -30,7 +31,8 @@ const Comment = ({ comment, level = 0, onReplyClick }) => {
     <Box>
       <CommentView onReplyClick={onReplyClick} comment={comment}/>
       {/* insert separator here */}
-      {comment.children?.map((child) => <Comment onReplyClick={onReplyClick} comment={child} level={level + 1}/>)}
+      {comment.children?.map((child) => <Comment key={child._id.toString()} onReplyClick={onReplyClick} comment={child}
+                                                 level={level + 1}/>)}
     </Box>
   </Box>)
 }

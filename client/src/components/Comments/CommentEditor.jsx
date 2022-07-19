@@ -1,14 +1,14 @@
 import * as React from 'react'
-import PropTypes from 'prop-types'
-import { Box, TextField, Button } from '@mui/material'
 import { useState } from 'react'
+import PropTypes from 'prop-types'
+import { Box, Button, TextField } from '@mui/material'
 
 const CommentEditor = ({ onPostComment }) => {
   const [commentText, setCommentText] = useState('')
 
   return (
     <Box>
-      <TextField onChange={(e) => setCommentText(e.target.value)}></TextField>
+      <TextField multiline sx={{ pb: 2 }} onChange={(e) => setCommentText(e.target.value)}></TextField>
       <Button variant="contained" onClick={() => onPostComment(commentText)}>Post Comment</Button>
     </Box>
   )
