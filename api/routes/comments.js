@@ -2,7 +2,7 @@ const express = require('express')
 const mongoUtil = require('../utils/mongoUtil')
 const { body, validationResult } = require('express-validator')
 const auth = require('../models/Authentication')
-const { ObjectID } = require('mongodb')
+const { ObjectID, ObjectId } = require('mongodb')
 
 const router = express.Router()
 
@@ -56,14 +56,12 @@ router.post('/',
     comments.insertOne(comment).then(() => res.status(200).send({ data: 'successful' }))
   })
 
-router.get('/:recipe_id', async (req, res) => {
-  const doc = await comments.find({'recipe_id': new ObjectId(req.params.recipe_id)})
-  if(doc == null){
-    res.status(400).send({errors: 'Invalid recipe id!'})
-    return
-  }
-
-  res.status(200).send({data: doc})
+router.get('/:recipe_id',  (req, res) => {
+  console.log(req.params.recipe_id)
+  comments.find({'recipe_id': req.params.recipe_id}).toArray((err, comments) => {
+    if (err) throw err
+    res.status(200).send({comments})
+  })
 })
 
 module.exports = router

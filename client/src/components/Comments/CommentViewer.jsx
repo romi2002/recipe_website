@@ -15,6 +15,12 @@ Comment.propTypes = {
 }
 
 const CommentViewer = ({comments}) => {
+  console.log(comments)
+
+  if(comments == null){
+    return (<></>)
+  }
+
   return (
     <>
       {comments.map((comment, index) =>
