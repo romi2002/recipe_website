@@ -7,7 +7,7 @@ export default class Comments {
     return axios.post(serverUrl, data)
   }
 
-  static getComments (recipe_id) {
-    return axios.get(serverUrl + recipe_id)
+  static getComments (recipeId) {
+    return axios.get(serverUrl + recipeId)
   }
 }
