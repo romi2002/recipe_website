@@ -11,11 +11,14 @@ import { useRecoilState } from 'recoil'
 import userDataAtom from '../../recoil/auth/UserDataAtom'
 import Comments from '../../api/comments'
 import CommentViewer from '../Comments/CommentViewer'
+import CommentEditorModal from '../Comments/CommentEditorModal'
 
 const RecipeView = () => {
   const [userData] = useRecoilState(userDataAtom)
   const [recipe, setRecipe] = useState(null)
   const [comments, setComments] = useState([])
+  const [commentEditorOpen, setCommentEditorOpen] = useState(false)
+  const [commentEditorOriginId, setCommentEditorOriginId] = useState(null)
   const { recipeId } = useParams()
 
   useEffect(() => {
@@ -34,13 +37,19 @@ const RecipeView = () => {
     const comment = {
       recipe_id: recipeId,
       token: userData.token,
-      parent_id: recipeId,
+      parent_id: commentEditorOriginId,
       comment_text: commentText
     }
 
     if (userData.isLoggedIn) {
       Comments.postComment(comment).then(() => console.log('Comment posted')).then(loadComments)
+      setCommentEditorOpen(false)
     }
+  }
+
+  const onReplyClick = (commentId) => {
+    setCommentEditorOriginId(commentId)
+    setCommentEditorOpen(true)
   }
 
   /*
@@ -52,6 +61,8 @@ const RecipeView = () => {
 
   return (
     <Box>
+      {commentEditorOpen &&
+        <CommentEditorModal onPostComment={postComment} handleClose={() => setCommentEditorOpen(false)}/>}
       <Navbar/>
       {recipe != null && <Grid direction="column" spacing={2} p={2} pl={8} pr={8} container>
         <Grid item>
@@ -64,7 +75,7 @@ const RecipeView = () => {
           <InstructionCard instructions={recipe.instructions}/>
         </Grid>
         <Grid item>
-          <CommentViewer comments={comments}/>
+          <CommentViewer recipeId={recipeId} onReplyClick={onReplyClick} comments={comments}/>
         </Grid>
       </Grid>}
       {recipe == null && <CircularProgress/>}
