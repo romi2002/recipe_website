@@ -1,17 +1,30 @@
 import * as React from 'react'
 import { useEffect, useState } from 'react'
 import PropTypes from 'prop-types'
-import { Box, Button, TextField } from '@mui/material'
+import { Box, Button, TextField, Typography } from '@mui/material'
 import { Search as SearchIcon } from '@mui/icons-material'
 import { Link } from 'react-router-dom'
 import Search from '../../api/search'
 
-const SearchBarRecommendations = ({ recommendations }) => {
-  return (<Box sx={{ zIndex: 1, width: '300px', border: 1 }}>
+const floatingBoxStyle = {
+  width: '300px',
+  background: 'white',
+  zIndex: 10,
+  border: 1,
+  transform: 'translate(0px, 50px)',
+  position: 'absolute',
+  borderRadius: '0 0 10px 10px'
+}
+
+const SearchBarRecommendations = ({ query, recommendations }) => {
+  return (<Box sx={floatingBoxStyle}>
     {recommendations.map((recipe, index) => {
       return (<Box key={'recommendation-' + index}>
         <Button component={Link} to={'/recipes/' + recipe._id.toString()} variant="text">
-          {recipe.title}
+          <Typography>
+            <span style={{ fontWeight: 'bold' }}>{recipe.title.substring(0, query.length)}</span>
+            {recipe.title.substring(query.length)}
+          </Typography>
         </Button>
       </Box>)
     })}
@@ -19,24 +32,24 @@ const SearchBarRecommendations = ({ recommendations }) => {
 }
 
 SearchBarRecommendations.propTypes = {
+  query: PropTypes.string,
   recommendations: PropTypes.array
 }
 
 // TODO add clear button
-const SearchBarTextField = ({ setQuery, recommendations }) => {
-  return (<Box sx={{ display: 'flex', alignItems: 'flexStart' }}>
-    <SearchIcon fontSize={'large'}/>
-    <Box>
+const SearchBarTextField = ({ query, setQuery, recommendations }) => {
+  return (<Box sx={{ display: 'flex', flexDirection: 'column', alignItems: 'flex-end' }}>
+    <Box sx={{ justifyContent: 'center', alignItems: 'center', alignContent: 'center' }}>
+      <Button star component={Link} to={'/recipes/search/' + query} startIcon={<SearchIcon fontSize={'large'}/>}/>
       <TextField sx={{ minWidth: '300px' }} variant="outlined" label="Search"
                  onChange={(e) => setQuery(e.target.value)}/>
-      {recommendations.length !== 0 && <SearchBarRecommendations recommendations={recommendations}/>}
     </Box>
+    {recommendations.length !== 0 && <SearchBarRecommendations query={query} recommendations={recommendations}/>}
   </Box>)
 }
 
 SearchBarTextField.propTypes = {
-  setQuery: PropTypes.func,
-  recommendations: PropTypes.array
+  query: PropTypes.string, setQuery: PropTypes.func, recommendations: PropTypes.array
 }
 
 const SearchBar = ({ onSearch }) => {
@@ -58,10 +71,7 @@ const SearchBar = ({ onSearch }) => {
   }, [query])
 
   return (<Box sx={{ display: 'flex', m: 2 }}>
-    <SearchBarTextField setQuery={setQuery} recommendations={typeahead}/>
-    <Button variant="contained" component={Link} to={'/recipes/search/' + query}>
-      Search
-    </Button>
+    <SearchBarTextField query={query} setQuery={setQuery} recommendations={typeahead}/>
   </Box>)
 }
 
