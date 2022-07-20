@@ -1,78 +1,21 @@
 import * as React from 'react'
 import { useEffect, useState } from 'react'
 import PropTypes from 'prop-types'
-import { Box, Button, FormControl, TextField, Typography } from '@mui/material'
-import { Search as SearchIcon } from '@mui/icons-material'
-import { Link, useNavigate } from 'react-router-dom'
+import { Autocomplete, Box, CircularProgress, TextField } from '@mui/material'
 import Search from '../../api/search'
-
-const floatingBoxStyle = {
-  width: '300px',
-  background: 'white',
-  zIndex: 10,
-  border: 1,
-  transform: 'translate(0px, 50px)',
-  position: 'absolute',
-  borderRadius: '0 0 10px 10px'
-}
-
-const SearchBarRecommendations = ({ query, recommendations }) => {
-  return (<Box sx={floatingBoxStyle}>
-    {recommendations.map((recipe, index) => {
-      return (<Box key={'recommendation-' + index}>
-        <Button component={Link} to={'/recipes/' + recipe._id.toString()} variant="text">
-          <Typography>
-            <span style={{ fontWeight: 'bold' }}>{recipe.title.substring(0, query.length)}</span>
-            {recipe.title.substring(query.length)}
-          </Typography>
-        </Button>
-      </Box>)
-    })}
-  </Box>)
-}
-
-SearchBarRecommendations.propTypes = {
-  query: PropTypes.string,
-  recommendations: PropTypes.array
-}
-
-// TODO add clear button
-const SearchBarTextField = ({ query, setQuery, handleSubmit, recommendations }) => {
-  return (<Box sx={{ display: 'flex', flexDirection: 'column', alignItems: 'flex-end' }}>
-    <form onSubmit={handleSubmit}>
-      <FormControl>
-        <Box sx={{ justifyContent: 'center', alignItems: 'center', alignContent: 'center' }}>
-          <Button star component={Link} to={'/recipes/search/' + query} startIcon={<SearchIcon fontSize={'large'}/>}/>
-          <TextField sx={{ minWidth: '300px' }} variant="outlined" label="Search" onSubmit={() => console.log('search')}
-                     onChange={(e) => setQuery(e.target.value)}/>
-        </Box>
-      </FormControl>
-    </form>
-    {recommendations.length !== 0 && <SearchBarRecommendations query={query} recommendations={recommendations}/>}
-  </Box>)
-}
-
-SearchBarTextField.propTypes = {
-  query: PropTypes.string,
-  setQuery: PropTypes.func,
-  recommendations: PropTypes.array,
-  handleSubmit: PropTypes.func
-}
+import parse from 'autosuggest-highlight/parse'
+import match from 'autosuggest-highlight/match'
+import { useNavigate } from 'react-router-dom'
 
 const SearchBar = ({ onSearch }) => {
   const navigate = useNavigate()
   const [typeahead, setTypeahead] = useState([])
+  const [loading, setLoading] = useState(false)
   const [query, setQuery] = useState('')
-
-  const handleSubmit = (e) => {
-    e.preventDefault()
-    e.stopPropagation()
-
-    navigate('/recipes/search/' + query)
-  }
 
   useEffect(() => {
     if (query === '') {
+      setLoading(false)
       setTypeahead([])
       return
     }
@@ -81,12 +24,61 @@ const SearchBar = ({ onSearch }) => {
         return
       }
 
+      setLoading(false)
       setTypeahead(res.data.data)
     })
   }, [query])
 
   return (<Box sx={{ display: 'flex', m: 2 }}>
-    <SearchBarTextField handleSubmit={handleSubmit} query={query} setQuery={setQuery} recommendations={typeahead}/>
+    <Autocomplete
+      sx={{ width: '300px' }}
+      freeSolo
+      disableClearable
+      options={typeahead}
+      getOptionLabel={(option) => option.title}
+      onChange={(e, value) => {
+        // Workaround if the user presses enter on input, run search
+        if (typeof value === 'string') {
+          navigate('/recipes/search/' + value)
+          return
+        }
+
+        navigate('/recipes/' + value._id)
+      }}
+      renderOption={(props, option, { inputValue }) => {
+        const matches = match(option.title, inputValue)
+        const parts = parse(option.title, matches)
+
+        return (<li {...props}>
+            <div>
+              {parts.map((part, index) => (<span
+                  key={index}
+                  style={{
+                    fontWeight: part.highlight ? 700 : 400
+                  }}
+                >
+                  {part.text}
+                </span>))}
+            </div>
+          </li>)
+      }}
+      renderInput={(params) => {
+        return (<TextField
+          {...params}
+          label="Search input"
+          InputProps={{
+            ...params.InputProps,
+            type: 'search',
+            endAdornment: (<>
+                {loading && <CircularProgress/>}
+              </>)
+          }}
+          onChange={(e) => {
+            setQuery(e.target.value)
+            setLoading(true)
+          }}
+        />)
+      }}/>
   </Box>)
 }
 
