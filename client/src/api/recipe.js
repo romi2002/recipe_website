@@ -13,13 +13,13 @@ export default class Recipe {
 
   static uploadImage (file, token) {
     const data = new FormData()
-    data.append('file', file)
     data.append('token', token)
-    return axios.post(serverUrl + 'image_upload', data)
+    data.append('file', file)
+    return axios.post(serverUrl + 'image_upload', data, { params: { token } })
   }
 
-  static saveRecipe (recipe) {
-    return axios.post(serverUrl, recipe)
+  static saveRecipe (recipe, token) {
+    return axios.post(serverUrl, { recipe, token })
   }
 
   static getRecipeCount () {

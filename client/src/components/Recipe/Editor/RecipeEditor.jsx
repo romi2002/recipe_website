@@ -1,9 +1,9 @@
 import * as React from 'react'
+import { useState } from 'react'
 import PropTypes from 'prop-types'
 import InstructionEditor from './InstructionEditor'
-import { useState } from 'react'
 import IngredientEditor from './IngredientEditor'
-import { Grid, Box, Button, ButtonGroup } from '@mui/material'
+import { Box, Button, ButtonGroup, Grid } from '@mui/material'
 import Navbar from '../../Navigation/Navbar'
 import RecipeInformationEditor from './RecipeInformationEditor'
 import SaveIcon from '@mui/icons-material/Save'
@@ -15,9 +15,9 @@ import { useNavigate } from 'react-router-dom'
 
 const RecipeEditorNavGroup = ({ onSave, onClose, canSave }) => {
   return (<ButtonGroup variant="contained">
-        <Button onClick={onSave} disabled={!canSave}><SaveIcon/></Button>
-        <Button onClick={onClose}><CloseIcon/></Button>
-    </ButtonGroup>)
+    <Button onClick={onSave} disabled={!canSave}><SaveIcon/></Button>
+    <Button onClick={onClose}><CloseIcon/></Button>
+  </ButtonGroup>)
 }
 
 RecipeEditorNavGroup.propTypes = {
@@ -35,11 +35,11 @@ const RecipeEditor = () => {
   const navigate = useNavigate()
 
   const hasValidRecipe = files.length !== 0 &&
-        recipeTitle !== '' &&
-        instructions.every(instruction => instruction !== '') &&
-        ingredients.every(({ quantity, ingredient }) => {
-          return quantity !== '' && ingredient !== ''
-        })
+    recipeTitle !== '' &&
+    instructions.every(instruction => instruction !== '') &&
+    ingredients.every(({ quantity, ingredient }) => {
+      return quantity !== '' && ingredient !== ''
+    })
 
   const onRecipeSave = () => {
     // Map to values needed from backend
@@ -58,7 +58,7 @@ const RecipeEditor = () => {
     // TODO check if upload image is successful before getting filename
     Recipe.uploadImage(files[0], userData.token).then((req) => {
       recipe.associated_media = [{ id: 'user_images/' + req.data.filename }]
-    }).then(() => Recipe.saveRecipe(recipe).then(() => {
+    }).then(() => Recipe.saveRecipe(recipe, userData.token).then(() => {
       navigate('/', { replace: true })
     }))
   }
@@ -69,32 +69,32 @@ const RecipeEditor = () => {
 
   // TODO Change navbar into editor navbar
   return (
-        <>
-            <Navbar rightSideButtonGroup={<RecipeEditorNavGroup
-                onSave={onRecipeSave}
-                onClose={onRecipeClose}
-                canSave={hasValidRecipe}/>}/>
-            <Box sx={{ display: 'flex', flexDirection: 'column', p: 4 }}>
-                <Grid container spacing={2} direction={'column'}>
-                    <Grid item>
-                        <RecipeInformationEditor
-                            files={files} setFiles={setFiles}
-                            setRecipeTitle={setRecipeTitle}/>
-                    </Grid>
+    <>
+      <Navbar rightSideButtonGroup={<RecipeEditorNavGroup
+        onSave={onRecipeSave}
+        onClose={onRecipeClose}
+        canSave={hasValidRecipe}/>}/>
+      <Box sx={{ display: 'flex', flexDirection: 'column', p: 4 }}>
+        <Grid container spacing={2} direction={'column'}>
+          <Grid item>
+            <RecipeInformationEditor
+              files={files} setFiles={setFiles}
+              setRecipeTitle={setRecipeTitle}/>
+          </Grid>
 
-                    <Grid item>
-                        <IngredientEditor
-                            ingredients={ingredients}
-                            setIngredients={setIngredients}/>
-                    </Grid>
+          <Grid item>
+            <IngredientEditor
+              ingredients={ingredients}
+              setIngredients={setIngredients}/>
+          </Grid>
 
-                    <Grid item>
-                        <InstructionEditor instructions={instructions}
-                                           setInstructions={setInstructions}/>
-                    </Grid>
-                </Grid>
-            </Box>
-        </>
+          <Grid item>
+            <InstructionEditor instructions={instructions}
+                               setInstructions={setInstructions}/>
+          </Grid>
+        </Grid>
+      </Box>
+    </>
   )
 }
 

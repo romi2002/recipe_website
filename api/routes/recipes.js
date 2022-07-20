@@ -52,7 +52,12 @@ router.get('/count', (req, res) => {
   recipes.estimatedDocumentCount().then((ret) => res.status(200).send({ length: ret }))
 })
 
-router.post('/image_upload', auth.verifyToken, (req, res) => {
+router.post('/image_upload', (req, res, next) => {
+  // Workaround to include token in req.body for the auth.verifyToken middleware
+  // Token cannot be included in req.body as body is a multipart form
+  req.body = req.query
+  auth.verifyToken(req, res, next)
+}, (req, res) => {
   upload(req, res, (err) => {
     if (err) {
       res.status(500).send({ errors: 'Upload error' })
@@ -63,27 +68,21 @@ router.post('/image_upload', auth.verifyToken, (req, res) => {
   })
 })
 
-router.post('/',
-  body('title').exists(),
-  body('instructions').exists(),
-  body('ingredients').exists(),
-  body('token').exists(),
-  auth.verifyToken,
-  async (req, res) => {
-    const errors = validationResult(req)
-    if (!errors.isEmpty()) {
-      return res.status(400).send({ errors: errors.array() })
-    }
+router.post('/', body('recipe.title').exists(), body('recipe.instructions').exists(), body('recipe.ingredients').exists(), body('recipe.token').exists(), auth.verifyToken, async (req, res) => {
+  const errors = validationResult(req)
+  if (!errors.isEmpty()) {
+    return res.status(400).send({ errors: errors.array() })
+  }
 
-    const recipe = { ...req.body }
-    recipe.timestamp = Date.now()
-    recipe.comments = []
+  const recipe = { ...req.body.recipe }
+  recipe.timestamp = Date.now()
+  recipe.comments = []
 
-    delete recipe.token
+  delete recipe.token
 
-    await recipes.insertOne(recipe)
-    res.status(200).send({ data: 'success' })
-  })
+  await recipes.insertOne(recipe)
+  res.status(200).send({ data: 'success' })
+})
 
 router.post('/send_instructions/:recipeId', auth.verifyToken, getRecipe, async (req, res) => {
   const errors = validationResult(req)
