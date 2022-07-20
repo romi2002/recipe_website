@@ -1,6 +1,6 @@
 const express = require('express')
 const router = express.Router()
-const { body, validationResult } = require('express-validator')
+const { query, body, validationResult } = require('express-validator')
 const mongoUtil = require('../utils/mongoUtil')
 
 const client = mongoUtil.getDb()
@@ -26,7 +26,7 @@ router.get('/',
 
     const data = await recipes.find({
       $text:
-                { $search: req.body.query }
+        { $search: req.body.query }
     }).skip(parseInt(offset)).limit(parseInt(limit)).toArray()
 
     if (data == null) {
@@ -40,9 +40,9 @@ router.get('/',
  * Searches for titles beginning with query
  */
 router.get('/typeahead',
-  body('query').exists(),
-  body('offset').isNumeric().optional(),
-  body('limit').isNumeric().optional(),
+  query('query').exists(),
+  query('offset').isNumeric().optional(),
+  query('limit').isNumeric().optional(),
   async (req, res) => {
     const errors = validationResult(req)
     if (!errors.isEmpty()) {
@@ -50,9 +50,9 @@ router.get('/typeahead',
     }
 
     // TODO Sanitize / string escape query
-    const query = req.body.query
-    const limit = req.body.limit ?? 10
-    const offset = req.body.offset ?? 0
+    const query = req.query.query
+    const limit = req.query.limit ?? 10
+    const offset = req.query.offset ?? 0
 
     const data = await recipes.find({
       title: { $regex: `^${query}.*`, $options: 'i' }
