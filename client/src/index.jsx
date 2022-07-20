@@ -10,32 +10,32 @@ import '@fontsource/roboto/500.css'
 import '@fontsource/roboto/700.css'
 import RecipeView from './components/Recipe/RecipeView'
 import RecipeEditor from './components/Recipe/Editor/RecipeEditor'
-import { Routes, Route, BrowserRouter } from 'react-router-dom'
-import {
-  RecoilRoot
-} from 'recoil'
+import { BrowserRouter, Route, Routes } from 'react-router-dom'
+import { RecoilRoot } from 'recoil'
+import SearchResults from './components/Search/SearchResults'
 
 const root = ReactDOM.createRoot(document.getElementById('root'))
 root.render(
-    <React.StrictMode>
-        <React.Fragment>
-            <CssBaseline/>
-            <RecoilRoot>
-                <BrowserRouter>
-                    <Routes>
-                        <Route path="/" element={<App/>}/>
-                        <Route path={'recipes'}>
-                            <Route path={':recipeId'} element={<RecipeView/>}/>
-                            <Route path={'editor'} element={<RecipeEditor/>}/>
-                        </Route>
-                        <Route path="*"
-                               element={<h1>404</h1>}
-                        />
-                    </Routes>
-                </BrowserRouter>
-            </RecoilRoot>
-        </React.Fragment>
-    </React.StrictMode>
+  <React.StrictMode>
+    <React.Fragment>
+      <CssBaseline/>
+      <RecoilRoot>
+        <BrowserRouter>
+          <Routes>
+            <Route path="/" element={<App/>}/>
+            <Route path={'recipes'}>
+              <Route path={':recipeId'} element={<RecipeView/>}/>
+              <Route path={'editor'} element={<RecipeEditor/>}/>
+              <Route path={'search/:query'} element={<SearchResults/>}/>
+            </Route>
+            <Route path="*"
+                   element={<h1>404</h1>}
+            />
+          </Routes>
+        </BrowserRouter>
+      </RecoilRoot>
+    </React.Fragment>
+  </React.StrictMode>
 )
 
 // If you want to start measuring performance in your app, pass a function

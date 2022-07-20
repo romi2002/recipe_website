@@ -13,10 +13,6 @@ function App () {
   const [pageCount, setPageCount] = useState(0)
   const [currentPage, setCurrentPage] = useState(0)
 
-  const onSearch = (query) => {
-    // TODO run search
-  }
-
   const updateRecipes = (page = 1) => {
     return Recipe.loadRecipes(recipesPerPage * page, recipesPerPage)
   }
@@ -37,7 +33,7 @@ function App () {
     <div className="App">
       <Navbar/>
       <Box sx={{ m: 2, display: 'flex', flexDirection: 'column', alignItems: 'center' }}>
-        <SearchBar onSearch={onSearch}/>
+        <SearchBar/>
         {recipes.length === 0 && <CircularProgress/>}
         <RecipeGrid recipes={recipes}/>
         {pageCount > 0 && <Pagination sx={{ mt: 2, mb: 2 }} count={pageCount} onChange={onPageChange}/>}

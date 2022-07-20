@@ -57,9 +57,9 @@ const SearchBar = ({ onSearch }) => {
     })
   }, [query])
 
-  return (<Box sx={{ m: 2 }}>
+  return (<Box sx={{ display: 'flex', m: 2 }}>
     <SearchBarTextField setQuery={setQuery} recommendations={typeahead}/>
-    <Button variant="contained" onClick={onSearch(query)}>
+    <Button variant="contained" component={Link} to={'/recipes/search/' + query}>
       Search
     </Button>
   </Box>)
