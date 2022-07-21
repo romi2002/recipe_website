@@ -8,7 +8,7 @@ elasticsearch-max-conns = 6
 
 change-stream-namespaces = [""]
 
-verbose = false
+verbose = true
 
 enable-http-server = true
 

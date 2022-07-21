@@ -19,13 +19,12 @@ services:
       - type: volume
         source: MONGO_CONFIG
         target: /data/configdb
-      - ./docker/keyfile/:/tmp/keyfilet
+      - ./docker/keyfile/:/tmp/keyfile
     healthcheck:
       test: test $$(echo "rs.initiate().ok || rs.status().ok" | mongo -u $${MONGO_INITDB_ROOT_USERNAME} -p $${MONGO_INITDB_ROOT_PASSWORD} --quiet) -eq 1
       interval: 10s
       start_period: 30s
-    command: 'ls -la /tmp/keyfilet'
-    #command: '--keyFile /tmp/keyfile/keyfile --replSet rs0'
+    command: '--keyFile /tmp/keyfile/keyfile --replSet rs0'
   mongo-express:
     image: mongo-express:latest
     container_name: mongo-express
