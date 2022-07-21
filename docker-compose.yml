@@ -7,6 +7,7 @@ services:
     environment:
       MONGO_INITDB_ROOT_USERNAME: admin
       MONGO_INITDB_ROOT_PASSWORD: admin
+      MONGO_REPLICA_SET_NAME: rs0
     ports:
       - "0.0.0.0:27017:27017"
     networks:
@@ -18,6 +19,13 @@ services:
       - type: volume
         source: MONGO_CONFIG
         target: /data/configdb
+      - ./docker/keyfile/:/tmp/keyfilet
+    healthcheck:
+      test: test $$(echo "rs.initiate().ok || rs.status().ok" | mongo -u $${MONGO_INITDB_ROOT_USERNAME} -p $${MONGO_INITDB_ROOT_PASSWORD} --quiet) -eq 1
+      interval: 10s
+      start_period: 30s
+    command: 'ls -la /tmp/keyfilet'
+    #command: '--keyFile /tmp/keyfile/keyfile --replSet rs0'
   mongo-express:
     image: mongo-express:latest
     container_name: mongo-express
@@ -34,12 +42,70 @@ services:
       - mongo
     entrypoint: [sh, -c, "sleep 5s && tini -- /docker-entrypoint.sh mongo-express"]
 
+  elasticsearch:
+    container_name: es-container
+    image: docker.elastic.co/elasticsearch/elasticsearch:7.11.0
+    environment:
+      - xpack.security.enabled=false
+      - "discovery.type=single-node"
+    networks:
+      - es-net
+    ports:
+      - 9200:9200
+    volumes:
+      - ./docker/elasticsearch/elasticsearch.yml:/usr/share/elasticsearch/config/elasticsearch.yml
+      - esdata1:/usr/share/elasticsearch/data
+    healthcheck:
+      test: "curl --fail http://localhost:9200 || exit 1"
+      interval: 2s
+      timeout: 60s
+      retries: 300
+
+  kibana:
+    container_name: kb-container
+    image: docker.elastic.co/kibana/kibana:7.11.0
+    environment:
+      - ELASTICSEARCH_HOSTS=http://es-container:9200
+    networks:
+      - es-net
+    depends_on:
+      - elasticsearch
+    ports:
+      - 5601:5601
+
+  monstache:
+    image: rwynn/monstache:6.7.2
+    container_name: c-monstache
+    working_dir: /app
+    command: -f ./monstache.config.toml
+    volumes:
+      - ./docker/monstache/monstache.config.toml:/app/monstache.config.toml
+    depends_on:
+      - mongo
+    depends_on:
+      elasticsearch:
+        condition: service_healthy
+    ports:
+      - "8080:8080"
+    networks:
+      - MONGO
+      - es-net
+    healthcheck:
+      test: "wget -q -O - http://localhost:8080/healthz"
+      interval: 10s
+      timeout: 30s
+      retries: 300
+
+
 networks:
   MONGO:
     name: MONGO
+  es-net:
+    driver: bridge
 
 volumes:
   MONGO_DATA:
     name: MONGO_DATA
   MONGO_CONFIG:
     name: MONGO_CONFIG
+  esdata1:
