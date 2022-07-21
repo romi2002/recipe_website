@@ -14,17 +14,13 @@ services:
       - MONGO
     volumes:
       - type: volume
-        source: MONGO_DATA
+        source: mongo_data
         target: /data/db
       - type: volume
-        source: MONGO_CONFIG
+        source: mongo_config
         target: /data/configdb
       - ./docker/keyfile/:/tmp/keyfile
-    healthcheck:
-      test: test $$(echo "rs.initiate().ok || rs.status().ok" | mongo -u $${MONGO_INITDB_ROOT_USERNAME} -p $${MONGO_INITDB_ROOT_PASSWORD} --quiet) -eq 1
-      interval: 10s
-      start_period: 30s
-    command: '--keyFile /tmp/keyfile/keyfile --replSet rs0'
+    command: '--keyFile /tmp/keyfile/keyfile --dbpath /data/db --replSet rs0'
   mongo-express:
     image: mongo-express:latest
     container_name: mongo-express
@@ -103,8 +99,10 @@ networks:
     driver: bridge
 
 volumes:
-  MONGO_DATA:
-    name: MONGO_DATA
-  MONGO_CONFIG:
-    name: MONGO_CONFIG
+  mongo_data:
+    name: mongo_data
+    external: true
+  mongo_config:
+    name: mongo_config
+    external: true
   esdata1:
