@@ -15,4 +15,4 @@ class Ratings {
   }
 }
 
-export default Ratings
+module.exports = Ratings

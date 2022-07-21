@@ -53,10 +53,10 @@ router.get('/count', (req, res) => {
 })
 
 router.post('/image_upload', (req, res, next) => {
-  // Workaround to include token in req.body for the auth.verifyToken middleware
+  // Workaround to include token in req.body for the auth.decodeToken middleware
   // Token cannot be included in req.body as body is a multipart form
   req.body = req.query
-  auth.verifyToken(req, res, next)
+  auth.decodeToken(req, res, next)
 }, (req, res) => {
   upload(req, res, (err) => {
     if (err) {
@@ -68,7 +68,7 @@ router.post('/image_upload', (req, res, next) => {
   })
 })
 
-router.post('/', body('recipe.title').exists(), body('recipe.instructions').exists(), body('recipe.ingredients').exists(), body('recipe.token').exists(), auth.verifyToken, async (req, res) => {
+router.post('/', body('recipe.title').exists(), body('recipe.instructions').exists(), body('recipe.ingredients').exists(), body('recipe.token').exists(), auth.decodeToken, async (req, res) => {
   const errors = validationResult(req)
   if (!errors.isEmpty()) {
     return res.status(400).send({ errors: errors.array() })
@@ -84,7 +84,7 @@ router.post('/', body('recipe.title').exists(), body('recipe.instructions').exis
   res.status(200).send({ data: 'success' })
 })
 
-router.post('/send_instructions/:recipeId', auth.verifyToken, getRecipe, async (req, res) => {
+router.post('/send_instructions/:recipeId', auth.decodeToken, getRecipe, async (req, res) => {
   const errors = validationResult(req)
   if (!errors.isEmpty()) {
     return res.status(400).send({ errors: errors.array() })
