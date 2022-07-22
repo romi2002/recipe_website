@@ -81,7 +81,7 @@ class Authentication {
    * ExpressJS middleware, verifies the JWT and deocdes to res.locals.userData
    */
   static decodeToken (req, res, next) {
-    const token = req.body.token
+    const token = req.body.token || req.query.token
     if (token == null || !Authentication.isValidToken(token)) {
       res.status(401).send({ errors: 'Unauthorized' })
       return

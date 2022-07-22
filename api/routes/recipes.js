@@ -33,22 +33,19 @@ router.get('/count', (req, res) => {
   recipes.estimatedDocumentCount().then((ret) => res.status(200).send({ length: ret }))
 })
 
-router.post('/image_upload', (req, res, next) => {
-  // Workaround to include token in req.body for the auth.decodeToken middleware
-  // Token cannot be included in req.body as body is a multipart form
-  req.body = req.query
-  console.log(req)
-  auth.decodeToken(req, res, next)
-}, (req, res) => {
-  upload(req, res, (err) => {
-    if (err) {
-      res.status(500).send({ errors: 'Upload error' })
-      return
-    }
+router.post('/image_upload',
+  auth.decodeToken,
+  (req, res) => {
+    upload(req, res, (err) => {
+      if (err) {
+        res.status(500).send({ errors: 'Upload error' })
+        return
+      }
 
-    res.status(200).send(req.file)
-  })
-})
+      res.status(200).send(req.file)
+    })
+  }
+)
 
 router.post('/', body('recipe.title').exists(), body('recipe.instructions').exists(), body('recipe.ingredients').exists(), body('recipe.token').exists(), auth.decodeToken, async (req, res) => {
   const errors = validationResult(req)
