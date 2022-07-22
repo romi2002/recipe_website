@@ -33,6 +33,9 @@ const checkIds = async (req, res, next) => {
  * @param comments list of comments with parent ids
  */
 const buildCommentTree = (recipeid, comments) => {
+  if (comments == null || comments.length === 0) {
+    return null
+  }
   // Build a cache with comments and their respective parentIds to speed up tree
   const parentCache = {}
   comments.forEach((comment) => {

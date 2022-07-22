@@ -11,7 +11,7 @@ const database = client.db('recipe_app')
 const users = database.collection('users')
 
 // TODO generate a good secret for prod :)
-const tokenSecret = '09f26e402586e2faa8da4c98a35f1b20d6b033c6097befa8be3486a829587fe2f90a832bd3ff9d42710a4da095a2ce285b009f0c3730cd9b8e1af3eb84df6611'
+const tokenSecret = '09f26e402586e2faa8da4c98a35f1b20d6b033c6097bef8be3486a829587fe2f90a832bd3ff9d42710a4da095a2ce285b009f0c3730cd9b8e1af3eb84df6611'
 
 class Authentication {
   static generateSalt () {
@@ -23,10 +23,10 @@ class Authentication {
   }
 
   /**
-     * Creates a new user given desired username and password
-     * @param username
-     * @param password
-     */
+   * Creates a new user given desired username and password
+   * @param username
+   * @param password
+   */
   static async createUser (username, password) {
     // TODO check if user already exists with the same email
 
@@ -41,11 +41,11 @@ class Authentication {
   }
 
   /**
-     * Attempts to login a user given username and password,
-     * If login is successful, returns a token otherwise null
-     * @param username
-     * @param password
-     */
+   * Attempts to login a user given username and password,
+   * If login is successful, returns a token otherwise null
+   * @param username
+   * @param password
+   */
   static async loginUser (username, password) {
     const user = await users.findOne({ username })
 
@@ -54,6 +54,8 @@ class Authentication {
       return { error: 'Invalid username/password' }
     }
 
+    const id = user._id
+
     const hash = Authentication.hashPassword(user.salt, password)
     if (hash !== user.hash) {
       return { errors: 'Invalid username/password' }
@@ -61,9 +63,9 @@ class Authentication {
 
     return {
       token:
-                jwt.sign({ username },
-                  tokenSecret,
-                  { expiresIn: '1h' })
+        jwt.sign({ id, username },
+          tokenSecret,
+          { expiresIn: '1h' })
     }
   }
 
@@ -76,8 +78,8 @@ class Authentication {
   }
 
   /**
-     * ExpressJS middleware, verifies the JWT and deocdes to res.locals.userData
-     */
+   * ExpressJS middleware, verifies the JWT and deocdes to res.locals.userData
+   */
   static decodeToken (req, res, next) {
     const token = req.body.token
     if (token == null || !Authentication.isValidToken(token)) {

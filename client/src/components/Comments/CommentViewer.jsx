@@ -19,8 +19,7 @@ const CommentView = ({ comment, onReplyClick }) => {
 }
 
 CommentView.propType = {
-  comment: PropTypes.object,
-  onReplyClick: PropTypes.func
+  comment: PropTypes.object, onReplyClick: PropTypes.func
 }
 
 const Comment = ({ comment, level = 0, onReplyClick }) => {
@@ -38,30 +37,23 @@ const Comment = ({ comment, level = 0, onReplyClick }) => {
 }
 
 Comment.propTypes = {
-  comment: PropTypes.object,
-  level: PropTypes.number,
-  onReplyClick: PropTypes.func
+  comment: PropTypes.object, level: PropTypes.number, onReplyClick: PropTypes.func
 }
 
 const CommentViewer = ({ recipeId, comments, onReplyClick }) => {
-  if (comments == null) {
-    return (<></>)
-  }
-
   return (<Card>
     <CardHeader title={'Comments'}/>
     <CardContent>
       <Button sx={{ m: 1 }} variant="outlined" onClick={() => onReplyClick(recipeId)}>New Comment</Button>
-      {comments.map((comment, index) => <Comment onReplyClick={onReplyClick} key={'comment-' + index}
-                                                 comment={comment}/>)}
+      {comments != null && comments.map((comment, index) => <Comment onReplyClick={onReplyClick}
+                                                                     key={'comment-' + index}
+                                                                     comment={comment}/>)}
     </CardContent>
   </Card>)
 }
 
 CommentViewer.propTypes = {
-  recipeId: PropTypes.object,
-  comments: PropTypes.array,
-  onReplyClick: PropTypes.func
+  recipeId: PropTypes.string, comments: PropTypes.array, onReplyClick: PropTypes.func
 }
 
 export default CommentViewer
