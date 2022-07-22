@@ -30,25 +30,25 @@ const theme = createTheme(themeOptions)
 
 const root = ReactDOM.createRoot(document.getElementById('root'))
 root.render(<React.StrictMode>
-    <React.Fragment>
-        <CssBaseline/>
-        <RecoilRoot>
-            <ThemeProvider theme={theme}>
-                <BrowserRouter>
-                    <Routes>
-                        <Route path="/" element={<App/>}/>
-                        <Route path={'recipes'}>
-                            <Route path={':recipeId'} element={<RecipeView/>}/>
-                            <Route path={'editor'} element={<RecipeEditor/>}/>
-                        </Route>
-                        <Route path="*"
-                               element={<h1>404</h1>}
-                        />
-                    </Routes>
-                </BrowserRouter>
-            </ThemeProvider>
-        </RecoilRoot>
-    </React.Fragment>
+  <React.Fragment>
+    <CssBaseline/>
+    <RecoilRoot>
+      <ThemeProvider theme={theme}>
+        <BrowserRouter>
+          <Routes>
+            <Route path="/" element={<App/>}/>
+            <Route path={'recipes'}>
+              <Route path={':recipeId'} element={<RecipeView/>}/>
+              <Route path={'editor'} element={<RecipeEditor/>}/>
+            </Route>
+            <Route path="*"
+                   element={<h1>404</h1>}
+            />
+          </Routes>
+        </BrowserRouter>
+      </ThemeProvider>
+    </RecoilRoot>
+  </React.Fragment>
 </React.StrictMode>)
 
 // If you want to start measuring performance in your app, pass a function

@@ -30,9 +30,9 @@ const SearchBar = ({ onSearch }) => {
     })
   }, [query])
 
-  return (<Paper sx={{ display: 'flex', m: 2 }}>
+  return (<Paper sx={{ display: 'flex', m: 1.5, flexGrow: 1, maxWidth: '700px' }}>
     <Autocomplete
-      sx={{ width: '400px' }}
+      sx={{ width: 'auto', flexGrow: 1 }}
       freeSolo
       disableClearable
       options={typeahead}

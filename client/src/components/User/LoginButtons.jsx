@@ -1,7 +1,6 @@
 import * as React from 'react'
 import { useState } from 'react'
 import { Box, Button } from '@mui/material'
-import Typography from '@mui/material/Typography'
 import LoginModal from './LoginModal'
 import AccountCreationModal from './AccountCreationModal'
 import Auth from '../../api/auth'
@@ -55,14 +54,12 @@ const LoginButtons = () => {
   return (
     <Box sx={{ display: { xs: 'flex', md: 'flex' }, mr: 1 }}>
       <Box sx={{ pr: 2 }}>
-        <Button color="secondary" variant="contained" onClick={onLoginButton}>
-          <Typography variant="h8">
-            Log In
-          </Typography>
+        <Button color="inherit" variant="text" onClick={onLoginButton}>
+          Log In
         </Button>
       </Box>
       <Box>
-        <Button color="secondary" variant="contained" onClick={onSignupButton}>Sign Up</Button>
+        <Button color="inherit" variant="text" onClick={onSignupButton}>Sign Up</Button>
       </Box>
       {showLoginModal && <LoginModal
         handleClose={() => setShowLoginModal(false)}
