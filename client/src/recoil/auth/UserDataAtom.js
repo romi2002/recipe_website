@@ -5,7 +5,7 @@ const localStorageEffect = key => ({ setSelf, onSet }) => {
   const savedValue = localStorage.getItem(key)
   if (savedValue != null) {
     const userData = JSON.parse(savedValue)
-    Auth.validateToken(userData.token).then((ret) => {
+    Auth.validateToken(userData?.token).then((ret) => {
       if (ret.data.validToken) {
         setSelf(userData)
       }

@@ -9,12 +9,18 @@ import Recipe from '../../api/recipe'
 import InstructionCard from './Instructions/InstructionCard'
 import { useRecoilState } from 'recoil'
 import userDataAtom from '../../recoil/auth/UserDataAtom'
+import Comments from '../../api/comments'
+import CommentViewer from '../Comments/CommentViewer'
+import CommentEditorModal from '../Comments/CommentEditorModal'
 
 import Ratings from '../../api/ratings'
 
 const RecipeView = () => {
   const [userData] = useRecoilState(userDataAtom)
   const [recipe, setRecipe] = useState(null)
+  const [comments, setComments] = useState([])
+  const [commentEditorOpen, setCommentEditorOpen] = useState(false)
+  const [commentEditorOriginId, setCommentEditorOriginId] = useState(null)
   const { recipeId } = useParams()
 
   // TODO Remove this
@@ -28,18 +34,53 @@ const RecipeView = () => {
     Recipe.sendIngredientsMessage(recipeId, userData.token).then(() => console.log('Sent ingredients'))
   }
 
+  const loadComments = () => {
+    Comments.getComments(recipeId).then((resp) => setComments(resp.data.tree))
+  }
+
+  const postComment = (commentText) => {
+    const comment = {
+      recipe_id: recipeId,
+      token: userData.token,
+      parent_id: commentEditorOriginId,
+      comment_text: commentText
+    }
+
+    if (userData.isLoggedIn) {
+      Comments.postComment(comment).then(() => console.log('Comment posted')).then(loadComments)
+      setCommentEditorOpen(false)
+    }
+  }
+
+  const onReplyClick = (commentId) => {
+    setCommentEditorOriginId(commentId)
+    setCommentEditorOpen(true)
+  }
+
+  /*
+  Load comments for recipe
+   */
+  useEffect(() => {
+    loadComments()
+  }, [])
+
   return (
     <Box>
+      {commentEditorOpen &&
+        <CommentEditorModal onPostComment={postComment} handleClose={() => setCommentEditorOpen(false)}/>}
       <Navbar/>
       {recipe != null && <Grid direction="column" spacing={2} p={2} pl={8} pr={8} container>
         <Grid item>
-          <RecipeCard recipe={recipe} imageHeight={'500px'} editable={true}/>
+          <RecipeCard recipe={recipe} imageHeight={'500px'}/>
         </Grid>
         <Grid item>
           <IngredientsCard onSendMessage={onSendIngredientsMessage} ingredients={recipe.ingredients}/>
         </Grid>
         <Grid item>
           <InstructionCard instructions={recipe.instructions}/>
+        </Grid>
+        <Grid item>
+          <CommentViewer recipeId={recipeId} onReplyClick={onReplyClick} comments={comments}/>
         </Grid>
       </Grid>}
       {recipe == null && <CircularProgress/>}
