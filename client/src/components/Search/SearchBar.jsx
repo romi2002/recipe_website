@@ -1,7 +1,7 @@
 import * as React from 'react'
 import { useEffect, useState } from 'react'
 import PropTypes from 'prop-types'
-import { Autocomplete, Box, CircularProgress, TextField } from '@mui/material'
+import { Autocomplete, CircularProgress, Paper, TextField } from '@mui/material'
 import Search from '../../api/search'
 import parse from 'autosuggest-highlight/parse'
 import match from 'autosuggest-highlight/match'
@@ -29,9 +29,9 @@ const SearchBar = ({ onSearch }) => {
     })
   }, [query])
 
-  return (<Box sx={{ display: 'flex', m: 2 }}>
+  return (<Paper sx={{ display: 'flex', m: 2, p: 1 }}>
     <Autocomplete
-      sx={{ width: '300px' }}
+      sx={{ width: '400px' }}
       freeSolo
       disableClearable
       options={typeahead}
@@ -50,28 +50,28 @@ const SearchBar = ({ onSearch }) => {
         const parts = parse(option.title, matches)
 
         return (<li {...props}>
-            <div>
-              {parts.map((part, index) => (<span
-                  key={index}
-                  style={{
-                    fontWeight: part.highlight ? 700 : 400
-                  }}
-                >
+          <div>
+            {parts.map((part, index) => (<span
+              key={index}
+              style={{
+                fontWeight: part.highlight ? 700 : 400
+              }}
+            >
                   {part.text}
                 </span>))}
-            </div>
-          </li>)
+          </div>
+        </li>)
       }}
       renderInput={(params) => {
         return (<TextField
           {...params}
-          label="Search input"
+          label="Search"
           InputProps={{
             ...params.InputProps,
             type: 'search',
             endAdornment: (<>
-                {loading && <CircularProgress/>}
-              </>)
+              {loading && <CircularProgress/>}
+            </>)
           }}
           onChange={(e) => {
             setQuery(e.target.value)
@@ -79,7 +79,7 @@ const SearchBar = ({ onSearch }) => {
           }}
         />)
       }}/>
-  </Box>)
+  </Paper>)
 }
 
 SearchBar.propTypes = {

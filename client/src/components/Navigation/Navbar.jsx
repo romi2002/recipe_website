@@ -3,19 +3,13 @@ import PropTypes from 'prop-types'
 import AppBar from '@mui/material/AppBar'
 import Box from '@mui/material/Box'
 import Toolbar from '@mui/material/Toolbar'
-import IconButton from '@mui/material/IconButton'
 import Typography from '@mui/material/Typography'
-import Menu from '@mui/material/Menu'
-import MenuIcon from '@mui/icons-material/Menu'
 import Container from '@mui/material/Container'
-import Button from '@mui/material/Button'
-import MenuItem from '@mui/material/MenuItem'
-import AdbIcon from '@mui/icons-material/Adb'
 import UserAvatar from '../User/UserAvatar'
 import LoginButtons from '../User/LoginButtons'
 import { useRecoilState } from 'recoil'
 import userDataAtom from '../../recoil/auth/UserDataAtom'
-import { Link } from 'react-router-dom'
+import SearchBar from '../Search/SearchBar'
 
 const pages = ['Products', 'Pricing', 'Blog']
 
@@ -23,10 +17,46 @@ const defaultButtonGroup = () => {
   const [userData] = useRecoilState(userDataAtom)
   const isUserLoggedIn = userData.isLoggedIn
 
-  return (
-    <>
-      {isUserLoggedIn ? <UserAvatar/> : <LoginButtons/>}
-    </>)
+  return (<Box>
+    {isUserLoggedIn ? <UserAvatar/> : <LoginButtons/>}
+  </Box>)
+}
+
+const DesktopNavBar = ({ rightSideButtonGroup }) => {
+  return (<Box
+    sx={{ display: { xs: 'none', md: 'flex' }, flexGrow: 1, justifyContent: 'space-between', alignItems: 'center' }}>
+    <Typography
+      variant="h6"
+      noWrap
+      component="a"
+      href="/"
+      sx={{
+        mr: 2,
+        display: { xs: 'none', md: 'flex' },
+        fontFamily: 'sans-serif',
+        fontWeight: 700,
+        letterSpacing: '.1rem',
+        color: 'inherit',
+        textDecoration: 'none'
+      }}
+    >
+      RECIPE WEB
+    </Typography>
+
+    <Box sx={{ flexGrow: 1, justifyContent: 'center', display: { xs: 'none', md: 'flex' } }}>
+      <SearchBar/>
+    </Box>
+
+    <Box>
+      {rightSideButtonGroup}
+    </Box>
+  </Box>)
+}
+
+const MobileNavBar = ({}) => {
+  return (<Box sx={{ display: { xs: 'flex', md: 'none' }, flexGrow: 1, justifyContent: 'center' }}>
+    <SearchBar/>
+  </Box>)
 }
 
 const Navbar = ({ rightSideButtonGroup = defaultButtonGroup() }) => {
@@ -40,102 +70,14 @@ const Navbar = ({ rightSideButtonGroup = defaultButtonGroup() }) => {
     setAnchorElNav(null)
   }
 
-  return (
-    <AppBar position="static">
-      <Container maxWidth="xl">
-        <Toolbar disableGutters>
-          <Typography
-            variant="h6"
-            noWrap
-            component="a"
-            href="/"
-            sx={{
-              mr: 2,
-              display: { xs: 'none', md: 'flex' },
-              fontFamily: 'sans-serif',
-              fontWeight: 700,
-              letterSpacing: '.1rem',
-              color: 'inherit',
-              textDecoration: 'none'
-            }}
-          >
-            RECIPE WEB
-          </Typography>
-
-          <Box sx={{ flexGrow: 1, display: { xs: 'flex', md: 'none' } }}>
-            <IconButton
-              size="large"
-              aria-label="account of current user"
-              aria-controls="menu-appbar"
-              aria-haspopup="true"
-              onClick={handleOpenNavMenu}
-              color="inherit"
-            >
-              <MenuIcon/>
-            </IconButton>
-            <Menu
-              id="menu-appbar"
-              anchorEl={anchorElNav}
-              anchorOrigin={{
-                vertical: 'bottom',
-                horizontal: 'left'
-              }}
-              keepMounted
-              transformOrigin={{
-                vertical: 'top',
-                horizontal: 'left'
-              }}
-              open={Boolean(anchorElNav)}
-              onClose={handleCloseNavMenu}
-              sx={{
-                display: { xs: 'block', md: 'none' }
-              }}
-            >
-              {pages.map((page) => (
-                <MenuItem key={page} onClick={handleCloseNavMenu}>
-                  <Typography textAlign="center">{page}</Typography>
-                </MenuItem>
-              ))}
-            </Menu>
-          </Box>
-          <AdbIcon sx={{ display: { xs: 'flex', md: 'none' }, mr: 1 }}/>
-          <Typography
-            variant="h5"
-            noWrap
-            component="a"
-            href=""
-            sx={{
-              mr: 2,
-              display: { xs: 'flex', md: 'none' },
-              flexGrow: 1,
-              fontFamily: 'monospace',
-              fontWeight: 700,
-              letterSpacing: '.3rem',
-              color: 'inherit',
-              textDecoration: 'none'
-            }}
-          >
-            LOGO
-          </Typography>
-          <Box sx={{ flexGrow: 1, display: { xs: 'none', md: 'flex' } }}>
-            {pages.map((page) => (
-              <Button
-                key={page}
-                onClick={handleCloseNavMenu}
-                sx={{ my: 2, color: 'white', display: 'block' }}
-              >
-                {page}
-              </Button>
-            ))}
-          </Box>
-          <Button variant={'filled'} component={Link} to={'/recipes/editor'}>
-            Editor
-          </Button>
-          {rightSideButtonGroup}
-        </Toolbar>
-      </Container>
-    </AppBar>
-  )
+  return (<AppBar position="static">
+    <Container maxWidth="xl">
+      <Toolbar disableGutters>
+        <DesktopNavBar rightSideButtonGroup={rightSideButtonGroup}/>
+        <MobileNavBar/>
+      </Toolbar>
+    </Container>
+  </AppBar>)
 }
 
 Navbar.propTypes = {

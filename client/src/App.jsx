@@ -5,7 +5,6 @@ import Navbar from './components/Navigation/Navbar'
 import RecipeGrid from './components/Recipe/RecipeGrid'
 import Recipe from './api/recipe'
 import { Box, CircularProgress, Pagination } from '@mui/material'
-import SearchBar from './components/Search/SearchBar'
 
 function App () {
   const recipesPerPage = 20
@@ -30,15 +29,14 @@ function App () {
   }
 
   return (
-    <div className="App">
-      <Navbar/>
-      <Box sx={{ m: 2, display: 'flex', flexDirection: 'column', alignItems: 'center' }}>
-        <SearchBar/>
-        {recipes.length === 0 && <CircularProgress/>}
-        <RecipeGrid recipes={recipes}/>
-        {pageCount > 0 && <Pagination sx={{ mt: 2, mb: 2 }} count={pageCount} onChange={onPageChange}/>}
-      </Box>
-    </div>
+        <div className="App">
+            <Navbar/>
+            <Box sx={{ m: 2, display: 'flex', flexDirection: 'column', alignItems: 'center' }}>
+                {recipes.length === 0 && <CircularProgress/>}
+                <RecipeGrid recipes={recipes}/>
+                {pageCount > 0 && <Pagination sx={{ mt: 2, mb: 2 }} count={pageCount} onChange={onPageChange}/>}
+            </Box>
+        </div>
   )
 }
 
