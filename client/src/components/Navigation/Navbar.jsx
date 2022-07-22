@@ -10,8 +10,10 @@ import LoginButtons from '../User/LoginButtons'
 import { useRecoilState } from 'recoil'
 import userDataAtom from '../../recoil/auth/UserDataAtom'
 import SearchBar from '../Search/SearchBar'
-
-const pages = ['Products', 'Pricing', 'Blog']
+import { IconButton } from '@mui/material'
+import MenuIcon from '@mui/icons-material/Menu'
+import Menu from '@mui/material/Menu'
+import MenuItem from '@mui/material/MenuItem'
 
 const defaultButtonGroup = () => {
   const [userData] = useRecoilState(userDataAtom)
@@ -25,26 +27,28 @@ const defaultButtonGroup = () => {
 const DesktopNavBar = ({ rightSideButtonGroup }) => {
   return (<Box
     sx={{ display: { xs: 'none', md: 'flex' }, flexGrow: 1, justifyContent: 'space-between', alignItems: 'center' }}>
-    <Typography
-      variant="h6"
-      noWrap
-      component="a"
-      href="/"
-      sx={{
-        mr: 2,
-        display: { xs: 'none', md: 'flex' },
-        fontFamily: 'sans-serif',
-        fontWeight: 700,
-        letterSpacing: '.1rem',
-        color: 'inherit',
-        textDecoration: 'none'
-      }}
-    >
-      RECIPE WEB
-    </Typography>
+    <Box sx={{ display: 'flex', alignItems: 'center', flexGrow: 1 }}>
+      <Typography
+        variant="h6"
+        noWrap
+        component="a"
+        href="/"
+        sx={{
+          mr: 2,
+          display: { xs: 'none', md: 'flex' },
+          fontFamily: 'sans-serif',
+          fontWeight: 700,
+          letterSpacing: '.1rem',
+          color: 'inherit',
+          textDecoration: 'none'
+        }}
+      >
+        RECIPE WEB
+      </Typography>
 
-    <Box sx={{ flexGrow: 1, justifyContent: 'center', display: { xs: 'none', md: 'flex' } }}>
-      <SearchBar/>
+      <Box sx={{ flexGrow: 1, mr: 10 }}>
+        <SearchBar/>
+      </Box>
     </Box>
 
     <Box>
@@ -53,23 +57,50 @@ const DesktopNavBar = ({ rightSideButtonGroup }) => {
   </Box>)
 }
 
+const MobileNavMenu = () => {
+  const [anchorEl, setAnchorEl] = React.useState(null)
+  const open = Boolean(anchorEl)
+  const handleClick = (event) => {
+    setAnchorEl(event.currentTarget)
+  }
+  const handleClose = () => {
+    setAnchorEl(null)
+  }
+
+  // TODO add mobile menu functionality
+  return (
+    <>
+      <IconButton
+        size="large" edge="start" color="inherit"
+        onClick={handleClick}
+      >
+        <MenuIcon/>
+      </IconButton>
+      <Menu
+        id="basic-menu"
+        anchorEl={anchorEl}
+        open={open}
+        onClose={handleClose}
+        MenuListProps={{
+          'aria-labelledby': 'basic-button'
+        }}
+      >
+        <MenuItem onClick={handleClose}>Profile</MenuItem>
+        <MenuItem onClick={handleClose}>My account</MenuItem>
+        <MenuItem onClick={handleClose}>Logout</MenuItem>
+      </Menu>
+    </>
+  )
+}
+
 const MobileNavBar = ({}) => {
   return (<Box sx={{ display: { xs: 'flex', md: 'none' }, flexGrow: 1, justifyContent: 'center' }}>
+    <MobileNavMenu/>
     <SearchBar/>
   </Box>)
 }
 
 const Navbar = ({ rightSideButtonGroup = defaultButtonGroup() }) => {
-  const [anchorElNav, setAnchorElNav] = React.useState(null)
-
-  const handleOpenNavMenu = (event) => {
-    setAnchorElNav(event.currentTarget)
-  }
-
-  const handleCloseNavMenu = () => {
-    setAnchorElNav(null)
-  }
-
   return (<AppBar position="static">
     <Container maxWidth="xl">
       <Toolbar disableGutters>

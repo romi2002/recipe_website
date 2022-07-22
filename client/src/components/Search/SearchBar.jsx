@@ -30,7 +30,7 @@ const SearchBar = ({ onSearch }) => {
     })
   }, [query])
 
-  return (<Paper sx={{ display: 'flex', m: 1.5, flexGrow: 1, maxWidth: '700px' }}>
+  return (<Paper sx={{ display: 'flex', m: 1.5, flexGrow: 1 }}>
     <Autocomplete
       sx={{ width: 'auto', flexGrow: 1 }}
       freeSolo
