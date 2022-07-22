@@ -7,6 +7,7 @@ import MenuItem from '@mui/material/MenuItem'
 import Typography from '@mui/material/Typography'
 import Box from '@mui/material/Box'
 import { useNavigate } from 'react-router-dom'
+import Auth from '../../api/auth'
 
 const settings = [
   {
@@ -18,7 +19,8 @@ const settings = [
   {
     name: 'Log Out',
     action: (navigate) => {
-      // TODO add logout route and call
+      Auth.logout()
+      navigate(0)
     }
   }
 ]
