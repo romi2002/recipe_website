@@ -11,7 +11,7 @@ const database = client.db('recipe_app')
 const users = database.collection('users')
 
 // TODO generate a good secret for prod :)
-const tokenSecret = '09f26e402586e2faa8da4c98a35f1b20d6b033c6097befa8be3486a829587fe2f90a832bd3ff9d42710a4da095a2ce285b009f0c3730cd9b8e1af3eb84df6611'
+const tokenSecret = '09f26e402586e2faa8da4c98a35f1b20d6b033c6097bef8be3486a829587fe2f90a832bd3ff9d42710a4da095a2ce285b009f0c3730cd9b8e1af3eb84df6611'
 
 class Authentication {
   static generateSalt () {
@@ -54,6 +54,8 @@ class Authentication {
       return { error: 'Invalid username/password' }
     }
 
+    const id = user._id
+
     const hash = Authentication.hashPassword(user.salt, password)
     if (hash !== user.hash) {
       return { errors: 'Invalid username/password' }
@@ -61,7 +63,7 @@ class Authentication {
 
     return {
       token:
-        jwt.sign({ username },
+        jwt.sign({ id, username },
           tokenSecret,
           { expiresIn: '1h' })
     }
@@ -76,14 +78,16 @@ class Authentication {
   }
 
   /**
-   * ExpressJS middleware, verifies the JWT, returns username if valid
+   * ExpressJS middleware, verifies the JWT and deocdes to res.locals.userData
    */
-  static verifyToken (req, res, next) {
-    const token = req.body.token
+  static decodeToken (req, res, next) {
+    const token = req.body.token || req.query.token
     if (token == null || !Authentication.isValidToken(token)) {
       res.status(401).send({ errors: 'Unauthorized' })
       return
     }
+
+    res.locals.userData = jwt.decode(token, tokenSecret)
 
     next()
   }

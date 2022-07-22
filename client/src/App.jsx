@@ -1,9 +1,9 @@
 import * as React from 'react'
+import { useEffect, useState } from 'react'
 import './App.css'
 import Navbar from './components/Navigation/Navbar'
 import RecipeGrid from './components/Recipe/RecipeGrid'
 import Recipe from './api/recipe'
-import { useState, useEffect } from 'react'
 import { Box, CircularProgress, Pagination } from '@mui/material'
 
 function App () {
@@ -29,14 +29,14 @@ function App () {
   }
 
   return (
-            <div className="App">
-                <Navbar/>
-                <Box sx={{ m: 2, display: 'flex', flexDirection: 'column', alignItems: 'center' }}>
-                    {recipes.length === 0 && <CircularProgress/>}
-                    <RecipeGrid recipes={recipes}/>
-                    {pageCount > 0 && <Pagination sx={{ mt: 2, mb: 2 }} count={pageCount} onChange={onPageChange}/>}
-                </Box>
-            </div>
+        <div className="App">
+            <Navbar/>
+            <Box sx={{ m: 2, display: 'flex', flexDirection: 'column', alignItems: 'center' }}>
+                {recipes.length === 0 && <CircularProgress/>}
+                <RecipeGrid recipes={recipes}/>
+                {pageCount > 0 && <Pagination sx={{ mt: 2, mb: 2 }} count={pageCount} onChange={onPageChange}/>}
+            </Box>
+        </div>
   )
 }
 
