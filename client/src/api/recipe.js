@@ -34,4 +34,8 @@ export default class Recipe {
   static sendIngredientsMessage (id, token) {
     return axios.post(serverUrl + 'send_instructions/' + id, { token })
   }
+
+  static getUserRecipes (token) {
+    return axios.get(serverUrl + 'user_recipes', { params: { token } })
+  }
 }

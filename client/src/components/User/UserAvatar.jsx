@@ -6,27 +6,29 @@ import Menu from '@mui/material/Menu'
 import MenuItem from '@mui/material/MenuItem'
 import Typography from '@mui/material/Typography'
 import Box from '@mui/material/Box'
+import { useNavigate } from 'react-router-dom'
 
 const settings = [
   {
     name: 'My Recipes',
-    action: () => {
-      // TODO create user recipes page and goto
+    action: (navigate) => {
+      navigate('/profile/user_recipes', { replace: true })
     }
   },
   {
     name: 'Log Out',
-    action: () => {
+    action: (navigate) => {
       // TODO add logout route and call
     }
   }
 ]
 
 const UserAvatar = () => {
+  const navigate = useNavigate()
   const [anchorElUser, setAnchorElUser] = React.useState(null)
 
   const handleSettingClick = (name, action) => {
-    action()
+    action(navigate)
     handleCloseUserMenu()
   }
 
