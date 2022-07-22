@@ -23,10 +23,10 @@ class Authentication {
   }
 
   /**
-   * Creates a new user given desired username and password
-   * @param username
-   * @param password
-   */
+     * Creates a new user given desired username and password
+     * @param username
+     * @param password
+     */
   static async createUser (username, password) {
     // TODO check if user already exists with the same email
 
@@ -41,11 +41,11 @@ class Authentication {
   }
 
   /**
-   * Attempts to login a user given username and password,
-   * If login is successful, returns a token otherwise null
-   * @param username
-   * @param password
-   */
+     * Attempts to login a user given username and password,
+     * If login is successful, returns a token otherwise null
+     * @param username
+     * @param password
+     */
   static async loginUser (username, password) {
     const user = await users.findOne({ username })
 
@@ -61,9 +61,9 @@ class Authentication {
 
     return {
       token:
-        jwt.sign({ username },
-          tokenSecret,
-          { expiresIn: '1h' })
+                jwt.sign({ username },
+                  tokenSecret,
+                  { expiresIn: '1h' })
     }
   }
 
@@ -76,14 +76,16 @@ class Authentication {
   }
 
   /**
-   * ExpressJS middleware, verifies the JWT, returns username if valid
-   */
-  static verifyToken (req, res, next) {
+     * ExpressJS middleware, verifies the JWT and deocdes to res.locals.userData
+     */
+  static decodeToken (req, res, next) {
     const token = req.body.token
     if (token == null || !Authentication.isValidToken(token)) {
       res.status(401).send({ errors: 'Unauthorized' })
       return
     }
+
+    res.locals.userData = jwt.decode(token, tokenSecret)
 
     next()
   }
