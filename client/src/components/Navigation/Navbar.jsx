@@ -10,17 +10,30 @@ import LoginButtons from '../User/LoginButtons'
 import { useRecoilState } from 'recoil'
 import userDataAtom from '../../recoil/auth/UserDataAtom'
 import SearchBar from '../Search/SearchBar'
-import { IconButton } from '@mui/material'
+import { Button, IconButton } from '@mui/material'
 import MenuIcon from '@mui/icons-material/Menu'
 import Menu from '@mui/material/Menu'
 import MenuItem from '@mui/material/MenuItem'
+import AddBoxIcon from '@mui/icons-material/AddBox'
+import { Link } from 'react-router-dom'
+
+const LoggedInButtons = () => {
+  return (<Box sx={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between' }}>
+      <Button edge="start" color="inherit" variant="outlined" sx={{ mr: 2 }} component={Link} to={'/recipes/editor'}>
+        <AddBoxIcon sx={{ mr: 1 }}/>
+        Create recipe
+      </Button>
+      <UserAvatar/>
+    </Box>
+  )
+}
 
 const defaultButtonGroup = () => {
   const [userData] = useRecoilState(userDataAtom)
   const isUserLoggedIn = userData.isLoggedIn
 
   return (<Box>
-    {isUserLoggedIn ? <UserAvatar/> : <LoginButtons/>}
+    {isUserLoggedIn ? <LoggedInButtons/> : <LoginButtons/>}
   </Box>)
 }
 
