@@ -6,6 +6,7 @@ import Search from '../../api/search'
 import parse from 'autosuggest-highlight/parse'
 import match from 'autosuggest-highlight/match'
 import { useNavigate } from 'react-router-dom'
+import SearchIcon from '@mui/icons-material/Search'
 
 const SearchBar = ({ onSearch }) => {
   const navigate = useNavigate()
@@ -29,7 +30,7 @@ const SearchBar = ({ onSearch }) => {
     })
   }, [query])
 
-  return (<Paper sx={{ display: 'flex', m: 2, p: 1 }}>
+  return (<Paper sx={{ display: 'flex', m: 2 }}>
     <Autocomplete
       sx={{ width: '400px' }}
       freeSolo
@@ -65,9 +66,9 @@ const SearchBar = ({ onSearch }) => {
       renderInput={(params) => {
         return (<TextField
           {...params}
-          label="Search"
           InputProps={{
             ...params.InputProps,
+            startAdornment: <SearchIcon/>,
             type: 'search',
             endAdornment: (<>
               {loading && <CircularProgress/>}
