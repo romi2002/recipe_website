@@ -14,6 +14,7 @@ import CommentViewer from '../Comments/CommentViewer'
 import CommentEditorModal from '../Comments/CommentEditorModal'
 
 import Ratings from '../../api/ratings'
+import Favorite from '../../api/favorite'
 
 const RecipeView = () => {
   const [userData] = useRecoilState(userDataAtom)
@@ -24,13 +25,24 @@ const RecipeView = () => {
   const [rating, setRating] = useState(null)
   const { recipeId } = useParams()
 
+  const [isFavorite, setIsFavorite] = useState(false)
+
   useEffect(() => {
     Recipe.loadRecipe(recipeId).then((ret) => setRecipe(ret.data.data))
   }, [])
 
   useEffect(() => {
     Ratings.getRatingForUser(recipeId, userData.token).then((doc) => setRating(doc.data.rating))
+    Favorite.getFavoriteRecipeIds(userData.token).then((res) => {
+      setIsFavorite(res.data.recipeIds.includes(recipeId))
+    })
   }, [userData])
+
+  const onFavorite = () => {
+    Favorite.favoriteRecipe(recipeId, !isFavorite, userData.token).then(() => {
+      setIsFavorite(!isFavorite)
+    })
+  }
 
   const onSendIngredientsMessage = () => {
     Recipe.sendIngredientsMessage(recipeId, userData.token).then(() => console.log('Sent ingredients'))
@@ -83,6 +95,8 @@ const RecipeView = () => {
                         Ratings.rateRecipe(recipeId, value, userData.token).then(() => console.log('rated'))
                         setRating(value)
                       }}
+                      isFavorite={isFavorite}
+                      onFavorite={onFavorite}
           />
         </Grid>
         <Grid item>
