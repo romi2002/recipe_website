@@ -8,7 +8,6 @@ const { v4: uuidv4 } = require('uuid')
 const { sendTextMessage } = require('../utils/twilioUtil')
 const { getRecipe } = require('../models/Recipes')
 const mongoUtil = require('../utils/mongoUtil')
-
 const client = mongoUtil.getDb()
 const database = client.db('recipe_app')
 const recipes = database.collection('recipes')
@@ -43,19 +42,16 @@ router.get('/count', (req, res) => {
   recipes.estimatedDocumentCount().then((ret) => res.status(200).send({ length: ret }))
 })
 
-router.post('/image_upload',
-  auth.decodeToken,
-  (req, res) => {
-    upload(req, res, (err) => {
-      if (err) {
-        res.status(500).send({ errors: 'Upload error' })
-        return
-      }
+router.post('/image_upload', auth.decodeToken, (req, res) => {
+  upload(req, res, (err) => {
+    if (err) {
+      res.status(500).send({ errors: 'Upload error' })
+      return
+    }
 
-      res.status(200).send(req.file)
-    })
-  }
-)
+    res.status(200).send(req.file)
+  })
+})
 
 router.post('/', body('recipe.title').exists(), body('recipe.instructions').exists(), body('recipe.ingredients').exists(), body('recipe.token').exists(), auth.decodeToken, async (req, res) => {
   const errors = validationResult(req)
