@@ -77,6 +77,14 @@ export default function RecipeCard ({
 
 RecipeCard.propTypes = {
   recipe: PropTypes.object,
+  'recipe.recipeId': PropTypes.string,
   imageHeight: PropTypes.string,
-  editable: PropTypes.bool
+  editable: PropTypes.bool,
+  isFavorite: PropTypes.bool,
+  favoriteButtonSize: PropTypes.string,
+  onClick: PropTypes.func,
+  rating: PropTypes.number,
+  onRate: PropTypes.func,
+  onFavorite: PropTypes.func,
+  allowFavorite: PropTypes.bool
 }
