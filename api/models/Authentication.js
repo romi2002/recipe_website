@@ -27,7 +27,7 @@ class Authentication {
    * @param username
    * @param password
    */
-  static async createUser (username, password) {
+  static async createUser (username, password, userInfo) {
     // TODO check if user already exists with the same email
 
     const salt = Authentication.generateSalt()
@@ -36,6 +36,7 @@ class Authentication {
     await users.insertOne({
       username,
       hash,
+      userInfo,
       salt
     })
   }

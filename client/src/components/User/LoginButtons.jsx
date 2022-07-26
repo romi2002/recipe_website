@@ -11,6 +11,7 @@ const LoginButtons = () => {
   const [, setUserData] = useRecoilState(userDataAtom)
   const [username, setUsername] = useState('')
   const [password, setPassword] = useState('')
+  const [phoneNumber, setPhoneNumber] = useState('')
   const [showLoginModal, setShowLoginModal] = useState(false)
   const [showAccountCreationModal, setShowAccountCreationModal] = useState(false)
   const [showLoginError, setShowLoginError] = useState(false)
@@ -24,8 +25,6 @@ const LoginButtons = () => {
   }
 
   const handleLogin = () => {
-    console.log(username)
-    console.log(password)
     Auth.login(username, password).catch((error) => {
       setShowLoginError(true)
       console.log(error)
@@ -40,7 +39,7 @@ const LoginButtons = () => {
   }
 
   const handleSignup = () => {
-    Auth.createUser(username, password).catch((error) => {
+    Auth.createUser(username, password, { phoneNumber }).catch((error) => {
       // TODO handle errors correctly
       console.log(error.message)
     }).then(() => {
@@ -71,6 +70,7 @@ const LoginButtons = () => {
         handleClose={() => setShowAccountCreationModal(false)}
         username={username} setUsername={setUsername}
         password={password} setPassword={setPassword}
+        phoneNumber={phoneNumber} setPhoneNumber={setPhoneNumber}
         handleSignup={handleSignup}/>}
     </Box>
   )

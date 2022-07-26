@@ -7,13 +7,14 @@ const authentication = require('../models/Authentication')
 router.post('/create_user',
   body('email').isEmail(),
   body('password').isLength({ min: 5 }),
+  body('userInfo').exists(),
   async (req, res) => {
     const errors = validationResult(req)
     if (!errors.isEmpty()) {
       return res.status(400).send({ errors: errors.array() })
     }
 
-    await authentication.createUser(req.body.email, req.body.password)
+    await authentication.createUser(req.body.email, req.body.password, req.body.userInfo)
 
     res.status(200).send({ data: 'user-created' })
   })

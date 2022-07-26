@@ -3,9 +3,9 @@ import axios from 'axios'
 const serverUrl = 'http://localhost:3000'
 
 export default class Auth {
-  static createUser (email, password) {
+  static createUser (email, password, userInfo) {
     return axios.post(serverUrl + '/users/create_user', {
-      email, password
+      email, password, userInfo
     })
   }
 
