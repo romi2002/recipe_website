@@ -7,7 +7,11 @@ export default class Favorite {
     return axios.post(serverUrl + recipeId, { isFavorite, token })
   }
 
-  static getFavoritedRecipes (token) {
+  static getFavoriteRecipeIds (token) {
     return axios.get(serverUrl + 'user_favorites', { params: { token } })
+  }
+
+  static getFavoriteRecipes (token) {
+    return axios.get(serverUrl + 'favorite_recipes', { params: { token } })
   }
 }

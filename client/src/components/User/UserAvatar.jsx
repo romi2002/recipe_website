@@ -17,6 +17,12 @@ const settings = [
     }
   },
   {
+    name: 'My Favorites',
+    action: (navigate) => {
+      navigate('/profile/user_favorites', { replace: true })
+    }
+  },
+  {
     name: 'Log Out',
     action: (navigate) => {
       Auth.logout()

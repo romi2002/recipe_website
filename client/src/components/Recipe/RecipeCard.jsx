@@ -29,6 +29,7 @@ export default function RecipeCard ({
   onRate = () => {},
   isFavorite,
   onFavorite,
+  allowFavorite = true,
   favoriteButtonSize = 'medium'
 }) {
   const [userData] = useRecoilState(userDataAtom)
@@ -58,7 +59,7 @@ export default function RecipeCard ({
 
   return (
     <Card sx={{ minWidth: 200, position: 'relative' }}>
-      {userData.isLoggedIn &&
+      {allowFavorite && userData.isLoggedIn &&
         <FavoriteButton recipeId={recipe._id} isFavorite={isFavorite} favoriteButtonSize={favoriteButtonSize}
                         onClick={onFavorite}/>}
       {!editable && <CardActionArea component={Link} to={'/recipes/' + recipe._id}>

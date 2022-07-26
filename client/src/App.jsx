@@ -25,7 +25,7 @@ function App () {
   }
 
   useEffect(() => {
-    updateRecipes(currentPage, sortMethod).then((data) => setRecipes(data.data))
+    updateRecipes(currentPage, sortMethod).then((data) => setRecipes(data.data.data))
   }, [currentPage, sortMethod])
 
   useEffect(() => {
@@ -37,7 +37,7 @@ function App () {
   }
 
   useEffect(() => {
-    Favorite.getFavoritedRecipes(userData.token).then((ret) => {
+    Favorite.getFavoriteRecipeIds(userData.token).then((ret) => {
       setFavoriteRecipes(ret.data.recipeIds)
     })
   }, [userData])
