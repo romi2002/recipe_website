@@ -29,14 +29,17 @@ router.post('/:recipeId', auth.decodeToken, getRecipe, body('isFavorite').isBool
       recipeId
     })
   }
+
+  res.status(200).send({ ret: 'done' })
 })
 
 /**
  * Returns all recipe ids which user has favorited
  */
-router.get('/', auth.decodeToken, async (req, res) => {
+router.get('/user_favorites', auth.decodeToken, async (req, res) => {
   favorites.find({ userId: res.locals.userData.id }).toArray().then((doc, err) => {
-    res.status(200).send({ doc })
+    const recipeIds = doc.map(d => d.recipeId)
+    res.status(200).send({ recipeIds })
   })
 })
 
