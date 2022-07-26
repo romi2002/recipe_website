@@ -22,6 +22,7 @@ export default function RecipeCard ({ recipe, imageHeight = '200px', editable, r
           <Rating defaultValue={recipe.average_rating} readOnly={!editable}
                   value={rating}
                   name={'recipe-rating'}
+                  precision={0.5}
                   onChange={onRate}/>}
         avatar={
           <Avatar>
