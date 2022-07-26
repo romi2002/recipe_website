@@ -6,6 +6,17 @@ import Navbar from '../Navigation/Navbar'
 import RecipeGrid from '../Recipe/RecipeGrid'
 import Search from '../../api/search'
 
+const NoRecipesFoundError = () => {
+  return (<Box sx={{ mt: 2 }}>
+    <Typography variant={'h3'}>
+      No recipes found!
+    </Typography>
+    <Typography variant={'h4'}>
+      Try searching for another recipe
+    </Typography>
+  </Box>)
+}
+
 const SearchResults = () => {
   const [recipes, setRecipes] = useState(null)
   const [resultsLoaded, setResultsLoaded] = useState(false)
@@ -20,11 +31,11 @@ const SearchResults = () => {
 
   return (<Box>
     <Navbar/>
-    {!resultsLoaded && <CircularProgress/>}
-    {resultsLoaded && recipes.data.length !== 0 && <RecipeGrid recipes={recipes}/>}
-    {resultsLoaded && recipes.data.length === 0 && <Typography>
-      No recipes found!
-    </Typography>}
+    <Box sx={{ m: 3, display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
+      {!resultsLoaded && <CircularProgress/>}
+      {resultsLoaded && recipes.data.length !== 0 && <RecipeGrid recipes={recipes}/>}
+      {resultsLoaded && recipes.data.length === 0 && <NoRecipesFoundError/>}
+    </Box>
   </Box>)
 }
 
