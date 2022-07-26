@@ -2,6 +2,8 @@ import * as React from 'react'
 import { Fragment } from 'react'
 import PropTypes from 'prop-types'
 import { Button, Card, CardContent, CardHeader, Typography } from '@mui/material'
+import { useRecoilState } from 'recoil'
+import userDataAtom from '../../../recoil/auth/UserDataAtom'
 
 const IngredientDisplay = ({ ingredient }) => {
   return (
@@ -16,6 +18,8 @@ IngredientDisplay.propTypes = {
 }
 
 const IngredientsCard = ({ ingredients, onSendMessage }) => {
+  const [userData] = useRecoilState(userDataAtom)
+
   return (
     <Card sx={{ minWidth: 200 }}>
       <CardHeader title="Ingredient list"/>
@@ -30,7 +34,7 @@ const IngredientsCard = ({ ingredients, onSendMessage }) => {
               </Fragment>)
           })}
         </ul>
-        <Button onClick={onSendMessage} variant="contained">Send Message</Button>
+        {userData.isLoggedIn && <Button onClick={onSendMessage} variant="contained">Text me a checklist!</Button>}
       </CardContent>
     </Card>
   )

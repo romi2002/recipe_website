@@ -69,14 +69,16 @@ router.post('/', body('recipe.title').exists(), body('recipe.instructions').exis
   res.status(200).send({ data: 'success' })
 })
 
-router.post('/send_instructions/:recipeId', auth.decodeToken, getRecipe, async (req, res) => {
-  const errors = validationResult(req)
-  if (!errors.isEmpty()) {
-    return res.status(400).send({ errors: errors.array() })
-  }
-
+router.post('/send_ingredients/:recipeId', auth.decodeToken, getRecipe, async (req, res) => {
   const ingredients = res.locals.recipe.ingredients.map((i) => i.text).join('\n')
-  await sendTextMessage('', 'You need the following ingrdients\n' + ingredients)
+  await sendTextMessage('',
+    'To make: ' + res.locals.recipe.title + '\nYou need the following ingrdients\n' + ingredients)
+  res.status(200).send({ status: 'Text message sent' })
+})
+
+router.post('/send_instructions/:recipeId', auth.decodeToken, getRecipe, async (req, res) => {
+  const instructions = res.locals.recipe.instructions.map((i) => i.text).join('\n')
+  await sendTextMessage('', 'Here\'s the instructions to make: ' + res.locals.recipe.title + '\n' + instructions)
   res.status(200).send({ status: 'Text message sent' })
 })
 

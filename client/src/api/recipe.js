@@ -32,6 +32,10 @@ export default class Recipe {
   }
 
   static sendIngredientsMessage (id, token) {
+    return axios.post(serverUrl + 'send_ingredients/' + id, { token })
+  }
+
+  static sendInstructionsMessage (id, token) {
     return axios.post(serverUrl + 'send_instructions/' + id, { token })
   }
 

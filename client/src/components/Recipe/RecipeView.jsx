@@ -36,6 +36,10 @@ const RecipeView = () => {
     Recipe.sendIngredientsMessage(recipeId, userData.token).then(() => console.log('Sent ingredients'))
   }
 
+  const onSendInstructionMessage = () => {
+    Recipe.sendInstructionsMessage(recipeId, userData.token).then(() => console.log('Sent ingredients'))
+  }
+
   const loadComments = () => {
     Comments.getComments(recipeId).then((resp) => setComments(resp.data.tree))
   }
@@ -84,7 +88,7 @@ const RecipeView = () => {
           <IngredientsCard onSendMessage={onSendIngredientsMessage} ingredients={recipe.ingredients}/>
         </Grid>
         <Grid item>
-          <InstructionCard instructions={recipe.instructions}/>
+          <InstructionCard onSendMessage={onSendInstructionMessage} instructions={recipe.instructions}/>
         </Grid>
         <Grid item>
           <CommentViewer recipeId={recipeId} onReplyClick={onReplyClick} comments={comments}/>

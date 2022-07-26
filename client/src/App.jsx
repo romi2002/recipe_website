@@ -34,24 +34,19 @@ function App () {
   return (<div className="App">
     <Navbar/>
     <Box sx={{
-      display: 'flex', alignItems: 'center', justifyContent: 'center'
+      p: 4,
+      pl: 12,
+      pr: 12,
+      display: 'flex',
+      flexDirection: 'column',
+      alignItems: 'center',
+      justifyContent: 'center'
     }}>
-      <Box sx={{
-        p: 4,
-        pl: 12,
-        pr: 12,
-        display: 'flex',
-        flexDirection: 'column',
-        alignItems: 'center',
-        justifyContent: 'center',
-        maxWidth: '2000px'
-      }}>
-        {currentPage === 0 && <Hero/>}
-        {recipes.length === 0 && <CircularProgress/>}
-        <RecipeGridNavBar sortMethod={sortMethod} setSortMethod={setSortMethod}/>
-        <RecipeGrid recipes={recipes}/>
-        {pageCount > 0 && <Pagination sx={{ mt: 2, mb: 2 }} count={pageCount} onChange={onPageChange}/>}
-      </Box>
+      {currentPage === 0 && <Hero/>}
+      {recipes.length === 0 && <CircularProgress/>}
+      <RecipeGridNavBar sortMethod={sortMethod} setSortMethod={setSortMethod}/>
+      <RecipeGrid recipes={recipes}/>
+      {pageCount > 0 && <Pagination sx={{ mt: 2, mb: 2 }} count={pageCount} onChange={onPageChange}/>}
     </Box>
   </div>)
 }
