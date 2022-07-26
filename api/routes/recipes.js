@@ -19,11 +19,21 @@ const storage = multer.diskStorage({
 })
 const upload = multer({ storage }).single('file')
 
+const sortMethods = {
+  'date-ascending': { timestamp: 1 },
+  'date-descending': { timestamp: -1 },
+  'rating-ascending': { average_rating: 1 },
+  'rating-descending': { average_rating: -1 },
+  'alphabetical-ascending': { title: 1 }, // TODO handle alphabetical order correctly, should ignore upper case
+  'alphabetical-descending': { title: -1 }
+}
+
 router.get('/', (req, res) => {
   const offset = parseInt(req.query.offset ?? '0')
   const limit = parseInt(req.query.limit ?? '10')
+  const sortMethod = req.query.sort_method ?? 'date-descending'
 
-  recipes.find({}).sort({ timestamp: -1 }).skip(offset).limit(limit).toArray((err, data) => {
+  recipes.find({}).sort(sortMethods[sortMethod]).skip(offset).limit(limit).toArray((err, data) => {
     if (err) throw err
     res.send({ data })
   })

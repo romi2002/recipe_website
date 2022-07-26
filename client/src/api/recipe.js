@@ -3,8 +3,8 @@ import axios from 'axios'
 const serverUrl = 'http://localhost:3000/recipes/'
 
 export default class Recipe {
-  static loadRecipes (offset = 0, limit = 0) {
-    return axios.get(serverUrl, { params: { offset, limit } })
+  static loadRecipes (offset = 0, limit = 0, sort_method) {
+    return axios.get(serverUrl, { params: { offset, limit, sort_method } })
   }
 
   static loadRecipe (id) {
