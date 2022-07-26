@@ -31,18 +31,29 @@ function App () {
     setCurrentPage(value - 1)
   }
 
-  return (
-    <div className="App">
-      <Navbar/>
-      <Box sx={{ p: 4, pl: 12, pr: 12, display: 'flex', flexDirection: 'column', alignItems: 'center' }}>
+  return (<div className="App">
+    <Navbar/>
+    <Box sx={{
+      display: 'flex', alignItems: 'center', justifyContent: 'center'
+    }}>
+      <Box sx={{
+        p: 4,
+        pl: 12,
+        pr: 12,
+        display: 'flex',
+        flexDirection: 'column',
+        alignItems: 'center',
+        justifyContent: 'center',
+        maxWidth: '2000px'
+      }}>
         {currentPage === 0 && <Hero/>}
         {recipes.length === 0 && <CircularProgress/>}
         <RecipeGridNavBar sortMethod={sortMethod} setSortMethod={setSortMethod}/>
         <RecipeGrid recipes={recipes}/>
         {pageCount > 0 && <Pagination sx={{ mt: 2, mb: 2 }} count={pageCount} onChange={onPageChange}/>}
       </Box>
-    </div>
-  )
+    </Box>
+  </div>)
 }
 
 export default App
