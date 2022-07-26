@@ -29,14 +29,14 @@ function App () {
   }
 
   return (
-        <div className="App">
-            <Navbar/>
-            <Box sx={{ m: 2, display: 'flex', flexDirection: 'column', alignItems: 'center' }}>
-                {recipes.length === 0 && <CircularProgress/>}
-                <RecipeGrid recipes={recipes}/>
-                {pageCount > 0 && <Pagination sx={{ mt: 2, mb: 2 }} count={pageCount} onChange={onPageChange}/>}
-            </Box>
-        </div>
+    <div className="App">
+      <Navbar/>
+      <Box sx={{ p: 4, pl: 12, pr: 12, display: 'flex', flexDirection: 'column', alignItems: 'center' }}>
+        {recipes.length === 0 && <CircularProgress/>}
+        <RecipeGrid recipes={recipes}/>
+        {pageCount > 0 && <Pagination sx={{ mt: 2, mb: 2 }} count={pageCount} onChange={onPageChange}/>}
+      </Box>
+    </div>
   )
 }
 
