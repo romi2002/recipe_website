@@ -5,13 +5,17 @@ const client = mongoUtil.getDb()
 const database = client.db('recipe_app')
 const recipes = database.collection('recipes')
 const ratings = database.collection('ratings')
-const ratingsAvg = database.collection('ratings_average')
 
 class Ratings {
-  static async addRating (userData, recipeId, rating) {
+  static async addRating (userId, recipeId, rating) {
+    await ratings.deleteMany({
+      userId,
+      recipeId
+    })
+
     // TODO validate parameters
     await ratings.insertOne({
-      userData, // TODO write only user id
+      userId, // TODO write only user id
       recipeId,
       rating
     })
@@ -44,6 +48,13 @@ class Ratings {
         into: 'recipes'
       }
     }]).toArray()
+  }
+
+  static getRatingForUser (userId, recipeId) {
+    return ratings.findOne({
+      userId,
+      recipeId
+    })
   }
 }
 
