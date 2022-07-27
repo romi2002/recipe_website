@@ -1,4 +1,4 @@
-mongo-url = "mongodb://admin:admin@mongo:27017"
+mongo-url = 'mongodb://admin:admin@mongo:27017/?directConnection=true'
 
 #mapper-plugin-path = "/app/plugin.so"
 
