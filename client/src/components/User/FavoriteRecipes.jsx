@@ -41,8 +41,8 @@ const FavoriteRecipes = () => {
   // TODO allow user to remove favorites from here
   return (<Box>
     <Navbar/>
-    <Paper sx={{ mb: 2, flexGrow: 1, display: 'flex', width: '100%' }}>
-      <Typography variant={'h2'}>
+    <Paper sx={{ m: 3, flexGrow: 1, display: 'flex', width: '100%' }}>
+      <Typography variant={'h2'} sx={{ m: 2 }}>
         Your favorite recipes
       </Typography>
     </Paper>
