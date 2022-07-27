@@ -20,5 +20,5 @@ export default function RecipeGrid ({ recipes }) {
 }
 
 RecipeGrid.propTypes = {
-  recipes: PropTypes.object
+  recipes: PropTypes.array
 }

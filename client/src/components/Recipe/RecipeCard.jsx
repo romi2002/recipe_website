@@ -34,7 +34,7 @@ export default function RecipeCard ({ recipe, imageHeight = '200px', editable, r
 
   return (
     <Card sx={{ minWidth: 200 }}>
-      {!editable && <CardActionArea component={Link} to={'/recipes/' + recipe._id}>
+      {!editable && <CardActionArea component={Link} to={'/recipes/' + recipe._id} replace>
         <CardContent/>
       </CardActionArea>}
       {editable && <CardContent/>}
