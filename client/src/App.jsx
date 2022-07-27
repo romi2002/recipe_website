@@ -7,6 +7,8 @@ import Recipe from './api/recipe'
 import { Box, CircularProgress, Pagination } from '@mui/material'
 import Hero from './components/Navigation/Hero'
 import RecipeGridNavBar from './components/Recipe/RecipeGridNavBar'
+import { useRecoilState } from 'recoil'
+import recipeHistoryAtom from './recoil/RecipeHistory'
 
 function App () {
   const recipesPerPage = 20
@@ -14,6 +16,12 @@ function App () {
   const [pageCount, setPageCount] = useState(0)
   const [currentPage, setCurrentPage] = useState(0)
   const [sortMethod, setSortMethod] = useState('rating-ascending')
+  const [, setRecipeHistory] = useRecoilState(recipeHistoryAtom)
+
+  useEffect(() => {
+    // Clear recipe history when it is back to the main menu
+    setRecipeHistory([])
+  }, [])
 
   const updateRecipes = (page = 1, sortMethod) => {
     return Recipe.loadRecipes(recipesPerPage * page, recipesPerPage, sortMethod)
@@ -34,13 +42,7 @@ function App () {
   return (<div className="App">
     <Navbar/>
     <Box sx={{
-      p: 4,
-      pl: 12,
-      pr: 12,
-      display: 'flex',
-      flexDirection: 'column',
-      alignItems: 'center',
-      justifyContent: 'center'
+      p: 4, pl: 12, pr: 12, display: 'flex', flexDirection: 'column', alignItems: 'center', justifyContent: 'center'
     }}>
       {currentPage === 0 && <Hero/>}
       {recipes.length === 0 && <CircularProgress/>}

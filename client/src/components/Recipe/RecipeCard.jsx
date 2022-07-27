@@ -7,8 +7,12 @@ import CardMedia from '@mui/material/CardMedia'
 import Avatar from '@mui/material/Avatar'
 import Rating from '@mui/material/Rating'
 import { Link } from 'react-router-dom'
+import { useRecoilState } from 'recoil'
+import recipeHistoryAtom from '../../recoil/RecipeHistory'
 
 export default function RecipeCard ({ recipe, imageHeight = '200px', editable, rating, onRate = () => {} }) {
+  const [recipeHistory, setRecipeHistory] = useRecoilState(recipeHistoryAtom)
+
   const CardContent = () => (
     <>
       {recipe.associated_media != null && <CardMedia
@@ -32,11 +36,16 @@ export default function RecipeCard ({ recipe, imageHeight = '200px', editable, r
     </>
   )
 
+  const addSelfToHistory = () => {
+    setRecipeHistory([...recipeHistory, recipe._id])
+  }
+
   return (
     <Card sx={{ minWidth: 200 }}>
-      {!editable && <CardActionArea component={Link} to={'/recipes/' + recipe._id} replace>
-        <CardContent/>
-      </CardActionArea>}
+      {!editable &&
+        <CardActionArea onClick={addSelfToHistory} component={Link} to={'/recipes/' + recipe._id} replace>
+          <CardContent/>
+        </CardActionArea>}
       {editable && <CardContent/>}
       {/* <CardContent style={{paddingBottom:0, paddingTop:1}}> */}
       {/*    <Typography sx={{ fontSize: 14 }} color="text.secondary" gutterBottom> */}

@@ -4,7 +4,6 @@ import RecipeGrid from './RecipeGrid'
 
 const RecommendedCard = ({ recommendedRecipes, nRecipes = 5 }) => {
   const recipes = { data: recommendedRecipes.slice(0, nRecipes) }
-  console.log(recipes)
 
   return (
     <Card>

@@ -16,9 +16,11 @@ import CommentEditorModal from '../Comments/CommentEditorModal'
 import Ratings from '../../api/ratings'
 import Recommended from '../../api/recommended'
 import RecommendedCard from './RecommendedCard'
+import recipeHistoryAtom from '../../recoil/RecipeHistory'
 
 const RecipeView = () => {
   const [userData] = useRecoilState(userDataAtom)
+  const [recipeHistory] = useRecoilState(recipeHistoryAtom)
   const [recipe, setRecipe] = useState(null)
   const [comments, setComments] = useState([])
   const [commentEditorOpen, setCommentEditorOpen] = useState(false)
@@ -31,8 +33,8 @@ const RecipeView = () => {
     Recipe.loadRecipe(recipeId).then((ret) => setRecipe(ret.data.data))
     Recommended.getRecommendedRecipes(recipeId).then((ret) => {
       // Filter out self and get actual recipes
-      console.log(ret.data.results.body)
-      setRecommendedRecipes(ret.data.results.body.hits.hits.filter((d) => d._id !== recipeId).map(d => {
+      setRecommendedRecipes(ret.data.results.body.hits.hits.filter(
+        (d) => d._id !== recipeId && !recipeHistory.includes(d._id)).map(d => {
         const recipe = d._source
         recipe._id = d._id
         return (recipe)
