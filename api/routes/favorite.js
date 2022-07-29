@@ -23,10 +23,12 @@ router.post('/:recipeId', auth.decodeToken, getRecipe, body('isFavorite').isBool
     userId, recipeId
   })
 
+  const timestamp = Date.now()
+
   // Only add element if is favorite, otherwise only delete elements which match favorite
   if (req.body.isFavorite) {
     await favorites.insertOne({
-      userId, recipeId
+      userId, recipeId, timestamp
     })
   }
 
@@ -37,7 +39,7 @@ router.post('/:recipeId', auth.decodeToken, getRecipe, body('isFavorite').isBool
  * Returns all recipe ids which user has favorited
  */
 router.get('/user_favorites', auth.decodeToken, (req, res) => {
-  favorites.find({ userId: res.locals.userData.id }).toArray().then((doc, err) => {
+  favorites.find({ userId: res.locals.userData.id }).sort({ timestamp: 1 }).toArray().then((doc, err) => {
     const recipeIds = doc.map(d => d.recipeId)
     res.status(200).send({ recipeIds })
   })

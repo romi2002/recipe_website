@@ -15,13 +15,13 @@ const settings = [
   {
     name: 'My Recipes',
     action: (navigate) => {
-      navigate('/profile/user_recipes', { replace: true })
+      navigate('/profile/user_recipes')
     }
   },
   {
     name: 'My Favorites',
     action: (navigate) => {
-      navigate('/profile/user_favorites', { replace: true })
+      navigate('/profile/user_favorites')
     }
   },
   {

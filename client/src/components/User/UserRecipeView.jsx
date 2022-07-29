@@ -2,7 +2,7 @@ import * as React from 'react'
 import { useEffect, useState } from 'react'
 import Navbar from '../Navigation/Navbar'
 import userDataAtom from '../../recoil/auth/UserDataAtom'
-import { Box, Paper, CircularProgress, Typography } from '@mui/material'
+import { Box, CircularProgress, Paper, Typography } from '@mui/material'
 import { useRecoilState } from 'recoil'
 import Recipe from '../../api/recipe'
 import RecipeGrid from '../Recipe/RecipeGrid'
@@ -28,7 +28,7 @@ const UserRecipeView = () => {
       // TODO Handle error somehow
       console.log(err.response)
     }).then((recipes) => {
-      setRecipes(recipes?.data)
+      setRecipes(recipes.data.data)
       setHasLoaded(true)
     })
   }, [userData])
@@ -37,7 +37,7 @@ const UserRecipeView = () => {
     <Navbar/>
     {hasLoaded && <RecipeGrid recipes={recipes} favoriteRecipes={[]} allowFavorite={false}/>}
     {!hasLoaded && <CircularProgress/>}
-    {hasLoaded && recipes?.data.length === 0 && <NoRecipesError/>}
+    {hasLoaded && recipes.length === 0 && <NoRecipesError/>}
   </Box>)
 }
 

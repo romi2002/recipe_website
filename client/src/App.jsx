@@ -10,6 +10,7 @@ import RecipeGridNavBar from './components/Recipe/RecipeGridNavBar'
 import Favorite from './api/favorite'
 import { useRecoilState } from 'recoil'
 import sortSelectionAtom from './recoil/SortSelectionAtom'
+import userDataAtom from './recoil/auth/UserDataAtom'
 
 function App () {
   const [userData] = useRecoilState(userDataAtom)
@@ -25,7 +26,7 @@ function App () {
   }
 
   useEffect(() => {
-    updateRecipes(currentPage, sortMethod).then((data) => setRecipes(data.data))
+    updateRecipes(currentPage, sortMethod).then((data) => setRecipes(data.data.data))
   }, [currentPage, sortMethod])
 
   useEffect(() => {
