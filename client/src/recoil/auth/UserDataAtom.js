@@ -23,6 +23,7 @@ const userDataAtom = atom({
   key: 'userData',
   default: {
     username: null,
+    id: null,
     isLoggedIn: false,
     token: null
   },
