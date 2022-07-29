@@ -3,14 +3,17 @@ import PropTypes from 'prop-types'
 import RecipeCard from './RecipeCard'
 import { Box, Grid } from '@mui/material'
 
-export default function RecipeGrid ({ recipes }) {
+export default function RecipeGrid ({ recipes, allowFavorite, favoriteRecipes, onRecipeFavorite = () => {} }) {
   return (
     <Grid container spacing={2} alignContent="stretch">
-      {recipes.data && recipes.data.map((recipe, index) => {
+      {recipes != null && recipes.map((recipe, index) => {
         return (
           <Grid item key={'recipe-card-' + index} xs>
             <Box sx={{ height: '100%' }}>
-              <RecipeCard editable={false} recipe={recipe}/>
+              <RecipeCard editable={false} recipe={recipe}
+                          onFavorite={onRecipeFavorite}
+                          allowFavorite={allowFavorite}
+                          isFavorite={favoriteRecipes.includes(recipe._id.toString())}/>
             </Box>
           </Grid>
         )
@@ -20,5 +23,8 @@ export default function RecipeGrid ({ recipes }) {
 }
 
 RecipeGrid.propTypes = {
-  recipes: PropTypes.object
+  recipes: PropTypes.array,
+  allowFavorite: PropTypes.bool,
+  favoriteRecipes: PropTypes.array,
+  onRecipeFavorite: PropTypes.func
 }

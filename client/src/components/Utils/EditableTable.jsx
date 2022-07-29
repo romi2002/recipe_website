@@ -1,16 +1,18 @@
 import * as React from 'react'
 import PropTypes from 'prop-types'
 import {
+  Box,
+  Button,
   Card,
   CardContent,
+  CardHeader,
   Grid,
   Table,
+  TableBody,
+  TableCell,
   TableContainer,
   TableHead,
-  TableRow,
-  TableCell,
-  TableBody,
-  CardHeader, Button, Box
+  TableRow
 } from '@mui/material'
 
 const EditableTable = ({
@@ -19,40 +21,42 @@ const EditableTable = ({
   onAddHandler,
   onRemoveHandler,
   title = 'Editable Table',
-  columnWidths
+  columnWidths,
+  buttonLabels = ['Remove', 'Add']
 }) => {
   return (
-        <Card sx={{ minWidth: 200 }}>
-            <CardHeader title={title}/>
-            <CardContent>
-                <TableContainer sx={{ zIndex: 0 }}>
-                    <Table sx={{ width: 'auto', tableLayout: 'auto' }}>
-                        <TableHead>
-                            <TableRow>
-                                {columns.map((col, index) => {
-                                  return (<TableCell width={columnWidths[index]} key={'editable-table-' + col + index}>{col}</TableCell>)
-                                })}
-                            </TableRow>
-                        </TableHead>
-                        <TableBody>
-                            {children}
-                        </TableBody>
-                    </Table>
-                    <Grid container spacing={2} justifyContent={'start'} pt={2}>
-                        <Grid item sm={6} xs={12}>
-                            <Box sx={{ display: 'flex', justifyContent: 'center', alignContent: 'center' }}>
-                                <Button onClick={onRemoveHandler} variant={'contained'}>Remove</Button>
-                            </Box>
-                        </Grid>
-                        <Grid item sm={6} xs={12}>
-                            <Box sx={{ display: 'flex', justifyContent: 'center', alignContent: 'center' }}>
-                                <Button onClick={onAddHandler} variant={'contained'}>Add</Button>
-                            </Box>
-                        </Grid>
-                    </Grid>
-                </TableContainer>
-            </CardContent>
-        </Card>
+    <Card sx={{ minWidth: 200 }}>
+      <CardHeader title={title}/>
+      <CardContent>
+        <TableContainer sx={{ zIndex: 0 }}>
+          <Table sx={{ width: 'auto', tableLayout: 'auto' }}>
+            <TableHead>
+              <TableRow>
+                {columns.map((col, index) => {
+                  return (
+                    <TableCell width={columnWidths[index]} key={'editable-table-' + col + index}>{col}</TableCell>)
+                })}
+              </TableRow>
+            </TableHead>
+            <TableBody>
+              {children}
+            </TableBody>
+          </Table>
+          <Grid container spacing={2} justifyContent={'start'} pt={2}>
+            <Grid item sm={6} xs={12}>
+              <Box sx={{ display: 'flex', justifyContent: 'center', alignContent: 'center' }}>
+                <Button onClick={onRemoveHandler} variant={'contained'}>{buttonLabels[0]}</Button>
+              </Box>
+            </Grid>
+            <Grid item sm={6} xs={12}>
+              <Box sx={{ display: 'flex', justifyContent: 'center', alignContent: 'center' }}>
+                <Button onClick={onAddHandler} variant={'contained'}>{buttonLabels[1]}</Button>
+              </Box>
+            </Grid>
+          </Grid>
+        </TableContainer>
+      </CardContent>
+    </Card>
   )
 }
 
@@ -62,7 +66,7 @@ EditableTable.propTypes = {
   onAddHandler: PropTypes.func,
   onRemoveHandler: PropTypes.func,
   title: PropTypes.string,
-  columnWidths: PropTypes.string
+  columnWidths: PropTypes.array
 }
 
 export default EditableTable

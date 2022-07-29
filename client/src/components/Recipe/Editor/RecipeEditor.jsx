@@ -3,24 +3,27 @@ import { useState } from 'react'
 import PropTypes from 'prop-types'
 import InstructionEditor from './InstructionEditor'
 import IngredientEditor from './IngredientEditor'
-import { Box, Button, ButtonGroup, Grid } from '@mui/material'
+import { Box, Button, Card, CardContent, CardHeader, Grid } from '@mui/material'
 import Navbar from '../../Navigation/Navbar'
 import RecipeInformationEditor from './RecipeInformationEditor'
 import SaveIcon from '@mui/icons-material/Save'
-import CloseIcon from '@mui/icons-material/Close'
 import Recipe from '../../../api/recipe'
 import { useRecoilState } from 'recoil'
 import userDataAtom from '../../../recoil/auth/UserDataAtom'
 import { useNavigate } from 'react-router-dom'
+import UserAvatar from '../../User/UserAvatar'
 
-const RecipeEditorNavGroup = ({ onSave, onClose, canSave }) => {
-  return (<ButtonGroup variant="contained">
-    <Button onClick={onSave} disabled={!canSave}><SaveIcon/></Button>
-    <Button onClick={onClose}><CloseIcon/></Button>
-  </ButtonGroup>)
+const RecipeEditorButtons = ({ onSave, onClose, canSave }) => {
+  return (<Card>
+    <CardHeader title={'Save recipe'}/>
+    <CardContent>
+      <Button onClick={onSave} disabled={!canSave}>Save <SaveIcon/></Button>
+      {/* <Button onClick={onClose}><CloseIcon/></Button> */}
+    </CardContent>
+  </Card>)
 }
 
-RecipeEditorNavGroup.propTypes = {
+RecipeEditorButtons.propTypes = {
   onSave: PropTypes.func,
   onClose: PropTypes.func,
   canSave: PropTypes.bool
@@ -70,10 +73,7 @@ const RecipeEditor = () => {
   // TODO Change navbar into editor navbar
   return (
     <>
-      <Navbar rightSideButtonGroup={<RecipeEditorNavGroup
-        onSave={onRecipeSave}
-        onClose={onRecipeClose}
-        canSave={hasValidRecipe}/>}/>
+      <Navbar rightSideButtonGroup={<UserAvatar/>}/>
       <Box sx={{ display: 'flex', flexDirection: 'column', p: 4 }}>
         <Grid container spacing={2} direction={'column'}>
           <Grid item>
@@ -91,6 +91,12 @@ const RecipeEditor = () => {
           <Grid item>
             <InstructionEditor instructions={instructions}
                                setInstructions={setInstructions}/>
+          </Grid>
+          <Grid item>
+
+            <RecipeEditorButtons onSave={onRecipeSave}
+                                 onClose={onRecipeClose}
+                                 canSave={hasValidRecipe}/>
           </Grid>
         </Grid>
       </Box>

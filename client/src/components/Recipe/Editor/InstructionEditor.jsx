@@ -1,13 +1,13 @@
 import * as React from 'react'
 import PropTypes from 'prop-types'
 import EditableTable from '../../Utils/EditableTable'
-import { Card, TableRow, TableCell, Typography, TextField } from '@mui/material'
+import { Card, TableCell, TableRow, TextField, Typography } from '@mui/material'
 
-const InstructionEditorCell = ({ onChange, width }) => {
+const InstructionEditorCell = ({ onChange, width, instruction }) => {
   return (
-        <TableCell width={width}>
-            <TextField sx={{ width: '100%' }} variant="outlined" multiline onChange={onChange}/>
-        </TableCell>
+    <TableCell width={width}>
+      <TextField sx={{ width: '100%' }} variant="outlined" multiline onChange={onChange} value={instruction}/>
+    </TableCell>
   )
 }
 
@@ -29,7 +29,10 @@ const InstructionEditor = ({ instructions, setInstructions }) => {
   }
 
   const onInstructionRemove = () => {
-    if (instructions.length === 1) return
+    if (instructions.length === 1) {
+      setInstructions([''])
+      return
+    }
 
     const newInstructions = [...instructions]
     newInstructions.pop()
@@ -39,27 +42,30 @@ const InstructionEditor = ({ instructions, setInstructions }) => {
   const columnWidths = ['10%', '90%']
 
   return (
-        <Card>
-            <EditableTable columns={['Step Number', 'Text']}
-                           onAddHandler={onInstructionAdd}
-                           onRemoveHandler={onInstructionRemove}
-                           title={'Instruction Editor'} columnWidths={columnWidths}>
-                {instructions.map((instruction, index) => {
-                  return (<TableRow key={'instruction-step-' + index}>
-                        <TableCell width={columnWidths[0]}>
-                            <Typography>
-                                {index + 1}
-                            </Typography>
-                        </TableCell>
-                        <InstructionEditorCell width={columnWidths[1]} onChange={(event) => {
-                          const newInstructions = [...instructions]
-                          newInstructions[index] = event.target.value
-                          setInstructions(newInstructions)
-                        }}/>
-                    </TableRow>)
-                })}
-            </EditableTable>
-        </Card>
+    <Card>
+      <EditableTable columns={['Step Number', 'Text']}
+                     onAddHandler={onInstructionAdd}
+                     onRemoveHandler={onInstructionRemove}
+                     title={'Instruction Editor'}
+                     columnWidths={columnWidths}
+                     buttonLabels={['Remove Instruction Step', 'Add Instruction Step']}>
+        {instructions.map((instruction, index) => {
+          return (<TableRow key={'instruction-step-' + index}>
+            <TableCell width={columnWidths[0]}>
+              <Typography>
+                {index + 1}
+              </Typography>
+            </TableCell>
+            <InstructionEditorCell width={columnWidths[1]} onChange={(event) => {
+              const newInstructions = [...instructions]
+              newInstructions[index] = event.target.value
+              setInstructions(newInstructions)
+            }}
+                                   instruction={instruction}/>
+          </TableRow>)
+        })}
+      </EditableTable>
+    </Card>
   )
 }
 

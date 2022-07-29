@@ -14,6 +14,8 @@ import { BrowserRouter, Route, Routes } from 'react-router-dom'
 import { RecoilRoot } from 'recoil'
 import SearchResults from './components/Search/SearchResults'
 import { createTheme, ThemeProvider } from '@mui/material'
+import FavoriteRecipes from './components/User/FavoriteRecipes'
+import UserRecipeView from './components/User/UserRecipeView'
 
 const themeOptions = {
   palette: {
@@ -42,6 +44,10 @@ root.render(<React.StrictMode>
               <Route path={':recipeId'} element={<RecipeView/>}/>
               <Route path={'editor'} element={<RecipeEditor/>}/>
               <Route path={'search/:query'} element={<SearchResults/>}/>
+            </Route>
+            <Route path={'profile'}>
+              <Route path={'user_recipes'} element={<UserRecipeView/>}/>
+              <Route path={'user_favorites'} element={<FavoriteRecipes/>}/>
             </Route>
             <Route path="*"
                    element={<h1>404</h1>}

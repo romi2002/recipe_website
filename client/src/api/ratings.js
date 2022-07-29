@@ -1,6 +1,7 @@
 import axios from 'axios'
+import { SERVER_URL } from '../utils/Constants'
 
-const serverUrl = 'http://localhost:3000/ratings/'
+const serverUrl = SERVER_URL + '/ratings/'
 
 export default class Ratings {
   static rateRecipe (recipeId, rating, token) {

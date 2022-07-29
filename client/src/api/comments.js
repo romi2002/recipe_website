@@ -1,6 +1,7 @@
 import axios from 'axios'
+import { SERVER_URL } from '../utils/Constants'
 
-const serverUrl = 'http://localhost:3000/comments/'
+const serverUrl = SERVER_URL + '/comments/'
 
 export default class Comments {
   static postComment (data) {

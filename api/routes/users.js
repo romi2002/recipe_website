@@ -5,7 +5,7 @@ const authentication = require('../models/Authentication')
 
 /* GET users listing. */
 router.post('/create_user',
-  body('email').isEmail(),
+  body('email').exists(),
   body('password').isLength({ min: 5 }),
   body('userInfo').exists(),
   async (req, res) => {
@@ -20,7 +20,7 @@ router.post('/create_user',
   })
 
 router.post('/login',
-  body('email').isEmail(),
+  body('email').exists(),
   body('password').isLength({ min: 5 }),
   async (req, res) => {
     const errors = validationResult(req)

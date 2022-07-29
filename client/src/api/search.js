@@ -1,6 +1,7 @@
 import axios from 'axios'
+import { SERVER_URL } from '../utils/Constants'
 
-const serverUrl = 'http://localhost:3000/search/'
+const serverUrl = SERVER_URL + '/search/'
 
 export default class Search {
   static textSearch (query, offset = 0, limit = 20) {
