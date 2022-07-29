@@ -7,13 +7,15 @@ import Recipe from './api/recipe'
 import { Box, CircularProgress, Pagination } from '@mui/material'
 import Hero from './components/Navigation/Hero'
 import RecipeGridNavBar from './components/Recipe/RecipeGridNavBar'
+import { useRecoilState } from 'recoil'
+import sortSelectionAtom from './recoil/SortSelectionAtom'
 
 function App () {
   const recipesPerPage = 20
   const [recipes, setRecipes] = useState([])
   const [pageCount, setPageCount] = useState(0)
   const [currentPage, setCurrentPage] = useState(0)
-  const [sortMethod, setSortMethod] = useState('rating-ascending')
+  const [sortMethod, setSortMethod] = useRecoilState(sortSelectionAtom)
 
   const updateRecipes = (page = 1, sortMethod) => {
     return Recipe.loadRecipes(recipesPerPage * page, recipesPerPage, sortMethod)

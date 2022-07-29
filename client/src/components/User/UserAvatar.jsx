@@ -8,6 +8,8 @@ import Typography from '@mui/material/Typography'
 import Box from '@mui/material/Box'
 import { useNavigate } from 'react-router-dom'
 import Auth from '../../api/auth'
+import { useRecoilState } from 'recoil'
+import userDataAtom from '../../recoil/auth/UserDataAtom'
 
 const settings = [
   {
@@ -27,7 +29,10 @@ const settings = [
 
 const UserAvatar = () => {
   const navigate = useNavigate()
+  const [userData] = useRecoilState(userDataAtom)
   const [anchorElUser, setAnchorElUser] = React.useState(null)
+
+  const userInitial = userData.username == null || userData.username.length === 0 ? ' ' : userData.username[0].toUpperCase()
 
   const handleSettingClick = (name, action) => {
     action(navigate)
@@ -46,7 +51,7 @@ const UserAvatar = () => {
     <Box sx={{ flexGrow: 0 }}>
       <Tooltip title="Open settings">
         <IconButton onClick={handleOpenUserMenu} sx={{ p: 0 }}>
-          <Avatar alt="Remy Sharp" src="/static/images/avatar/2.jpg"/>
+          <Avatar>{userInitial}</Avatar>
         </IconButton>
       </Tooltip>
       <Menu

@@ -77,11 +77,12 @@ const RecipeView = () => {
       <Navbar/>
       {recipe != null && <Grid direction="column" spacing={2} p={2} pl={8} pr={8} container>
         <Grid item>
-          <RecipeCard recipe={recipe} rating={rating} imageHeight={'500px'} editable={true} onRate={(e, value) => {
-            e.stopPropagation()
-            Ratings.rateRecipe(recipeId, value, userData.token).then(() => console.log('rated'))
-            setRating(value)
-          }}
+          <RecipeCard recipe={recipe} rating={rating} imageHeight={'500px'} editable={userData.isLoggedIn}
+                      onRate={(e, value) => {
+                        e.stopPropagation()
+                        Ratings.rateRecipe(recipeId, value, userData.token).then(() => console.log('rated'))
+                        setRating(value)
+                      }}
           />
         </Grid>
         <Grid item>
