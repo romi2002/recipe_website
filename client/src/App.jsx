@@ -22,6 +22,7 @@ function App () {
   }
 
   useEffect(() => {
+    console.log(currentPage)
     updateRecipes(currentPage, sortMethod).then((data) => setRecipes(data.data))
   }, [currentPage, sortMethod])
 

@@ -10,6 +10,8 @@ import { Link } from 'react-router-dom'
 import { SERVER_URL } from '../../utils/Constants'
 
 export default function RecipeCard ({ recipe, imageHeight = '200px', editable, rating, onRate = () => {} }) {
+  const avatarInitial = recipe.avatar ?? 'R'
+
   const CardContent = () => (
     <>
       {recipe.associated_media != null && <CardMedia
@@ -27,7 +29,7 @@ export default function RecipeCard ({ recipe, imageHeight = '200px', editable, r
                   onChange={onRate}/>}
         avatar={
           <Avatar>
-            R
+            {avatarInitial}
           </Avatar>
         }/> {/* TODO Add user id to DB so Avatar can show user profile */}
     </>

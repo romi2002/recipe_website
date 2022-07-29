@@ -3,10 +3,10 @@ import PropTypes from 'prop-types'
 import EditableTable from '../../Utils/EditableTable'
 import { Card, TableCell, TableRow, TextField, Typography } from '@mui/material'
 
-const InstructionEditorCell = ({ onChange, width }) => {
+const InstructionEditorCell = ({ onChange, width, instruction }) => {
   return (
     <TableCell width={width}>
-      <TextField sx={{ width: '100%' }} variant="outlined" multiline onChange={onChange}/>
+      <TextField sx={{ width: '100%' }} variant="outlined" multiline onChange={onChange} value={instruction}/>
     </TableCell>
   )
 }
@@ -29,7 +29,10 @@ const InstructionEditor = ({ instructions, setInstructions }) => {
   }
 
   const onInstructionRemove = () => {
-    if (instructions.length === 1) return
+    if (instructions.length === 1) {
+      setInstructions([''])
+      return
+    }
 
     const newInstructions = [...instructions]
     newInstructions.pop()
@@ -57,7 +60,8 @@ const InstructionEditor = ({ instructions, setInstructions }) => {
               const newInstructions = [...instructions]
               newInstructions[index] = event.target.value
               setInstructions(newInstructions)
-            }}/>
+            }}
+                                   instruction={instruction}/>
           </TableRow>)
         })}
       </EditableTable>

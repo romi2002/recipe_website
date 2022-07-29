@@ -7,7 +7,6 @@ import { Box, Button, Card, CardContent, CardHeader, Grid } from '@mui/material'
 import Navbar from '../../Navigation/Navbar'
 import RecipeInformationEditor from './RecipeInformationEditor'
 import SaveIcon from '@mui/icons-material/Save'
-import CloseIcon from '@mui/icons-material/Close'
 import Recipe from '../../../api/recipe'
 import { useRecoilState } from 'recoil'
 import userDataAtom from '../../../recoil/auth/UserDataAtom'
@@ -19,7 +18,7 @@ const RecipeEditorButtons = ({ onSave, onClose, canSave }) => {
     <CardHeader title={'Save recipe'}/>
     <CardContent>
       <Button onClick={onSave} disabled={!canSave}>Save <SaveIcon/></Button>
-      <Button onClick={onClose}><CloseIcon/></Button>
+      {/* <Button onClick={onClose}><CloseIcon/></Button> */}
     </CardContent>
   </Card>)
 }

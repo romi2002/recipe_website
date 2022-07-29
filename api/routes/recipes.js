@@ -61,7 +61,7 @@ router.post('/', body('recipe.title').exists(), body('recipe.instructions').exis
 
   const recipe = { ...req.body.recipe }
   recipe.timestamp = Date.now()
-  recipe.user_id = res.locals.userData.id
+  recipe.avatar = res.locals.userData.username[0].toUpperCase()
 
   delete recipe.token
 

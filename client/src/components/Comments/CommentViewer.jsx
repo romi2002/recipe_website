@@ -33,7 +33,7 @@ const Comment = ({ comment, level = 0, onReplyClick, isLoggedIn }) => {
       <CommentView onReplyClick={onReplyClick} comment={comment} isLoggedIn={isLoggedIn}/>
       {/* insert separator here */}
       {comment.children?.map((child) => <Comment key={child._id.toString()} onReplyClick={onReplyClick} comment={child}
-                                                 level={level + 1}/>)}
+                                                 level={level + 1} isLoggedIn={isLoggedIn}/>)}
     </Box>
   </Box>)
 }
