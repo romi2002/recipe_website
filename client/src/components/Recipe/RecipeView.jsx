@@ -32,6 +32,8 @@ const RecipeView = () => {
 
   const [isFavorite, setIsFavorite] = useState(false)
 
+  useEffect(() => scrollTo(0, 0))
+
   useEffect(() => {
     Recipe.loadRecipe(recipeId).then((ret) => setRecipe(ret.data.data))
     Recommended.getRecommendedRecipes(recipeId).then((ret) => {

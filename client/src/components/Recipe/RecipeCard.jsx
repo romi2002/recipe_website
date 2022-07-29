@@ -12,7 +12,6 @@ import recipeHistoryAtom from '../../recoil/RecipeHistory'
 import { SERVER_URL } from '../../utils/Constants'
 import { Favorite, FavoriteBorder } from '@mui/icons-material'
 import { red } from '@mui/material/colors'
-import { useRecoilState } from 'recoil'
 import userDataAtom from '../../recoil/auth/UserDataAtom'
 
 const FavoriteButton = ({ recipeId, isFavorite, favoriteButtonSize, onClick }) => {

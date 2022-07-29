@@ -9,7 +9,7 @@ const RecommendedCard = ({ recommendedRecipes, nRecipes = 5 }) => {
     <Card>
       <CardHeader title={'Recommended Recipes'}/>
       <CardContent>
-        <RecipeGrid recipes={recipes}/>
+        <RecipeGrid recipes={recipes.data} allowFavorite={false} favoriteRecipes={[]}/>
       </CardContent>
     </Card>
   )
