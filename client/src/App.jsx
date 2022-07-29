@@ -11,6 +11,7 @@ import Favorite from './api/favorite'
 import { useRecoilState } from 'recoil'
 import sortSelectionAtom from './recoil/SortSelectionAtom'
 import userDataAtom from './recoil/auth/UserDataAtom'
+import recipeHistoryAtom from './recoil/RecipeHistory'
 
 function App () {
   const [userData] = useRecoilState(userDataAtom)
@@ -20,6 +21,13 @@ function App () {
   const [pageCount, setPageCount] = useState(0)
   const [currentPage, setCurrentPage] = useState(0)
   const [sortMethod, setSortMethod] = useRecoilState(sortSelectionAtom)
+
+  const [, setRecipeHistory] = useRecoilState(recipeHistoryAtom)
+
+  useEffect(() => {
+    // Clear recipe history when it is back to the main menu
+    setRecipeHistory([])
+  }, [])
 
   const updateRecipes = (page = 1, sortMethod) => {
     return Recipe.loadRecipes(recipesPerPage * page, recipesPerPage, sortMethod)

@@ -16,6 +16,7 @@ const searchRouter = require('./routes/search')
 const ratingRouter = require('./routes/ratings')
 const commentRouter = require('./routes/comments')
 const favoriteRouter = require('./routes/favorite')
+const recommendRouter = require('./routes/recommend')
 
 const app = express()
 
@@ -37,6 +38,7 @@ app.use('/recipes', recipeRouter)
 app.use('/search', searchRouter)
 app.use('/ratings', ratingRouter)
 app.use('/comments', commentRouter)
+app.use('/recommend', recommendRouter)
 app.use('/favorite', favoriteRouter)
 
 // catch 404 and forward to error handler

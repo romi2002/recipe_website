@@ -7,6 +7,8 @@ import CardMedia from '@mui/material/CardMedia'
 import Avatar from '@mui/material/Avatar'
 import Rating from '@mui/material/Rating'
 import { Link } from 'react-router-dom'
+import { useRecoilState } from 'recoil'
+import recipeHistoryAtom from '../../recoil/RecipeHistory'
 import { SERVER_URL } from '../../utils/Constants'
 import { Favorite, FavoriteBorder } from '@mui/icons-material'
 import { red } from '@mui/material/colors'
@@ -37,6 +39,8 @@ export default function RecipeCard ({
 
   const avatarInitial = recipe.avatar ?? 'R'
 
+  const [recipeHistory, setRecipeHistory] = useRecoilState(recipeHistoryAtom)
+
   const CardContent = () => (
     <>
       {recipe.associated_media != null && <CardMedia
@@ -59,6 +63,10 @@ export default function RecipeCard ({
         }/> {/* TODO Add user id to DB so Avatar can show user profile */}
     </>
   )
+
+  const addSelfToHistory = () => {
+    setRecipeHistory([...recipeHistory, recipe._id])
+  }
 
   return (
     <Card sx={{ minWidth: 200, position: 'relative', maxWidth: 400 }}>

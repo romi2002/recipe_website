@@ -23,7 +23,7 @@ export default function RecipeGrid ({ recipes, allowFavorite, favoriteRecipes, o
 }
 
 RecipeGrid.propTypes = {
-  recipes: PropTypes.object,
+  recipes: PropTypes.array,
   allowFavorite: PropTypes.bool,
   favoriteRecipes: PropTypes.array,
   onRecipeFavorite: PropTypes.func
