@@ -7,6 +7,7 @@ import CardMedia from '@mui/material/CardMedia'
 import Avatar from '@mui/material/Avatar'
 import Rating from '@mui/material/Rating'
 import { Link } from 'react-router-dom'
+import { SERVER_URL } from '../../utils/Constants'
 
 export default function RecipeCard ({ recipe, imageHeight = '200px', editable, rating, onRate = () => {} }) {
   const CardContent = () => (
@@ -14,7 +15,7 @@ export default function RecipeCard ({ recipe, imageHeight = '200px', editable, r
       {recipe.associated_media != null && <CardMedia
         component="img"
         sx={{ height: imageHeight }}
-        image={'http://localhost:3000/' + recipe.associated_media[0].id}
+        image={SERVER_URL + '/' + recipe.associated_media[0].id}
       />}
       <CardHeader
         title={recipe.title}

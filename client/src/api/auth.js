@@ -1,6 +1,7 @@
 import axios from 'axios'
+import { SERVER_URL } from '../utils/Constants'
 
-const serverUrl = 'http://localhost:3000'
+const serverUrl = SERVER_URL
 
 export default class Auth {
   static createUser (email, password, userInfo) {
