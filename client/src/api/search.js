@@ -16,6 +16,10 @@ export default class Search {
     return axios.get(serverUrl + 'available_ingredients')
   }
 
+  static ingredientSearchKeywords (keywords, offset = 0, limit = 20) {
+    return axios.get(serverUrl + 'ingredient_search_keywords', { params: { keywords, offset, limit } })
+  }
+
   static ingredientSearch (ingredients, offset = 0, limit = 20) {
     return axios.get(serverUrl + 'ingredient_search', { params: { ingredients, offset, limit } })
   }

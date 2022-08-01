@@ -116,7 +116,8 @@ const RecipeView = () => {
           />
         </Grid>
         <Grid item>
-          <IngredientsCard onSendMessage={onSendIngredientsMessage} ingredients={recipe.ingredients}/>
+          <IngredientsCard onSendMessage={onSendIngredientsMessage} ingredients={recipe.ingredients}
+                           keywords={recipe.ingredient_keywords}/>
         </Grid>
         <Grid item>
           <InstructionCard onSendMessage={onSendInstructionMessage} instructions={recipe.instructions}/>

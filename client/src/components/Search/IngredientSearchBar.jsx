@@ -1,7 +1,7 @@
 import * as React from 'react'
 import { Autocomplete, TextField } from '@mui/material'
 
-const IngredientSearchBar = ({ ingredientOptions, onChange }) => {
+const IngredientSearchBar = ({ ingredientOptions, onChange, defaultValues = [] }) => {
   return (
     <>
       {ingredientOptions != null && <Autocomplete sx={{ minWidth: '400px' }}
@@ -9,6 +9,7 @@ const IngredientSearchBar = ({ ingredientOptions, onChange }) => {
                                                   options={ingredientOptions}
                                                   getOptionLabel={(opt) => opt.text}
                                                   filterSelectedOptions
+                                                  defaultValue={defaultValues}
                                                   renderInput={(params) => (
                                                     <TextField
                                                       {...params}

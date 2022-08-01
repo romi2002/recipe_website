@@ -50,7 +50,10 @@ root.render(<React.StrictMode>
               <Route path={'user_recipes'} element={<UserRecipeView/>}/>
               <Route path={'user_favorites'} element={<FavoriteRecipes/>}/>
             </Route>
-            <Route path={'ingredient_search'} element={<IngredientSearchPage/>}/>
+            <Route path={'search'}>
+              <Route path={'ingredient_search/:query'} element={<IngredientSearchPage/>}/>
+              <Route path={'ingredient_search'} element={<IngredientSearchPage/>}/>
+            </Route>
             <Route path="*"
                    element={<h1>404</h1>}
             />

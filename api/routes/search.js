@@ -2,7 +2,7 @@ const express = require('express')
 const router = express.Router()
 const { query, validationResult } = require('express-validator')
 const mongoUtil = require('../utils/mongoUtil')
-const { getAvailableIngredients } = require('../models/Recipes')
+const { getAvailableIngredients, processRecipeIngredients } = require('../models/Recipes')
 
 const client = mongoUtil.getDb()
 const database = client.db('recipe_app')
@@ -83,9 +83,9 @@ router.get('/available_ingredients', async (req, res) => {
 })
 
 /**
- * Searches for recipes containing the following ingredients
+ * Searches for recipes containing the following keywords
  */
-router.get('/ingredient_search', query('offset').isNumeric(), query('limit').isNumeric(), query('ingredients').isArray(), async (req, res) => {
+router.get('/ingredient_search_keywords', query('offset').isNumeric(), query('limit').isNumeric(), query('keywords').isArray(), async (req, res) => {
   const errors = validationResult(req)
   if (!errors.isEmpty()) {
     return res.status(400).send({ errors: errors.array() })
@@ -93,11 +93,29 @@ router.get('/ingredient_search', query('offset').isNumeric(), query('limit').isN
 
   const limit = parseInt(req.query.limit)
   const offset = parseInt(req.query.offset)
-  const ingredients = req.query.ingredients.map((ingr) => {
+  const keywords = req.query.keywords.map((ingr) => {
     return JSON.parse(ingr).text
   })
 
-  const agr = ingredientSearchAgr(ingredients)
+  const agr = ingredientSearchAgr(keywords)
+
+  const data = await recipes.aggregate(agr).limit(limit).skip(offset).toArray()
+  res.status(200).send(data)
+})
+
+router.get('/ingredient_search', query('offset').isNumeric(), query('limit').isNumeric(), query('ingredients').isArray(), async (req, res) => {
+  const errors = validationResult(req)
+  if (!errors.isEmpty()) {
+    return res.status(400).send({ erros: errors.array() })
+  }
+
+  const limit = parseInt(req.query.limit)
+  const offset = parseInt(req.query.offset)
+  const ingredients = req.query.ingredients
+
+  const keywords = await processRecipeIngredients(ingredients)
+  console.log(keywords)
+  const agr = ingredientSearchAgr(keywords.map(k => k.text))
 
   const data = await recipes.aggregate(agr).limit(limit).skip(offset).toArray()
   res.status(200).send(data)
