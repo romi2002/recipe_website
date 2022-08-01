@@ -24,6 +24,10 @@ module.exports = {
     )))
   },
 
+  getAvailableIngredients: async () => {
+    return ingredientDb
+  },
+
   /**
    * Express middleware, gets recipe from :recipeId param and places it in res.locals
    * @param req

@@ -11,4 +11,12 @@ export default class Search {
   static typeahead (query, offset = 0, limit = 20) {
     return axios.get(serverUrl + 'typeahead', { params: { query, offset, limit } })
   }
+
+  static getAvailableIngredients () {
+    return axios.get(serverUrl + 'available_ingredients')
+  }
+
+  static ingredientSearch (ingredients, offset = 0, limit = 20) {
+    return axios.get(serverUrl + 'ingredient_search', { params: { ingredients, offset, limit } })
+  }
 }

@@ -16,6 +16,7 @@ import SearchResults from './components/Search/SearchResults'
 import { createTheme, ThemeProvider } from '@mui/material'
 import FavoriteRecipes from './components/User/FavoriteRecipes'
 import UserRecipeView from './components/User/UserRecipeView'
+import IngredientSearchPage from './components/Search/IngredientSearchPage'
 
 const themeOptions = {
   palette: {
@@ -49,6 +50,7 @@ root.render(<React.StrictMode>
               <Route path={'user_recipes'} element={<UserRecipeView/>}/>
               <Route path={'user_favorites'} element={<FavoriteRecipes/>}/>
             </Route>
+            <Route path={'ingredient_search'} element={<IngredientSearchPage/>}/>
             <Route path="*"
                    element={<h1>404</h1>}
             />
