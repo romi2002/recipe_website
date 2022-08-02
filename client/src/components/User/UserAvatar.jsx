@@ -9,7 +9,7 @@ import Box from '@mui/material/Box'
 import { useNavigate } from 'react-router-dom'
 import Auth from '../../api/auth'
 import { useRecoilState } from 'recoil'
-import userDataAtom from '../../recoil/auth/UserDataAtom'
+import { userDataAtom } from '../../recoil/auth/UserDataAtom'
 
 const settings = [
   {

@@ -5,6 +5,7 @@ import { Box, CircularProgress, Typography } from '@mui/material'
 import Navbar from '../Navigation/Navbar'
 import RecipeGrid from '../Recipe/RecipeGrid'
 import Search from '../../api/search'
+import { usePageTracking } from '../../utils/usePageTracking'
 
 const NoRecipesFoundError = () => {
   return (<Box sx={{ mt: 2 }}>
@@ -21,6 +22,8 @@ const SearchResults = () => {
   const [recipes, setRecipes] = useState(null)
   const [resultsLoaded, setResultsLoaded] = useState(false)
   const { query } = useParams()
+
+  usePageTracking()
 
   useEffect(() => {
     Search.textSearch(query).then((res) => {

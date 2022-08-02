@@ -1,5 +1,6 @@
 import axios from 'axios'
 import { SERVER_URL } from '../utils/Constants'
+import ReactGA from 'react-ga'
 
 const serverUrl = SERVER_URL + '/recipes/'
 
@@ -34,10 +35,20 @@ export default class Recipe {
   }
 
   static sendIngredientsMessage (id, token) {
+    ReactGA.event({
+      category: 'User',
+      action: 'Sent ingredients SMS'
+    })
+
     return axios.post(serverUrl + 'send_ingredients/' + id, { token })
   }
 
   static sendInstructionsMessage (id, token) {
+    ReactGA.event({
+      category: 'User',
+      action: 'Sent instructions SMS'
+    })
+
     return axios.post(serverUrl + 'send_instructions/' + id, { token })
   }
 

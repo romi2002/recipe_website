@@ -19,7 +19,7 @@ const localStorageEffect = key => ({ setSelf, onSet }) => {
   })
 }
 
-const userDataAtom = atom({
+export const userDataAtom = atom({
   key: 'userData',
   default: {
     username: null,
@@ -31,5 +31,3 @@ const userDataAtom = atom({
     localStorageEffect('user_data')
   ]
 })
-
-export default userDataAtom

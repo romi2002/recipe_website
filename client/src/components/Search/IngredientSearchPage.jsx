@@ -7,6 +7,7 @@ import Search from '../../api/search'
 import RecipeGrid from '../Recipe/RecipeGrid'
 import { CircularProgress } from '@mui/material'
 import { useParams } from 'react-router-dom'
+import { usePageTracking } from '../../utils/usePageTracking'
 
 const IngredientSearchPage = () => {
   let { query } = useParams()
@@ -17,7 +18,7 @@ const IngredientSearchPage = () => {
   const [recipes, setRecipes] = useState([])
   const [isLoading, setIsLoading] = useState(true)
 
-  console.log(query)
+  usePageTracking()
 
   const onSearchBarChange = (event, value) => {
     event.preventDefault()

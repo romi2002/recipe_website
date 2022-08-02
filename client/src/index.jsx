@@ -19,6 +19,8 @@ import UserRecipeView from './components/User/UserRecipeView'
 import IngredientSearchPage from './components/Search/IngredientSearchPage'
 import { HelmetProvider } from 'react-helmet-async'
 
+import ReactGA from 'react-ga'
+
 const themeOptions = {
   palette: {
     type: 'light',
@@ -32,6 +34,8 @@ const themeOptions = {
 }
 
 const theme = createTheme(themeOptions)
+ReactGA.initialize('UA-236272330-1', { debug: true })
+ReactGA.pageview(window.location.pathname + window.location.search)
 
 const root = ReactDOM.createRoot(document.getElementById('root'))
 root.render(<React.StrictMode>

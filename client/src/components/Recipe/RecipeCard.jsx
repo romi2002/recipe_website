@@ -8,11 +8,11 @@ import Avatar from '@mui/material/Avatar'
 import Rating from '@mui/material/Rating'
 import { Link } from 'react-router-dom'
 import { useRecoilState } from 'recoil'
-import recipeHistoryAtom from '../../recoil/RecipeHistory'
+import { recipeHistoryAtom } from '../../recoil/RecipeHistory'
 import { SERVER_URL } from '../../utils/Constants'
 import { Favorite, FavoriteBorder } from '@mui/icons-material'
 import { red } from '@mui/material/colors'
-import userDataAtom from '../../recoil/auth/UserDataAtom'
+import { userDataAtom } from '../../recoil/auth/UserDataAtom'
 
 const FavoriteButton = ({ recipeId, isFavorite, favoriteButtonSize, onClick }) => {
   return (

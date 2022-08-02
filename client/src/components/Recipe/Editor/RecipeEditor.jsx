@@ -9,9 +9,10 @@ import RecipeInformationEditor from './RecipeInformationEditor'
 import SaveIcon from '@mui/icons-material/Save'
 import Recipe from '../../../api/recipe'
 import { useRecoilState } from 'recoil'
-import userDataAtom from '../../../recoil/auth/UserDataAtom'
+import { userDataAtom } from '../../../recoil/auth/UserDataAtom'
 import { useNavigate } from 'react-router-dom'
 import UserAvatar from '../../User/UserAvatar'
+import { usePageTracking } from '../../../utils/usePageTracking'
 
 const RecipeEditorButtons = ({ onSave, onClose, canSave }) => {
   return (<Card>
@@ -36,6 +37,8 @@ const RecipeEditor = () => {
   const [instructions, setInstructions] = useState([''])
   const [ingredients, setIngredients] = useState([{ name: '', quantity: '' }])
   const navigate = useNavigate()
+
+  usePageTracking()
 
   const hasValidRecipe = files.length !== 0 &&
     recipeTitle !== '' &&

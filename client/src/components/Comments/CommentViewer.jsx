@@ -4,7 +4,7 @@ import { Box, Button, Card, CardContent, CardHeader, Divider, Typography } from 
 import { Reply } from '@mui/icons-material'
 import Avatar from '@mui/material/Avatar'
 import { useRecoilState } from 'recoil'
-import userDataAtom from '../../recoil/auth/UserDataAtom'
+import { userDataAtom } from '../../recoil/auth/UserDataAtom'
 
 const CommentView = ({ comment, onReplyClick, isLoggedIn }) => {
   return (<Card sx={{ display: 'flex', m: 1, p: 1, pl: 2, alignItems: 'start', maxWidth: '600px' }}>

@@ -4,8 +4,9 @@ import { Box, CircularProgress, Paper, Typography } from '@mui/material'
 import Navbar from '../Navigation/Navbar'
 import RecipeGrid from '../Recipe/RecipeGrid'
 import { useRecoilState } from 'recoil'
-import userDataAtom from '../../recoil/auth/UserDataAtom'
+import { userDataAtom } from '../../recoil/auth/UserDataAtom'
 import Favorite from '../../api/favorite'
+import { usePageTracking } from '../../utils/usePageTracking'
 
 const NoRecipesFavorited = () => {
   return (<Box sx={{ mt: 2 }}>
@@ -22,6 +23,8 @@ const FavoriteRecipes = () => {
   const [userData] = useRecoilState(userDataAtom)
   const [recipes, setRecipes] = useState([])
   const [resultsLoaded, setResultsLoaded] = useState(false)
+
+  usePageTracking()
 
   useEffect(() => {
     Favorite.getFavoriteRecipes(userData.token).then((ret) => {

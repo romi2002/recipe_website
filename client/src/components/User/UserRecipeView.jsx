@@ -1,11 +1,12 @@
 import * as React from 'react'
 import { useEffect, useState } from 'react'
 import Navbar from '../Navigation/Navbar'
-import userDataAtom from '../../recoil/auth/UserDataAtom'
+import { userDataAtom } from '../../recoil/auth/UserDataAtom'
 import { Box, CircularProgress, Paper, Typography } from '@mui/material'
 import { useRecoilState } from 'recoil'
 import Recipe from '../../api/recipe'
 import RecipeGrid from '../Recipe/RecipeGrid'
+import { usePageTracking } from '../../utils/usePageTracking'
 
 const NoRecipesError = () => {
   return (<Paper sx={{ display: 'flex', flexDirection: 'column', mt: 4 }}>
@@ -22,6 +23,8 @@ const UserRecipeView = () => {
   const [recipes, setRecipes] = useState(null)
   const [hasLoaded, setHasLoaded] = useState(false)
   const [userData] = useRecoilState(userDataAtom)
+
+  usePageTracking()
 
   useEffect(() => {
     Recipe.getUserRecipes(userData.token).catch((err) => {

@@ -3,7 +3,7 @@ import { Fragment } from 'react'
 import PropTypes from 'prop-types'
 import { Button, Card, CardContent, CardHeader, Typography } from '@mui/material'
 import { useRecoilState } from 'recoil'
-import userDataAtom from '../../../recoil/auth/UserDataAtom'
+import { userDataAtom } from '../../../recoil/auth/UserDataAtom'
 
 const InstructionStep = ({ instruction }) => {
   return (

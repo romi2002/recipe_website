@@ -3,7 +3,7 @@ import { Fragment, useEffect, useState } from 'react'
 import PropTypes from 'prop-types'
 import { Box, Button, Card, CardContent, CardHeader, Checkbox, Typography } from '@mui/material'
 import { useRecoilState } from 'recoil'
-import userDataAtom from '../../../recoil/auth/UserDataAtom'
+import { userDataAtom } from '../../../recoil/auth/UserDataAtom'
 import { useNavigate } from 'react-router-dom'
 
 const IngredientDisplay = ({ ingredient, keyword, onChange }) => {

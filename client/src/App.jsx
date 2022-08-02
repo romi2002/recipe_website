@@ -9,9 +9,11 @@ import Hero from './components/Navigation/Hero'
 import RecipeGridNavBar from './components/Recipe/RecipeGridNavBar'
 import Favorite from './api/favorite'
 import { useRecoilState } from 'recoil'
-import sortSelectionAtom from './recoil/SortSelectionAtom'
-import userDataAtom from './recoil/auth/UserDataAtom'
-import recipeHistoryAtom from './recoil/RecipeHistory'
+import { sortSelectionAtom } from './recoil/SortSelectionAtom'
+import { userDataAtom } from './recoil/auth/UserDataAtom'
+import { recipeHistoryAtom } from './recoil/RecipeHistory'
+import ReactGA from 'react-ga'
+import { usePageTracking } from './utils/usePageTracking'
 
 function App () {
   const [userData] = useRecoilState(userDataAtom)
@@ -23,6 +25,8 @@ function App () {
   const [sortMethod, setSortMethod] = useRecoilState(sortSelectionAtom)
 
   const [, setRecipeHistory] = useRecoilState(recipeHistoryAtom)
+
+  usePageTracking()
 
   useEffect(() => {
     // Clear recipe history when it is back to the main menu
@@ -42,6 +46,10 @@ function App () {
   }, [])
 
   const onPageChange = (event, value) => {
+    ReactGA.event({
+      category: 'Navigation',
+      action: 'Changed page'
+    })
     setCurrentPage(value - 1)
   }
 

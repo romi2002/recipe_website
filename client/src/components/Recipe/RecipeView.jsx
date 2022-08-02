@@ -8,7 +8,7 @@ import { useLocation, useParams } from 'react-router-dom'
 import Recipe from '../../api/recipe'
 import InstructionCard from './Instructions/InstructionCard'
 import { useRecoilState } from 'recoil'
-import userDataAtom from '../../recoil/auth/UserDataAtom'
+import { userDataAtom } from '../../recoil/auth/UserDataAtom'
 import Comments from '../../api/comments'
 import CommentViewer from '../Comments/CommentViewer'
 import CommentEditorModal from '../Comments/CommentEditorModal'
@@ -17,10 +17,12 @@ import Ratings from '../../api/ratings'
 import Favorite from '../../api/favorite'
 import Recommended from '../../api/recommended'
 import RecommendedCard from './RecommendedCard'
-import recipeHistoryAtom from '../../recoil/RecipeHistory'
+import { recipeHistoryAtom } from '../../recoil/RecipeHistory'
 import { Helmet } from 'react-helmet-async'
 import { SERVER_URL } from '../../utils/Constants'
 import { Facebook } from '@mui/icons-material'
+import ReactGA from 'react-ga'
+import { usePageTracking } from '../../utils/usePageTracking'
 
 const RecipeView = () => {
   const [userData] = useRecoilState(userDataAtom)
@@ -35,6 +37,8 @@ const RecipeView = () => {
   const location = useLocation()
 
   const [isFavorite, setIsFavorite] = useState(false)
+
+  usePageTracking()
 
   useEffect(() => scrollTo(0, 0))
 
@@ -128,6 +132,11 @@ const RecipeView = () => {
             <CardHeader title={'Share Recipe'}/>
             <CardContent>
               <Button startIcon={<Facebook/>} variant="contained" onClick={() => {
+                ReactGA.event({
+                  category: 'User',
+                  action: 'Shared recipe on facebook'
+                })
+
                 FB.ui({
                   method: 'share',
                   href: 'https://recettear.debdev.xyz/' + location.pathname

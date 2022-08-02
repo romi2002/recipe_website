@@ -5,7 +5,7 @@ import LoginModal from './LoginModal'
 import AccountCreationModal from './AccountCreationModal'
 import Auth from '../../api/auth'
 import { useRecoilState } from 'recoil'
-import userDataAtom from '../../recoil/auth/UserDataAtom'
+import { userDataAtom } from '../../recoil/auth/UserDataAtom'
 
 const LoginButtons = () => {
   const [, setUserData] = useRecoilState(userDataAtom)
