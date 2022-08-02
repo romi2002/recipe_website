@@ -18,6 +18,8 @@ import Favorite from '../../api/favorite'
 import Recommended from '../../api/recommended'
 import RecommendedCard from './RecommendedCard'
 import recipeHistoryAtom from '../../recoil/RecipeHistory'
+import { Helmet } from 'react-helmet-async'
+import { SERVER_URL } from '../../utils/Constants'
 
 const RecipeView = () => {
   const [userData] = useRecoilState(userDataAtom)
@@ -100,6 +102,10 @@ const RecipeView = () => {
 
   return (
     <Box>
+      <Helmet>
+        {recipe && <meta property="og:title" content={recipe.title}/>}
+        {recipe && <meta property="og:image" content={SERVER_URL + '/' + recipe.associated_media[0].id}/>}
+      </Helmet>
       {commentEditorOpen &&
         <CommentEditorModal onPostComment={postComment} handleClose={() => setCommentEditorOpen(false)}/>}
       <Navbar/>
