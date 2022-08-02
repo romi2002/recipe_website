@@ -19,7 +19,8 @@ const IngredientEditorCell = ({ onQuantityChange, onNameChange, columnWidths, in
 IngredientEditorCell.propTypes = {
   onQuantityChange: PropTypes.func,
   onNameChange: PropTypes.func,
-  columnWidths: PropTypes.string
+  columnWidths: PropTypes.string,
+  ingredient: PropTypes.object
 }
 
 const IngredientEditor = ({ ingredients, setIngredients }) => {

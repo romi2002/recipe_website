@@ -137,6 +137,7 @@ const RecipeView = () => {
                   action: 'Shared recipe on facebook'
                 })
 
+                // eslint-disable-next-line no-undef
                 FB.ui({
                   method: 'share',
                   href: 'https://recettear.debdev.xyz/' + location.pathname

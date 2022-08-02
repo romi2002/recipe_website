@@ -8,7 +8,6 @@ import Avatar from '@mui/material/Avatar'
 import Rating from '@mui/material/Rating'
 import { Link } from 'react-router-dom'
 import { useRecoilState } from 'recoil'
-import { recipeHistoryAtom } from '../../recoil/RecipeHistory'
 import { SERVER_URL } from '../../utils/Constants'
 import { Favorite, FavoriteBorder } from '@mui/icons-material'
 import { red } from '@mui/material/colors'
@@ -21,6 +20,13 @@ const FavoriteButton = ({ recipeId, isFavorite, favoriteButtonSize, onClick }) =
       {isFavorite && <Favorite sx={{ color: red[400] }}/>}
       {!isFavorite && <FavoriteBorder/>}
     </Fab>)
+}
+
+FavoriteButton.propTypes = {
+  recipeId: PropTypes.string,
+  isFavorite: PropTypes.bool,
+  favoriteButtonSize: PropTypes.string,
+  onClick: PropTypes.func
 }
 
 export default function RecipeCard ({
@@ -37,8 +43,6 @@ export default function RecipeCard ({
   const [userData] = useRecoilState(userDataAtom)
 
   const avatarInitial = recipe.avatar ?? 'R'
-
-  const [recipeHistory, setRecipeHistory] = useRecoilState(recipeHistoryAtom)
 
   const CardContent = () => (
     <>
@@ -62,10 +66,6 @@ export default function RecipeCard ({
         }/> {/* TODO Add user id to DB so Avatar can show user profile */}
     </>
   )
-
-  const addSelfToHistory = () => {
-    setRecipeHistory([...recipeHistory, recipe._id])
-  }
 
   return (
     <Card sx={{ minWidth: 200, position: 'relative', maxWidth: 400 }}>

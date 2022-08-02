@@ -5,9 +5,9 @@ import ReactGA from 'react-ga'
 const serverUrl = SERVER_URL + '/recipes/'
 
 export default class Recipe {
-  static loadRecipes (offset = 0, limit = 0, sort_method) {
+  static loadRecipes (offset = 0, limit = 0, sortMethod) {
     console.log('OFFSET', offset)
-    return axios.get(serverUrl, { params: { offset, limit, sort_method } })
+    return axios.get(serverUrl, { params: { offset, limit, sortMethod } })
   }
 
   static loadRecipe (id) {

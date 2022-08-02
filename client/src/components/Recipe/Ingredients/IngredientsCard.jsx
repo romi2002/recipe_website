@@ -18,7 +18,9 @@ const IngredientDisplay = ({ ingredient, keyword, onChange }) => {
 }
 
 IngredientDisplay.propTypes = {
-  ingredient: PropTypes.string
+  ingredient: PropTypes.string,
+  keyword: PropTypes.object,
+  onChange: PropTypes.func
 }
 
 const IngredientsCard = ({ ingredients, keywords, onSendMessage }) => {
@@ -68,7 +70,8 @@ const IngredientsCard = ({ ingredients, keywords, onSendMessage }) => {
 
 IngredientsCard.propTypes = {
   ingredients: PropTypes.array,
-  onSendMessage: PropTypes.func
+  onSendMessage: PropTypes.func,
+  keywords: PropTypes.array
 }
 
 export default IngredientsCard

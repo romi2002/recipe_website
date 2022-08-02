@@ -1,5 +1,6 @@
 import * as React from 'react'
 import { Autocomplete, TextField } from '@mui/material'
+import PropTypes from 'prop-types'
 
 const IngredientSearchBar = ({ ingredientOptions, onChange, defaultValues = [] }) => {
   return (
@@ -19,6 +20,12 @@ const IngredientSearchBar = ({ ingredientOptions, onChange, defaultValues = [] }
                                                   onChange={onChange}/>}
     </>
   )
+}
+
+IngredientSearchBar.propTypes = {
+  ingredientOptions: PropTypes.array,
+  onChange: PropTypes.func,
+  defaultValues: PropTypes.array
 }
 
 export default IngredientSearchBar

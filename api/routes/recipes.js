@@ -30,7 +30,7 @@ const sortMethods = {
 router.get('/', (req, res) => {
   const offset = parseInt(req.query.offset ?? '0')
   const limit = parseInt(req.query.limit ?? '10')
-  const sortMethod = req.query.sort_method ?? 'date-descending'
+  const sortMethod = req.query.sortMethod ?? 'date-descending'
 
   recipes.find({}).sort(sortMethods[sortMethod]).skip(offset).limit(limit).toArray((err, data) => {
     if (err) throw err

@@ -1,6 +1,7 @@
 import * as React from 'react'
 import { Box, FormControl, InputLabel, Select } from '@mui/material'
 import MenuItem from '@mui/material/MenuItem'
+import PropTypes from 'prop-types'
 
 const SortMethodSelect = ({ sortMethod, setSortMethod }) => {
   return (
@@ -24,12 +25,22 @@ const SortMethodSelect = ({ sortMethod, setSortMethod }) => {
   )
 }
 
+SortMethodSelect.propTypes = {
+  sortMethod: PropTypes.string,
+  setSortMethod: PropTypes.func
+}
+
 const RecipeGridNavBar = ({ sortMethod, setSortMethod }) => {
   return <Box sx={{ mt: 2, mb: 2, flexGrow: 1, width: '100%', display: 'flex', justifyContent: 'space-between' }}>
     <Box>
       <SortMethodSelect sortMethod={sortMethod} setSortMethod={setSortMethod}/>
     </Box>
   </Box>
+}
+
+RecipeGridNavBar.propTypes = {
+  sortMethod: PropTypes.string,
+  setSortMethod: PropTypes.func
 }
 
 export default RecipeGridNavBar

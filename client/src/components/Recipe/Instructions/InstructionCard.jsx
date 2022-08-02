@@ -40,7 +40,8 @@ const InstructionCard = ({ instructions, onSendMessage }) => {
 }
 
 InstructionCard.propTypes = {
-  instructions: PropTypes.array
+  instructions: PropTypes.array,
+  onSendMessage: PropTypes.func
 }
 
 export default InstructionCard

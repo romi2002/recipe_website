@@ -67,7 +67,9 @@ AccountCreationModal.propTypes = {
   password: PropTypes.string,
   setPassword: PropTypes.func,
   handleClose: PropTypes.func,
-  handleSignup: PropTypes.func
+  handleSignup: PropTypes.func,
+  phoneNumber: PropTypes.string,
+  setPhoneNumber: PropTypes.func
 }
 
 export default AccountCreationModal

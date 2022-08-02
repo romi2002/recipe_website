@@ -12,6 +12,7 @@ const InstructionEditorCell = ({ onChange, width, instruction }) => {
 }
 
 InstructionEditorCell.propTypes = {
+  instruction: PropTypes.string,
   onChange: PropTypes.func,
   width: PropTypes.string
 }

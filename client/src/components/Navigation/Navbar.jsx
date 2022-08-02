@@ -73,6 +73,10 @@ const DesktopNavBar = ({ rightSideButtonGroup }) => {
   </Box>)
 }
 
+DesktopNavBar.propTypes = {
+  rightSideButtonGroup: PropTypes.element
+}
+
 const MobileNavMenu = () => {
   const [anchorEl, setAnchorEl] = React.useState(null)
   const open = Boolean(anchorEl)
@@ -109,7 +113,7 @@ const MobileNavMenu = () => {
   )
 }
 
-const MobileNavBar = ({}) => {
+const MobileNavBar = () => {
   return (<Box sx={{ display: { xs: 'flex', md: 'none' }, flexGrow: 1, justifyContent: 'center' }}>
     <MobileNavMenu/>
     <SearchBar/>

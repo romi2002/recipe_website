@@ -20,8 +20,12 @@ const CommentView = ({ comment, onReplyClick, isLoggedIn }) => {
   </Card>)
 }
 
-CommentView.propType = {
-  comment: PropTypes.object, onReplyClick: PropTypes.func
+CommentView.propTypes = {
+  comment: PropTypes.object,
+  'comment.poster_username': PropTypes.string,
+  'comment.text': PropTypes.string,
+  onReplyClick: PropTypes.func,
+  isLoggedIn: PropTypes.bool
 }
 
 const Comment = ({ comment, level = 0, onReplyClick, isLoggedIn }) => {
@@ -39,7 +43,10 @@ const Comment = ({ comment, level = 0, onReplyClick, isLoggedIn }) => {
 }
 
 Comment.propTypes = {
-  comment: PropTypes.object, level: PropTypes.number, onReplyClick: PropTypes.func
+  comment: PropTypes.object,
+  level: PropTypes.number,
+  onReplyClick: PropTypes.func,
+  isLoggedIn: PropTypes.bool
 }
 
 const CommentViewer = ({ recipeId, comments, onReplyClick }) => {
@@ -60,7 +67,9 @@ const CommentViewer = ({ recipeId, comments, onReplyClick }) => {
 }
 
 CommentViewer.propTypes = {
-  recipeId: PropTypes.string, comments: PropTypes.array, onReplyClick: PropTypes.func
+  recipeId: PropTypes.string,
+  comments: PropTypes.array,
+  onReplyClick: PropTypes.func
 }
 
 export default CommentViewer

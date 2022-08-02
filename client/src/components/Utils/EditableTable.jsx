@@ -66,7 +66,8 @@ EditableTable.propTypes = {
   onAddHandler: PropTypes.func,
   onRemoveHandler: PropTypes.func,
   title: PropTypes.string,
-  columnWidths: PropTypes.array
+  columnWidths: PropTypes.array,
+  buttonLabels: PropTypes.array
 }
 
 export default EditableTable
