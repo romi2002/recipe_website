@@ -1,10 +1,10 @@
 import * as React from 'react'
 import { useEffect, useState } from 'react'
 import Navbar from '../Navigation/Navbar'
-import { Box, CircularProgress, Grid } from '@mui/material'
+import { Box, Button, Card, CardContent, CardHeader, CircularProgress, Grid } from '@mui/material'
 import RecipeCard from './RecipeCard'
 import IngredientsCard from './Ingredients/IngredientsCard'
-import { useParams } from 'react-router-dom'
+import { useLocation, useParams } from 'react-router-dom'
 import Recipe from '../../api/recipe'
 import InstructionCard from './Instructions/InstructionCard'
 import { useRecoilState } from 'recoil'
@@ -20,6 +20,7 @@ import RecommendedCard from './RecommendedCard'
 import recipeHistoryAtom from '../../recoil/RecipeHistory'
 import { Helmet } from 'react-helmet-async'
 import { SERVER_URL } from '../../utils/Constants'
+import { Facebook } from '@mui/icons-material'
 
 const RecipeView = () => {
   const [userData] = useRecoilState(userDataAtom)
@@ -31,6 +32,7 @@ const RecipeView = () => {
   const [rating, setRating] = useState(null)
   const [recommendedRecipes, setRecommendedRecipes] = useState([])
   const { recipeId } = useParams()
+  const location = useLocation()
 
   const [isFavorite, setIsFavorite] = useState(false)
 
@@ -120,6 +122,19 @@ const RecipeView = () => {
                       isFavorite={isFavorite}
                       onFavorite={onFavorite}
           />
+        </Grid>
+        <Grid item>
+          <Card>
+            <CardHeader title={'Share Recipe'}/>
+            <CardContent>
+              <Button startIcon={<Facebook/>} variant="contained" onClick={() => {
+                FB.ui({
+                  method: 'share',
+                  href: 'https://recettear.debdev.xyz/' + location.pathname
+                }, function (response) {})
+              }}>Share on Facebook</Button>
+            </CardContent>
+          </Card>
         </Grid>
         <Grid item>
           <IngredientsCard onSendMessage={onSendIngredientsMessage} ingredients={recipe.ingredients}/>
