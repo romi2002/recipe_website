@@ -34,7 +34,7 @@ const themeOptions = {
 }
 
 const theme = createTheme(themeOptions)
-ReactGA.initialize('UA-236272330-1', { debug: true })
+ReactGA.initialize('UA-236272330-1', { debug: false })
 ReactGA.pageview(window.location.pathname + window.location.search)
 
 const root = ReactDOM.createRoot(document.getElementById('root'))
