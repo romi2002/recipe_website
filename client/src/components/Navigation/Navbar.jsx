@@ -19,6 +19,9 @@ import { Link } from 'react-router-dom'
 
 const LoggedInButtons = () => {
   return (<Box sx={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between' }}>
+      <Button color={'inherit'} variant={'outlined'} sx={{ mr: 2 }} component={Link} to={'/search/ingredient_search'}>
+        Search by ingredient
+      </Button>
       <Button edge="start" color="inherit" variant="outlined" sx={{ mr: 2 }} component={Link} to={'/recipes/editor'}>
         <AddBoxIcon sx={{ mr: 1 }}/>
         Create recipe

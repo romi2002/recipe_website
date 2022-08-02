@@ -5,13 +5,13 @@ import IngredientSearchBar from './IngredientSearchBar'
 import Navbar from '../Navigation/Navbar'
 import Search from '../../api/search'
 import RecipeGrid from '../Recipe/RecipeGrid'
-import { CircularProgress } from '@mui/material'
+import { CircularProgress, Paper, Typography } from '@mui/material'
 import { useParams } from 'react-router-dom'
 import { usePageTracking } from '../../utils/usePageTracking'
 
 const IngredientSearchPage = () => {
   let { query } = useParams()
-  query = JSON.parse(query)
+  query = query == null ? [] : JSON.parse(query)
 
   const [selectedIngredients, setSelectedIngredients] = useState(query)
   const [ingredientOptions, setIngredientOptions] = useState([])
@@ -46,8 +46,13 @@ const IngredientSearchPage = () => {
       <Box sx={{ m: 2 }}>
         <IngredientSearchBar ingredientOptions={ingredientOptions} onChange={onSearchBarChange} defaultValues={query}/>
       </Box>
-      {isLoading && <CircularProgress/>}
-      {!isLoading && <>
+      {isLoading && selectedIngredients.length !== 0 && <CircularProgress/>}
+      {selectedIngredients.length === 0 && <Paper>
+        <Typography variant={'h4'} sx={{ m: 4 }}>
+          Add ingredients to run search!
+        </Typography>
+      </Paper>}
+      {!isLoading && selectedIngredients.length > 0 && <>
         <RecipeGrid recipes={recipes} allowFavorite={false} favoriteRecipes={[]}/>
       </>}
     </Box>
