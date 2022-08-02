@@ -6,7 +6,7 @@ const multer = require('multer')
 const path = require('path')
 const { v4: uuidv4 } = require('uuid')
 const { sendTextMessage } = require('../utils/twilioUtil')
-const { getRecipe } = require('../models/Recipes')
+const { getRecipe, processRecipeIngredients } = require('../models/Recipes')
 const mongoUtil = require('../utils/mongoUtil')
 const client = mongoUtil.getDb()
 const database = client.db('recipe_app')
@@ -62,6 +62,7 @@ router.post('/', body('recipe.title').exists(), body('recipe.instructions').exis
   const recipe = { ...req.body.recipe }
   recipe.timestamp = Date.now()
   recipe.avatar = res.locals.userData.username[0].toUpperCase()
+  recipe.ingredient_keywords = await processRecipeIngredients(recipe.ingredients.map((i) => i.text))
 
   delete recipe.token
 

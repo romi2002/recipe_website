@@ -16,6 +16,7 @@ import SearchResults from './components/Search/SearchResults'
 import { createTheme, ThemeProvider } from '@mui/material'
 import FavoriteRecipes from './components/User/FavoriteRecipes'
 import UserRecipeView from './components/User/UserRecipeView'
+import IngredientSearchPage from './components/Search/IngredientSearchPage'
 import { HelmetProvider } from 'react-helmet-async'
 
 const themeOptions = {
@@ -50,6 +51,10 @@ root.render(<React.StrictMode>
               <Route path={'profile'}>
                 <Route path={'user_recipes'} element={<UserRecipeView/>}/>
                 <Route path={'user_favorites'} element={<FavoriteRecipes/>}/>
+              </Route>
+              <Route path={'search'}>
+                <Route path={'ingredient_search/:query'} element={<IngredientSearchPage/>}/>
+                <Route path={'ingredient_search'} element={<IngredientSearchPage/>}/>
               </Route>
               <Route path="*"
                      element={<h1>404</h1>}
