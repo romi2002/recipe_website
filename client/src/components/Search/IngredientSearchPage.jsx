@@ -15,7 +15,7 @@ const IngredientSearchPage = () => {
   const [selectedIngredients, setSelectedIngredients] = useState(query)
   const [ingredientOptions, setIngredientOptions] = useState([])
   const [recipes, setRecipes] = useState([])
-  const [isLoading, setIsLoading] = useState(false)
+  const [isLoading, setIsLoading] = useState(true)
 
   console.log(query)
 
@@ -27,7 +27,6 @@ const IngredientSearchPage = () => {
   useEffect(() => {
     Search.getAvailableIngredients().then((res) => {
       setIngredientOptions(res.data.ingredients)
-      setIsLoading(false)
     })
   }, [])
 
@@ -42,8 +41,10 @@ const IngredientSearchPage = () => {
 
   return (<Box>
     <Navbar/>
-    <Box sx={{ m: 2 }}>
-      <IngredientSearchBar ingredientOptions={ingredientOptions} onChange={onSearchBarChange} defaultValues={query}/>
+    <Box sx={{ m: 4 }}>
+      <Box sx={{ m: 2 }}>
+        <IngredientSearchBar ingredientOptions={ingredientOptions} onChange={onSearchBarChange} defaultValues={query}/>
+      </Box>
       {isLoading && <CircularProgress/>}
       {!isLoading && <>
         <RecipeGrid recipes={recipes} allowFavorite={false} favoriteRecipes={[]}/>
