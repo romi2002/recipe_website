@@ -1,6 +1,7 @@
 import puppeteer from 'puppeteer'
 
 const PAGE_URL = 'http://localhost:3002/'
+const INGREDIENT_SEARCH_URL = PAGE_URL + 'search/ingredient_search'
 const FAVORITES_URL = PAGE_URL + 'profile/user_favorites'
 const TEST_RECIPE_ID = '62e33229fb7d41f7ccbd226b'
 const TEST_RECIPE_URL = PAGE_URL + 'recipes/' + TEST_RECIPE_ID
@@ -223,6 +224,26 @@ describe('Comments System', () => {
     await page.waitForFunction(() => document.querySelectorAll('[data-testId="CommentEditor"]').length === 0)
     const commentBody = await page.$x(`//text()[.='${testComment}']`)
     expect(commentBody).not.toBeNull()
+  })
+})
+
+describe('Ingredients search', () => {
+  it('Ingredient search shows results', async () => {
+    await page.goto(INGREDIENT_SEARCH_URL)
+    await page.waitForSelector('[data-testId="IngredientSearchField"]')
+
+    const searchField = await page.$('[data-testId="IngredientSearchField"]')
+    expect(searchField).not.toBeNull()
+    await searchField.click()
+    await searchField.type('salt')
+    await page.waitForXPath('//text()[.=\'salt\']')
+    const saltButton = await page.$x('//*[text() = \'salt\']')
+    expect(saltButton.length).toBeGreaterThan(0)
+
+    await saltButton[0].click()
+
+    await page.waitForSelector('[data-testId=RecipeGrid')
+    expect((await page.$$('[data-testId="RecipeCard"]')).length).toBeGreaterThan(0)
   })
 })
 
