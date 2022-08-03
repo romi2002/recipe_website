@@ -14,7 +14,9 @@ const CommentView = ({ comment, onReplyClick, isLoggedIn }) => {
         <Typography>
           {comment.text}
         </Typography>
-        {isLoggedIn && <Button variant="outlined" onClick={() => onReplyClick(comment._id)}><Reply/></Button>}
+        {isLoggedIn && <Button data-testid={'ReplyButton'} variant="outlined" onClick={() => onReplyClick(comment._id)}>
+          <Reply/>
+        </Button>}
       </Box>
     </CardContent>
   </Card>)
@@ -29,7 +31,7 @@ CommentView.propTypes = {
 }
 
 const Comment = ({ comment, level = 0, onReplyClick, isLoggedIn }) => {
-  return (<Box sx={{ display: 'flex' }}>
+  return (<Box sx={{ display: 'flex' }} data-testid={'Comment'}>
     {level !== 0 && <Box sx={{ display: 'flex', flexDirection: 'column', alignItems: 'center', width: '50px' }}>
       <Divider orientation="vertical"/>
     </Box>}
@@ -57,7 +59,8 @@ const CommentViewer = ({ recipeId, comments, onReplyClick }) => {
     <CardContent>
       {!userData.isLoggedIn && <Typography>Log in to post comments!</Typography>}
       {userData.isLoggedIn &&
-        <Button sx={{ m: 1 }} variant="outlined" onClick={() => onReplyClick(recipeId)}>New Comment</Button>}
+        <Button data-testid={'NewCommentButton'} sx={{ m: 1 }} variant="outlined"
+                onClick={() => onReplyClick(recipeId)}>New Comment</Button>}
       {comments != null && comments.map((comment, index) => <Comment onReplyClick={onReplyClick}
                                                                      isLoggedIn={userData.isLoggedIn}
                                                                      key={'comment-' + index}

@@ -29,6 +29,7 @@ jest.setTimeout(30000)
 const doesTestRecipeExist = () => page.$x(`//text()[.='${TEST_RECIPE_TITLE}']`)
 
 const loginUser = async (page) => {
+  await page.goto(PAGE_URL)
   const loginButton = await page.$('[data-testId="LoginButton"]')
   expect(loginButton).not.toBeNull()
   await loginButton.click()
@@ -194,6 +195,34 @@ describe('Favorite Button', () => {
     await page.goto(FAVORITES_URL)
     await page.waitForSelector('[data-testId="RecipeGrid"]')
     expect(await doesTestRecipeExist()).not.toBeNull()
+  })
+})
+
+describe('Comments System', () => {
+  it('Posting comments', async () => {
+    await loginUser(page)
+    await page.goto(TEST_RECIPE_URL)
+
+    // Click new comment button and wait for editor
+    const commentButton = await page.$('[data-testId="NewCommentButton"]')
+    expect(commentButton).not.toBeNull()
+    await Promise.all([commentButton.click(), page.waitForSelector('[data-testId="CommentEditor"]')])
+
+    // Create new comment and submit
+    const testComment = 'I am not a robot this is very yummy ' + Date.now().toString()
+    const commentField = await page.$('[data-testId="CommentEditorField"]')
+    const commentSubmit = await page.$('[data-testId="CommentEditorSubmit"]')
+    expect(commentField).not.toBeNull()
+    expect(commentSubmit).not.toBeNull()
+
+    await commentField.click()
+    await commentField.type(testComment)
+    await commentSubmit.click()
+
+    // Wait to go back to the recipe page and look for created comment
+    await page.waitForFunction(() => document.querySelectorAll('[data-testId="CommentEditor"]').length === 0)
+    const commentBody = await page.$x(`//text()[.='${testComment}']`)
+    expect(commentBody).not.toBeNull()
   })
 })
 
