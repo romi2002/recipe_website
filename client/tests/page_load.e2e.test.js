@@ -1,19 +1,55 @@
 import puppeteer from 'puppeteer'
 
 const PAGE_URL = 'http://localhost:3002/'
+const FAVORITES_URL = PAGE_URL + 'profile/user_favorites'
 const TEST_RECIPE_ID = '62e33229fb7d41f7ccbd226b'
 const TEST_RECIPE_URL = PAGE_URL + 'recipes/' + TEST_RECIPE_ID
 const TEST_RECIPE_TITLE = 'Giant Jerusalem Artichoke Latkes'
+const TEST_USERNAME = 'hello@hello.com'
+const TEST_PASSWORD = 'helloworld'
 
 let browser
 let page
 
 beforeAll(async () => {
-  browser = await puppeteer.launch({ headless: true, timeout: 100000 })
+  browser = await puppeteer.launch({ headless: true, timeout: 30000 })
   page = await browser.newPage()
 })
 
-jest.setTimeout(100000)
+afterEach(async () => {
+  await page.evaluate(() => {
+    // Log out after each test
+    localStorage.clear()
+  })
+}
+)
+
+jest.setTimeout(30000)
+
+const doesTestRecipeExist = () => page.$x(`//text()[.='${TEST_RECIPE_TITLE}']`)
+
+const loginUser = async (page) => {
+  const loginButton = await page.$('[data-testId="LoginButton"]')
+  expect(loginButton).not.toBeNull()
+  await loginButton.click()
+
+  const usernameInput = await page.$('[data-testId="LoginUsernameInput"]')
+  const passwordInput = await page.$('[data-testId="LoginPasswordInput"]')
+  const loginSubmitButton = await page.$('[data-testId="LoginModalSubmit"]')
+  expect(usernameInput).not.toBeNull()
+  expect(passwordInput).not.toBeNull()
+  expect(loginSubmitButton).not.toBeNull()
+
+  await usernameInput.click()
+  await usernameInput.type(TEST_USERNAME)
+  await passwordInput.click()
+  await passwordInput.type(TEST_PASSWORD)
+
+  await loginSubmitButton.click()
+  await page.waitForTimeout(100)
+  const avatar = await page.$('[data-testId="UserAvatar"]')
+  expect(avatar).not.toBeNull()
+}
 
 describe('Main App Grid', () => {
   it('Loads recipe grid', async () => {
@@ -33,8 +69,6 @@ describe('Main App Grid', () => {
 })
 
 describe('Recipe view', () => {
-  const doesTestRecipeExist = () => page.$x(`//text()[.='${TEST_RECIPE_TITLE}']`)
-
   it('Loads test recipe', async () => {
     await page.goto(TEST_RECIPE_URL)
     /**
@@ -107,7 +141,7 @@ describe('User login', () => {
     await passwordInput.type('helloworld')
     await loginSubmitButton.click()
 
-    await page.waitForTimeout(10)
+    await page.waitForTimeout(100)
 
     // After login, modal should be hidden
     loginModal = await page.$('[data-testId="LoginModal"]')
@@ -116,6 +150,50 @@ describe('User login', () => {
     // User avatar should be present in page
     const userAvatar = await page.$('[data-testId="UserAvatar"]')
     expect(userAvatar).not.toBeNull()
+  })
+})
+
+describe('Favorite Button', () => {
+  it('Favorite button functionality', async () => {
+    await page.goto(PAGE_URL)
+    let favoriteButtons = await page.$$('[data-testId="FavoriteButton"]')
+    expect(favoriteButtons).toHaveLength(0)
+
+    await loginUser(page)
+
+    // Check if buttons show up after login
+    favoriteButtons = await page.$$('[data-testId="FavoriteButton"]')
+    expect(favoriteButtons.length).toBeGreaterThan(0)
+
+    // Navigate to recipe url and check if favorite button is there
+    await page.goto(TEST_RECIPE_URL)
+    const favoriteButton = await page.$('[data-testId="FavoriteButton"]')
+    expect(favoriteButton).not.toBeNull()
+
+    // Check current favorite status, if isFavorite click button an extra time to unset
+    const isFavorite = () => page.$('[data-testId="isFavorite"]')
+    if ((await isFavorite() != null)) {
+      await favoriteButton.click()
+      await page.waitForFunction(
+        () => document.querySelectorAll('[data-testId="isFavorite"]').length === 0)
+      expect(await isFavorite()).toBeNull()
+    }
+
+    // Verify that icon changes once favorited
+    await favoriteButton.click()
+    await page.waitForSelector('[data-testId="isFavorite"]')
+    expect(await isFavorite()).not.toBeNull()
+
+    // Icon should stay favorited even after a page refresh
+    await page.goto(PAGE_URL)
+    await page.goto(TEST_RECIPE_URL)
+    await page.waitForSelector('[data-testId="isFavorite"]')
+    expect(await isFavorite()).not.toBeNull()
+
+    // Recipe should be in favorites page
+    await page.goto(FAVORITES_URL)
+    await page.waitForSelector('[data-testId="RecipeGrid"]')
+    expect(await doesTestRecipeExist()).not.toBeNull()
   })
 })
 
