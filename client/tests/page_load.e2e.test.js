@@ -9,7 +9,7 @@ let browser
 let page
 
 beforeAll(async () => {
-  browser = await puppeteer.launch({ headless: false, timeout: 100000 })
+  browser = await puppeteer.launch({ headless: true, timeout: 100000 })
   page = await browser.newPage()
 })
 
@@ -73,6 +73,49 @@ describe('Search bar', () => {
     await page.waitForNetworkIdle()
     const recipeCardCount = (await page.$$('[data-testId="RecipeCard"]')).length
     expect(recipeCardCount).toBeGreaterThan(0)
+  })
+})
+
+describe('User login', () => {
+  it('Login modal pop up', async () => {
+    await page.goto(PAGE_URL)
+
+    // Check that login modal is not visible at first view
+    let loginModal = await page.$('[data-testId="LoginModal"]')
+    const loginButton = await page.$('[data-testId="LoginButton"]')
+    const signupButton = await page.$('[data-testId="SignupButton"]')
+
+    expect(loginModal).toBeNull()
+    expect(loginButton).not.toBeNull()
+    expect(signupButton).not.toBeNull()
+
+    await loginButton.click()
+
+    // Check for login modal and username input
+    loginModal = await page.$('[data-testId="LoginModal"]')
+    const usernameInput = await page.$('[data-testId="LoginUsernameInput"]')
+    const passwordInput = await page.$('[data-testId="LoginPasswordInput"]')
+    const loginSubmitButton = await page.$('[data-testId="LoginModalSubmit"]')
+    expect(loginModal).not.toBeNull()
+    expect(usernameInput).not.toBeNull()
+    expect(passwordInput).not.toBeNull()
+    expect(loginSubmitButton).not.toBeNull()
+
+    await usernameInput.click()
+    await usernameInput.type('hello@hello.com')
+    await passwordInput.click()
+    await passwordInput.type('helloworld')
+    await loginSubmitButton.click()
+
+    await page.waitForTimeout(10)
+
+    // After login, modal should be hidden
+    loginModal = await page.$('[data-testId="LoginModal"]')
+    expect(loginModal).toBeNull()
+
+    // User avatar should be present in page
+    const userAvatar = await page.$('[data-testId="UserAvatar"]')
+    expect(userAvatar).not.toBeNull()
   })
 })
 
