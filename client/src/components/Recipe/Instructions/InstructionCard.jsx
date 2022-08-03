@@ -21,7 +21,7 @@ const InstructionCard = ({ instructions, onSendMessage }) => {
   const [userData] = useRecoilState(userDataAtom)
 
   return (
-    <Card>
+    <Card data-testid={'InstructionCard'}>
       <CardHeader title={'Instructions'}/>
       <CardContent>
         <ol>

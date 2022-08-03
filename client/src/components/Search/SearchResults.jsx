@@ -19,7 +19,7 @@ const NoRecipesFoundError = () => {
 }
 
 const SearchResults = () => {
-  const [recipes, setRecipes] = useState(null)
+  const [recipes, setRecipes] = useState([null])
   const [resultsLoaded, setResultsLoaded] = useState(false)
   const { query } = useParams()
 
@@ -36,7 +36,7 @@ const SearchResults = () => {
     <Navbar/>
     <Box sx={{ m: 3, display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
       {!resultsLoaded && <CircularProgress/>}
-      {resultsLoaded && recipes.data.length !== 0 && <RecipeGrid recipes={recipes}/>}
+      {resultsLoaded && recipes.data.length !== 0 && <RecipeGrid recipes={recipes.data} favoriteRecipes={[]}/>}
       {resultsLoaded && recipes.data.length === 0 && <NoRecipesFoundError/>}
     </Box>
   </Box>)

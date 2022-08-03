@@ -42,7 +42,7 @@ const defaultButtonGroup = () => {
 
 const DesktopNavBar = ({ rightSideButtonGroup }) => {
   return (<Box
-    sx={{ display: { xs: 'none', md: 'flex' }, flexGrow: 1, justifyContent: 'space-between', alignItems: 'center' }}>
+    sx={{ display: { xs: 'flex', md: 'flex' }, flexGrow: 1, justifyContent: 'space-between', alignItems: 'center' }}>
     <Box sx={{ display: 'flex', alignItems: 'center', flexGrow: 1 }}>
       <Typography
         variant="h6"
@@ -51,7 +51,7 @@ const DesktopNavBar = ({ rightSideButtonGroup }) => {
         href="/"
         sx={{
           mr: 2,
-          display: { xs: 'none', md: 'flex' },
+          display: { xs: 'flex', md: 'flex' },
           fontFamily: 'sans-serif',
           fontWeight: 700,
           letterSpacing: '.1rem',
@@ -125,7 +125,7 @@ const Navbar = ({ rightSideButtonGroup = defaultButtonGroup() }) => {
     <Container maxWidth="xl">
       <Toolbar disableGutters>
         <DesktopNavBar rightSideButtonGroup={rightSideButtonGroup}/>
-        <MobileNavBar/>
+        {/* <MobileNavBar/> */}
       </Toolbar>
     </Container>
   </AppBar>)

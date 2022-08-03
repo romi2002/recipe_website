@@ -16,13 +16,13 @@ import CommentEditorModal from '../Comments/CommentEditorModal'
 import Ratings from '../../api/ratings'
 import Favorite from '../../api/favorite'
 import Recommended from '../../api/recommended'
-import RecommendedCard from './RecommendedCard'
 import { recipeHistoryAtom } from '../../recoil/RecipeHistory'
 import { Helmet } from 'react-helmet-async'
 import { SERVER_URL } from '../../utils/Constants'
 import { Facebook } from '@mui/icons-material'
 import ReactGA from 'react-ga'
 import { usePageTracking } from '../../utils/usePageTracking'
+import RecommendedCard from './RecommendedCard'
 
 const RecipeView = () => {
   const [userData] = useRecoilState(userDataAtom)

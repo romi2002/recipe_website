@@ -32,6 +32,7 @@ const SearchBar = ({ onSearch }) => {
 
   return (<Paper sx={{ display: 'flex', m: 1.5, flexGrow: 1 }}>
     <Autocomplete
+      data-testid={'SearchBar'}
       sx={{ width: 'auto', flexGrow: 1 }}
       freeSolo
       disableClearable
@@ -68,6 +69,7 @@ const SearchBar = ({ onSearch }) => {
           {...params}
           InputProps={{
             ...params.InputProps,
+            'data-testid': 'SearchBarTextField',
             startAdornment: <SearchIcon/>,
             type: 'search',
             endAdornment: (<>

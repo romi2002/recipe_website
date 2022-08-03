@@ -68,7 +68,7 @@ export default function RecipeCard ({
   )
 
   return (
-    <Card sx={{ minWidth: 200, position: 'relative', maxWidth: 400 }}>
+    <Card sx={{ minWidth: 200, position: 'relative', maxWidth: 400 }} data-testid={'RecipeCard'}>
       {allowFavorite && userData.isLoggedIn &&
         <FavoriteButton recipeId={recipe._id} isFavorite={isFavorite} favoriteButtonSize={favoriteButtonSize}
                         onClick={onFavorite}/>}

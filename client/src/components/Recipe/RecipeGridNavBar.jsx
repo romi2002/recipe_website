@@ -31,7 +31,8 @@ SortMethodSelect.propTypes = {
 }
 
 const RecipeGridNavBar = ({ sortMethod, setSortMethod }) => {
-  return <Box sx={{ mt: 2, mb: 2, flexGrow: 1, width: '100%', display: 'flex', justifyContent: 'space-between' }}>
+  return <Box sx={{ mt: 2, mb: 2, flexGrow: 1, width: '100%', display: 'flex', justifyContent: 'space-between' }}
+              data-testid={'RecipeGridNavBar'}>
     <Box>
       <SortMethodSelect sortMethod={sortMethod} setSortMethod={setSortMethod}/>
     </Box>
