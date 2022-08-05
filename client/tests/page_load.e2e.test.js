@@ -13,7 +13,7 @@ let browser
 let page
 
 beforeAll(async () => {
-  browser = await puppeteer.launch({ headless: false, timeout: 30000 })
+  browser = await puppeteer.launch({ headless: true, timeout: 30000 })
   page = await browser.newPage()
 })
 
