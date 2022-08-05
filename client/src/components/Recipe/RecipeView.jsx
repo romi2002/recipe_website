@@ -40,7 +40,7 @@ const RecipeView = () => {
 
   usePageTracking()
 
-  useEffect(() => scrollTo(0, 0))
+  useEffect(() => scrollTo(0, 0), [])
 
   useEffect(() => {
     Recipe.loadRecipe(recipeId).then((ret) => setRecipe(ret.data.data))
@@ -60,7 +60,7 @@ const RecipeView = () => {
     Favorite.getFavoriteRecipeIds(userData.token).then((res) => {
       setIsFavorite(res.data.recipeIds.includes(recipeId))
     })
-  }, [userData])
+  }, [userData, recipeId])
 
   const onFavorite = () => {
     Favorite.favoriteRecipe(recipeId, !isFavorite, userData.token).then(() => {
@@ -104,7 +104,7 @@ const RecipeView = () => {
    */
   useEffect(() => {
     loadComments()
-  }, [])
+  }, [recipeId])
 
   return (
     <Box>
