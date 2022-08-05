@@ -53,12 +53,13 @@ const LoginButtons = () => {
   return (
     <Box sx={{ display: { xs: 'flex', md: 'flex' }, mr: 1 }}>
       <Box sx={{ pr: 2 }}>
-        <Button color="inherit" variant="text" onClick={onLoginButton}>
+        <Button color="inherit" variant="text" onClick={onLoginButton} data-testid={'LoginButton'}>
           Log In
         </Button>
       </Box>
       <Box>
-        <Button color="inherit" variant="text" onClick={onSignupButton}>Sign Up</Button>
+        <Button color="inherit" variant="text" onClick={onSignupButton} data-testid={'SignupButton'}>
+          Sign Up</Button>
       </Box>
       {showLoginModal && <LoginModal
         handleClose={() => setShowLoginModal(false)}

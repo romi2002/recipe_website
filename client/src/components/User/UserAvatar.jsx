@@ -54,7 +54,7 @@ const UserAvatar = () => {
   }
 
   return (
-    <Box sx={{ flexGrow: 0 }}>
+    <Box sx={{ flexGrow: 0 }} data-testid={'UserAvatar'}>
       <Tooltip title="Open settings">
         <IconButton onClick={handleOpenUserMenu} sx={{ p: 0 }}>
           <Avatar>{userInitial}</Avatar>

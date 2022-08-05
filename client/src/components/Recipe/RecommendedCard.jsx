@@ -7,7 +7,7 @@ const RecommendedCard = ({ recommendedRecipes, nRecipes = 5 }) => {
   const recipes = { data: recommendedRecipes.slice(0, nRecipes) }
 
   return (
-    <Card>
+    <Card data-testid={'RecommendedCard'}>
       <CardHeader title={'Recommended Recipes'}/>
       <CardContent>
         <RecipeGrid recipes={recipes.data} allowFavorite={false} favoriteRecipes={[]}/>

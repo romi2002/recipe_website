@@ -13,6 +13,7 @@ const IngredientSearchBar = ({ ingredientOptions, onChange, defaultValues = [] }
                                                   defaultValue={defaultValues}
                                                   renderInput={(params) => (
                                                     <TextField
+                                                      data-testid={'IngredientSearchField'}
                                                       {...params}
                                                       label={'Ingredient Search'}
                                                       placeholder={'Ingredients'}/>

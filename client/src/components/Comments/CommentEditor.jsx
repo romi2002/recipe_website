@@ -7,9 +7,11 @@ const CommentEditor = ({ onPostComment }) => {
   const [commentText, setCommentText] = useState('')
 
   return (
-    <Box>
-      <TextField multiline sx={{ pb: 2 }} onChange={(e) => setCommentText(e.target.value)}></TextField>
-      <Button variant="contained" onClick={() => onPostComment(commentText)}>Post Comment</Button>
+    <Box data-testid={'CommentEditor'}>
+      <TextField data-testid={'CommentEditorField'} multiline sx={{ pb: 2 }}
+                 onChange={(e) => setCommentText(e.target.value)}></TextField>
+      <Button data-testid={'CommentEditorSubmit'} variant="contained" onClick={() => onPostComment(commentText)}>Post
+        Comment</Button>
     </Box>
   )
 }

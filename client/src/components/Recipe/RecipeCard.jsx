@@ -15,10 +15,11 @@ import { userDataAtom } from '../../recoil/auth/UserDataAtom'
 
 const FavoriteButton = ({ recipeId, isFavorite, favoriteButtonSize, onClick }) => {
   return (
-    <Fab onClick={() => onClick(recipeId)} size={favoriteButtonSize}
+    <Fab onClick={() => onClick(recipeId)} size={favoriteButtonSize} data-testid={'FavoriteButton'}
          sx={{ position: 'absolute', right: '0px', mr: 0.5, mt: 0.5 }}>
       {isFavorite && <Favorite sx={{ color: red[400] }}/>}
       {!isFavorite && <FavoriteBorder/>}
+      {isFavorite && <span data-testid={'isFavorite'}></span>}
     </Fab>)
 }
 
@@ -68,7 +69,7 @@ export default function RecipeCard ({
   )
 
   return (
-    <Card sx={{ minWidth: 200, position: 'relative', maxWidth: 400 }}>
+    <Card sx={{ minWidth: 200, position: 'relative', maxWidth: 400 }} data-testid={'RecipeCard'}>
       {allowFavorite && userData.isLoggedIn &&
         <FavoriteButton recipeId={recipe._id} isFavorite={isFavorite} favoriteButtonSize={favoriteButtonSize}
                         onClick={onFavorite}/>}

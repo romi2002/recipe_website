@@ -5,7 +5,7 @@ import { Box, Grid } from '@mui/material'
 
 export default function RecipeGrid ({ recipes, allowFavorite, favoriteRecipes, onRecipeFavorite = () => {} }) {
   return (
-    <Grid container spacing={2} alignContent="stretch">
+    <Grid container spacing={2} alignContent="stretch" data-testid={'RecipeGrid'}>
       {recipes != null && recipes.map((recipe, index) => {
         return (
           <Grid item key={'recipe-card-' + index} xs>

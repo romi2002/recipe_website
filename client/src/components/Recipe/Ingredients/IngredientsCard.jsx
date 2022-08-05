@@ -43,7 +43,7 @@ const IngredientsCard = ({ ingredients, keywords, onSendMessage }) => {
   useEffect(() => console.log(selectedKeywords), [selectedKeywords])
 
   return (
-    <Card sx={{ minWidth: 200 }}>
+    <Card sx={{ minWidth: 200 }} data-testid={'IngredientsCard'}>
       <CardHeader title="Ingredient list"/>
       <CardContent>
         <Typography>
