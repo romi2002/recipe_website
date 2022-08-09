@@ -1,13 +1,8 @@
 const crypto = require('crypto')
 const jwt = require('jsonwebtoken')
+const { getDb } = require('../utils/mongoUtil')
 
-const { MongoClient, ServerApiVersion } = require('mongodb')
-
-const uri = 'mongodb://admin:admin@localhost:27017'
-const client = new MongoClient(uri, { serverApi: ServerApiVersion.v1 })
-
-client.connect()
-const database = client.db('recipe_app')
+const database = getDb().db('recipe_app')
 const users = database.collection('users')
 
 // TODO generate a good secret for prod :)

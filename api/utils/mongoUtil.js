@@ -1,6 +1,6 @@
 const { MongoClient, ServerApiVersion } = require('mongodb')
 
-const uri = 'mongodb://admin:admin@localhost:27017/?directConnection=true'
+const uri = 'mongodb://admin:admin@127.0.0.1:27017/?directConnection=true'
 const _db = new MongoClient(uri, { serverApi: ServerApiVersion.v1, serverSelectionTimeoutMS: 500 })
 
 module.exports = {
