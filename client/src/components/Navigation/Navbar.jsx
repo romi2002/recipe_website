@@ -59,7 +59,7 @@ const DesktopNavBar = ({ rightSideButtonGroup }) => {
           textDecoration: 'none'
         }}
       >
-        RECIPE WEB
+        Recettear
       </Typography>
 
       <Box sx={{ flexGrow: 1, mr: 10 }}>

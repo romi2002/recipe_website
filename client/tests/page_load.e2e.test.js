@@ -1,6 +1,6 @@
 import puppeteer from 'puppeteer'
 
-const PAGE_URL = 'http://localhost:3002/'
+const PAGE_URL = 'https://recettear.debdev.xyz/'
 const INGREDIENT_SEARCH_URL = PAGE_URL + 'search/ingredient_search'
 const FAVORITES_URL = PAGE_URL + 'profile/user_favorites'
 const TEST_RECIPE_ID = '62e33229fb7d41f7ccbd226b'
@@ -13,7 +13,7 @@ let browser
 let page
 
 beforeAll(async () => {
-  browser = await puppeteer.launch({ headless: true, timeout: 30000 })
+  browser = await puppeteer.launch({ headless: false, timeout: 30000 })
   page = await browser.newPage()
 })
 
@@ -48,7 +48,7 @@ const loginUser = async (page) => {
   await passwordInput.type(TEST_PASSWORD)
 
   await loginSubmitButton.click()
-  await page.waitForTimeout(100)
+  await page.waitForTimeout(1000)
   const avatar = await page.$('[data-testId="UserAvatar"]')
   expect(avatar).not.toBeNull()
 }

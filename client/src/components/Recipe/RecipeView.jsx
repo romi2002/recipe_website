@@ -111,6 +111,7 @@ const RecipeView = () => {
       <Helmet>
         {recipe && <meta property="og:title" content={recipe.title}/>}
         {recipe && <meta property="og:image" content={SERVER_URL + '/' + recipe.associated_media[0].id}/>}
+        <meta property="fb:app_id" content={'454962819575199'}/>
       </Helmet>
       {commentEditorOpen &&
         <CommentEditorModal onPostComment={postComment} handleClose={() => setCommentEditorOpen(false)}/>}

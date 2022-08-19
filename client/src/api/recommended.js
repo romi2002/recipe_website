@@ -1,6 +1,7 @@
 import axios from 'axios'
+import { SERVER_URL } from '../utils/Constants'
 
-const serverUrl = 'http://localhost:3000/recommend/'
+const serverUrl = SERVER_URL + '/recommend/'
 
 export default class Recommended {
   static getRecommendedRecipes (recipeId) {

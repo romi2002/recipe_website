@@ -20,8 +20,6 @@ const recommendRouter = require('./routes/recommend')
 
 const app = express()
 
-app.use(cors())
-
 // view engine setup
 app.set('views', path.join(__dirname, 'views'))
 app.set('view engine', 'jade')
@@ -32,6 +30,7 @@ app.use(express.urlencoded({ extended: false }))
 app.use(cookieParser())
 app.use(express.static(path.join(__dirname, 'public')))
 
+app.use(cors())
 app.use('/', indexRouter)
 app.use('/users', usersRouter)
 app.use('/recipes', recipeRouter)
